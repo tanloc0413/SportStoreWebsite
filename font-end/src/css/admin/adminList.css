@@ -1,0 +1,469 @@
+.lpa, .lcaDiv1, .luaDiv1, 
+.lbaDiv1, .loaDiv1 {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+    background-color: #fff;
+    box-shadow: 0 0px 4px rgba(0, 0, 0, 0.3);
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    margin-top: 10px;
+    position: relative;
+    z-index: 6;
+}
+
+.lca, .lcaDiv {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: start;
+}
+
+.lcaDiv {
+    margin-top: 5px;
+}
+
+.lpa_search, .lcaDiv1_search, .luaDiv1_search,
+.lbaDiv1_search, .loaDiv1_search {
+    width: auto;
+    height: 2.3rem;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid #a5a5a5;
+    overflow: hidden;
+}
+
+.lpa_search-input, .lcaDiv1_search-input, 
+.luaDiv1_search-input, .lbaDiv1_search-input,
+.loaDiv1_search-input {
+    width: 20rem;
+    height: 100%;
+    border: none;
+    outline: none;
+    padding-left: 7px;
+}
+
+.css-3ssuu9-MuiTableCell-root {
+    padding: 0!important;
+}
+
+.lpa_btn, .lcaDiv2_btn {
+    padding: 7px;
+    border: none;
+}
+
+.lpa_btn {
+    background-color: #fff;
+}
+
+.lcaDiv2_btn, .luaDiv2_btn {
+    padding: 0;
+    background-color: transparent;
+    border: none;
+}
+
+.lpa_btn-edit, .lpa_btn-delete,
+.lcaDiv2_btn-edit, .lcaDiv2_btn-delete {
+    font-size: 1.3rem;
+}
+
+.lpa_btn:hover, .lpa_btn:active,
+.lcaDiv2_btn:hover, .lcaDiv2_btn:active,
+.luaDiv2_btn:hover, .luaDiv2_btn:active {
+    outline: none;
+    border: none;
+}
+
+.lpa_table-right {
+    padding-right: 10px!important;
+}
+
+.lpa_btn-add, .lcaDiv1_btn-add, 
+.luaDiv1_btn-add, .lbaDiv1_btn-add {
+    color: #fff;
+    border-radius: 5px;
+    background-color: #3f99ff;
+    font-family: "Nunito Sans", sans-serif;
+    font-size: 1rem;
+    border: none;
+    cursor: pointer!important;
+}
+
+.lpa_btn-add:hover,
+.lcaDiv1_btn-add:hover,
+.lbaDiv1_btn-add:hover,
+.lpa_btn-add:active,
+.lcaDiv1_btn-add:active,
+.lbaDiv1_btn-add:active {
+    background-color: #5fa9ff;
+}
+
+.MuiTableCell-head {
+    color: #000!important;
+}
+
+.lpa_product-img {
+    width: 50px;
+    height: 50px;
+}
+
+.css-y2ff7i-MuiPaper-root-MuiTableContainer-root {
+    box-shadow: none!important;
+    border-bottom-left-radius: 0!important;
+    border-bottom-right-radius: 0!important;
+}
+
+.lcaDiv2_table {
+    width: 650px;
+    border-radius: 5px!important;
+    box-shadow: 0 0px 7px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+}
+
+.lcaDiv2_tr {
+    height: 2.5rem;
+}
+
+.lcaDiv2_tbody-td4 {
+    width: 100px;
+}
+
+.lcaDiv2_tr th {
+    font-weight: 600;
+}
+
+.lcaDiv2_th1, .lcaDiv2_td1 {
+    width: 55px;
+}
+
+.lcaDiv2_th4, .lcaDiv2_td4 {
+    width: 120px;
+}
+
+.lcaDiv2_th, .lcaDiv2_table td {
+    text-align: center;
+    vertical-align: middle;
+}
+
+.lua {
+    margin-top: 10px;
+}
+
+.luaDiv2_th1, .luaDiv2_td1 {
+    width: 50px;
+}
+
+.luaDiv2_table {
+    border-radius: 5px;
+    box-shadow: 0 0px 5px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+}
+
+.luaDiv2_th, .luaDiv2_td {
+    text-align: center;
+    vertical-align: middle;
+}
+
+.luaDiv2_th7, .luaDiv2_td7 {
+    width: 130px;
+}
+
+.luaDiv2_btn-edit, .luaDiv2_btn-delete, 
+.luaDiv2_btn-block {
+    font-size: 1.5rem;
+}
+
+.luaDiv2_tr th {
+    font-weight: 600;
+}
+
+.luaDiv2_tr1 {
+    height: 2.7rem;
+}
+
+.luaDiv2_td5, .luaDiv2_th5 {
+    width: 200px;
+}
+
+.luaDiv2_td6, .luaDiv2_th6 {
+    width: 170px;
+}
+
+.luaDiv2_tr2 {
+    height: 3.2rem;
+}
+
+.luaDiv2_btn1,
+.luaDiv2_btn2 {
+    margin-right: 10px;
+}
+
+.luaDiv2_th2, .luaDiv2_td2 {
+    width: 365px;
+}
+
+.luaDiv2_th {
+    cursor: default;
+    border-right: 1px solid #eaeaea;
+    border-bottom: 2px solid #dbdbdb;
+}
+
+.lba {
+    width: 100%;
+    height: 100%;
+}
+
+.lbaDiv2 {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.lbaGrid {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    margin-top: 15px;
+    gap: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+    position: relative;
+}
+
+.lbaDiv_card {
+    width: 100%;
+    height: 8rem;
+    background-color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-size: cover;
+    position: relative;
+    box-shadow: 0 0px 6px rgba(0, 0, 0, 0.3);
+    border-radius: 5px;
+    transition: 0.2s ease;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+.lbaDiv_card-img {
+    width: 100%;
+}
+
+.lbaDiv_card-icon {
+    position: absolute;
+    top: 2px;
+    right: 0;
+    font-size: 1.85rem;
+    color: #323030;
+    cursor: pointer;
+    z-index: 10;
+    background: transparent;
+    border-radius: 50%;
+}
+
+.lbaDiv_card-icon:hover {
+    color: #e21b14;
+}
+
+.lbaDiv_notifi {
+    width: 23rem;
+    height: 7rem;
+    z-index: 5;
+    background-color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border: 1px solid #b9b9b9;
+    border-radius: 10px;
+}
+
+.lbaDiv_notifi-text {
+    font-size: 1.2rem; 
+    font-family: "Nunito Sans", sans-serif;
+}
+
+.lbaDiv_notifi-btnGr {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    column-gap: 15px;
+    margin-top: 12px;
+}
+
+.lbaDiv_notifi-btn1, .lbaDiv_notifi-btn2 {
+    border: none;
+    color: #fff;
+    padding: 12px 2.5rem;
+    border-radius: 5px;
+    font-weight: 600;
+    font-size: 1.05rem;
+}
+
+.lbaDiv_notifi-btn1 {
+    background-color: #58a6ff;
+}
+
+.lbaDiv_notifi-btn1:hover {
+    background-color: #7dafe7;
+}
+
+.lbaDiv_notifi-btn2 {
+    background-color: #e21b14;
+}
+
+.lbaDiv_notifi-btn2:hover {
+    background-color: #df3e38;
+}
+
+.lbaDiv_notifiBlk {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: -10rem;
+}
+
+.lbaDiv1_search-icon {
+    margin-right: 3px;
+}
+
+.loaDiv2 {
+    width: 100%;
+    height: 100%;
+    margin-top: 10px;
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: 0 0px 7px rgba(0, 0, 0, 0.3);
+    background-color: #fff;
+    border: 1.5px solid #d5dbe1;
+}
+
+.loaDiv2_table {
+    border-radius: 5px;
+    margin-bottom: 0;
+}
+
+.loaDiv2_th {
+    height: 2.5rem;
+    border-right: 1px solid #d5dbe1;
+    font-size: 1.05rem;
+    font-weight: 600;
+    border-bottom: 1px solid #d5dbe1;
+}
+
+.loaDiv2_th:last-child {
+    border-right: none;
+}
+
+.loaDiv2_td {
+    border-right: 1px solid #d5dbe1;
+}
+
+.loaDiv2_td:last-child {
+    border-right: none;
+}
+
+.loaDiv2_th1, .loaDiv2_td1 {
+    width: 60px;
+}
+
+.loaDiv2_th, .loaDiv2_td {
+    text-align: center;
+    vertical-align: middle;
+}
+
+.loaDiv2_th:last-child,
+.loaDiv2_td:last-child {
+    width: 200px;
+}
+
+.loaDiv2_td, .loaDiv2-text {
+    font-family: "Nunito Sans", sans-serif;
+    font-size: 1rem;
+    color: #242222;
+}
+
+.loaDiv2_Grbtn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    row-gap: 5px;
+    flex-direction: column;
+}
+
+.loaDiv2-btn1, .loaDiv2-btn2 {
+    width: 10rem;
+    height: 2.5rem;
+    border: none;
+    color: #fff;
+    border-radius: 5px;
+    font-family: "Nunito Sans", sans-serif;
+}
+
+.loaDiv2-btn1 {
+    background-color: #2696ff;
+}
+
+.loaDiv2-btn1:hover, .loaDiv2-btn1:active {
+    background-color: #4592d9;
+}
+
+.loaDiv2-btn2 {
+    background-color: #ff1911;
+}
+
+.loaDiv2-btn2:hover, .loaDiv2-btn2:active {
+    background-color: #df3c36;
+}
+
+.loaDiv2_th6, .loaDiv2_td6 {
+    width: 170px;
+}
+
+.loaDiv2_th5, .loaDiv2_td5 {
+    width: 170px;
+}
+
+.loaDiv2_th4, .loaDiv2_td4 {
+    width: 210px;
+}
+
+.loaDiv2_th3, .loaDiv2_td3 {
+    width: 100px;
+}
+
+.loaDiv2_td-img {
+    width: 95px;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+}
+
+.loaDiv2_td2-blk {
+    width: 100%;
+    display: flex;
+    justify-content: start;
+    align-items: start;
+    column-gap: 7px;
+    color: #242222;
+}
+
+.loaDiv2_td-name {
+    font-family: "Nunito Sans", sans-serif;
+}

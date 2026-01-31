@@ -1,0 +1,122 @@
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+}
+
+#order_block {
+    width: 100%;
+    background-color: #fff;
+    border-radius: 10px;
+}
+
+#order_block-text {
+    width: 100%;
+    height: auto;
+    padding-bottom: 5px;
+}
+
+#order_block-title {
+    font-size: 1.3rem;
+    font-weight: 500;
+    font-family: "Roboto", serif;
+}
+
+#order_addQuantity-text {
+    width: 100%;
+    margin-top: 5px;
+}
+
+#order_addQuantity-title {
+    font-size: 1.1rem;
+    font-weight: 500;
+    font-family: "Roboto", serif;
+}
+
+#order_addQuantity {
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    flex-direction: row;
+    column-gap: 5px;
+    margin-top: 5px;
+}
+
+#order_addQuantity-btn {
+    width: 3rem;
+    height: 2.5rem;
+    color: #5e5959;
+    background-color: #fff;
+    border: 1px solid #5e5959;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+#order_addQuantity-input {
+    width: 3.5rem;
+    height: 2.5rem;
+    border-radius: 5px;
+    font-size: 20px;
+    color: #5e5959;
+    border: 1px solid #5e5959;
+    text-align: center;
+    outline: none;
+    font-family: "Roboto", serif;
+    font-weight: 400;
+}
+
+.order_addQuantity-text {
+    font-weight: 400;
+    color: #5e5959;
+    font-family: "Roboto", serif;
+}
+
+.order_addQuantity-text1 {
+    font-size: 22px;
+}
+
+.order_addQuantity-text2 {
+    font-size: 19px;
+}
+
+#order_addToCart {
+    width: max-content;
+    margin-top: 10px;
+    height: 3rem;
+}
+
+.addToCart {
+    width: max-content;
+    height: 100%;
+    border-radius: 5px;
+    color: #fff;
+    background-color: #ff140b;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    column-gap: 7px;
+    padding: 0 20px;
+    cursor: pointer;
+    flex-direction: row;
+}
+
+.addToCart:hover {
+    background-color: #e0130c;
+}
+
+.addToCart-icon {
+    font-size: 24px;
+}
+
+.addToCart-text {
+    font-size: 18px;
+    margin-bottom: 0;
+    line-height: 1;
+    font-family: "Nunito Sans", sans-serif;
+    text-align: center!important;
+    margin-top: 3px;
+}

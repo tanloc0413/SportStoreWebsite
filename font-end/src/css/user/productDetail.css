@@ -1,0 +1,156 @@
+#productDetail {
+    width: 100%;
+    padding: 10px 0 20px 0;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    flex-direction: column;
+}
+
+#productDetail_blk0, #productDetail_blk1, #productDetail_blk2, #productDetail_blk3 {
+    width: 90rem;
+    height: auto;
+    display: flex;
+}
+
+.blk0 {
+    width: 100%;
+}
+
+.blk0-text {
+    font-size: 1.1rem!important;
+}
+
+.blk0_home-text {
+    cursor: pointer;
+}
+
+.blk0_product-text {
+    user-select: none;
+}
+
+#productDetail_blk1 {
+    margin-top: 15px;
+    justify-content: space-between;
+    align-items: start;
+    flex-direction: row;
+    column-gap: 15px;
+}
+
+#productDetail_blk1-img {
+    width: 40rem;
+}
+
+.blk1_img-big {
+    width: auto;
+    height: 35rem;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.6);
+}
+
+.mySwiper2_blk {
+    width: 100%;
+    height: 100%;
+}
+
+.mySwiper2-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.blk1_img-small {
+    margin-top: 10px;
+}
+
+.mySwiper2_item-small {
+    width: 100px!important;
+    margin-right: 3px;
+    border-radius: 8px!important;
+    overflow: hidden;
+}
+
+.swiper-slide-thumb-active {
+    outline: 4px solid #ff0a0e;
+    outline-offset: -4px;
+}
+
+#productDetail_blk1-info {
+    width: 59rem;
+}
+
+.blk1_title-big {
+    font-size: 2.3rem;
+    line-height: 1;
+    font-weight: 700;
+    font-family: "Open Sans", sans-serif;
+}
+
+.blk1_evalute {
+    width: 100%;
+    margin-top: 10px;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    flex-direction: row;
+    column-gap: 7px;
+}
+
+.blk1_evalute-icon {
+    font-size: 1.8rem!important;
+}
+
+.blk1_evalute-text {
+    font-size: 1.4rem;
+    font-family: "Nunito Sans", sans-serif;
+}
+
+.blk1_color, .blk1_addCart {
+    margin-top: 5px;
+}
+
+.blk1_price-text {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #ff1c20;
+    font-family: "Nunito Sans", sans-serif;
+}
+
+.blk1_size-title, .blk1_color-title {
+    font-size: 1.1rem;
+    font-weight: 500;
+    font-family: "Roboto", serif;
+}
+
+.blk1_sizeList, .blk1_colorList {
+    width: max-content;
+}
+
+#productDetail_blk2 {
+    margin-top: 15px;
+    justify-content: start;
+    align-items: start;
+    flex-direction: column;
+}
+
+.productDetail_blk2-title, .productDetail_blk3-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    font-family: "Open Sans", sans-serif;
+}
+
+.productDetail_blk2-content {
+    width: 70rem;
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+.blk2_content-text {
+    font-size: 1.4rem;
+}
+
+#productDetail_blk3 {
+    margin-top: 10px;
+}
+

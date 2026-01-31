@@ -1,0 +1,116 @@
+#homePage {
+    width: 100%;
+    height: 100%;
+    background-color: #f0f0f0;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    flex-direction: column;
+}
+
+#carouse-home {
+    width: 100%;
+    height: auto;
+    padding: 0 8%;
+    display: flex;
+    justify-content: center;
+    align-items: start;
+}
+
+#newProduct {
+    width: 100%;
+    height: auto;
+    padding: 2rem 0;
+    display: flex;
+    background-image: url("../../imgs/flash_sale_background_image.jpg");
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+/* Block sách mới nhất */
+#blk_newBook {
+    width: 100rem;
+    height: auto;
+    background-color: #fff;
+    border-radius: 5px;
+}
+
+#newBook_title {
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 2% 12px 2%;
+}
+
+#newBook_title1 {
+    height: 100%;
+}
+
+#newBook_title2 {
+    margin: 0;
+}
+
+#newBook_title1-text {
+    font-size: 36px;
+    font-weight: 900;
+    color: #ff0000;
+    font-style: italic;
+    text-transform: uppercase;
+    text-shadow: 1.5px 1.5px 3px #ffcc00;
+    font-family: "Roboto", serif;
+    display: flex!important;
+    justify-content: center!important;
+    align-items: center!important;
+    margin: 0;
+    cursor: default;
+    user-select: none;
+}
+
+#newBook_title2-link {
+    color: #5f94ff!important;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    column-gap: 5px;
+}
+
+.title2_link-text {
+    font-size: 20px;
+    font-weight: 500;
+    margin: 0;
+    font-family: "Roboto", serif;
+}
+
+.title2_link-icon {
+    margin-top: 2px;
+    font-size: 30px;
+    color: #6d9eff;
+}
+
+#newBook_block {
+    width: 100%;
+    height: auto;
+    margin-top: 1%;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+/*-------------------------- Danh sách các quyển sách --------------------------*/
+
+#list-books {
+    width: 100%;
+    height: auto;
+    box-sizing: border-box;
+    background-color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding-bottom: 1rem;
+}

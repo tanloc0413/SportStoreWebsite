@@ -1,0 +1,403 @@
+#orderPage {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    flex-direction: column;
+}
+
+#orderPage_shipping, #orderPage_product, #orderPage_payment {
+    width: 75rem;
+    height: auto;
+    display: flex;
+    justify-content: start;
+    align-items: start;
+    flex-direction: column;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0px 5px rgba(0, 0, 0, 0.3);
+}
+
+#orderPage_shipping {
+    margin-top: 10px;
+    padding: 15px 15px 15px 25px;
+}
+
+#orderPage_product, #orderPage_payment {
+    margin-top: 5px;
+}
+
+#orderPage_payment {
+    margin-bottom: 10px;
+}
+
+#orderPage_shipping1, #orderPage_shipping2 {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    column-gap: 7px;
+}
+
+#orderPage_shipping1 {
+    justify-content: start;
+    align-items: center;
+}
+
+#orderPage_shipping2 {
+    justify-content: space-between;
+    align-items: start;
+}
+
+.shipping-icon, #shipping-title {
+    color: #d81f19;
+    user-select: none;
+}
+
+.shipping-icon {
+    font-size: 1.2rem;
+}
+
+#shipping-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    font-family: "Open Sans", sans-serif;
+}
+
+.shipping-text {
+    font-size: 1.1rem;
+    color: #172b4d;
+    line-height: 1.3;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.shipping-text span {
+    font-weight: 500;
+}
+
+.shipping-user {
+    font-size: 1.1rem;
+}
+
+.shipping_edit-btn {
+    background: transparent;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.shipping_edit-icon {
+    font-size: 1.7rem;
+    line-height: 1;
+    color: #172b4d;
+}
+
+.shipping_edit-icon:active, .shipping_edit-icon:hover {
+    cursor: pointer;
+    background-color: transparent;
+    color: #304b7a;    
+}
+
+#orderPage_product1, #orderPage_product-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+}
+
+#orderPage_product1 {
+    width: 100%;
+    column-gap: 10px;
+    border-bottom: 2px solid #c4c4c4;
+    padding: 17px 25px;
+}
+
+.orderPage-product {
+    width: 40rem;
+}
+
+#orderPage_product-total {
+    width: 27rem;
+}
+
+.orderPage_product1-text {
+    font-size: 1.1rem;
+    color: #515151;
+    cursor: default;
+    user-select: none;
+    line-height: 1;
+    font-weight: 600;
+    font-family: "Open Sans", sans-serif;
+}
+
+#orderPage_product2 {
+    width: 100%;
+    height: auto;
+    /* max-height: 50rem; */
+    padding: 10px 25px;
+}
+
+#orderPage_item, #orderPage_item1, #orderPage_item2 {
+    height: auto;
+    display: flex;
+}
+
+#orderPage_item, #orderPage_item2 {
+    align-items: start;
+    justify-content: space-between;
+    flex-direction: row;
+}
+
+#orderPage_item {
+    width: 100%;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #c4c4c4;
+}
+
+#orderPage_item:last-child {
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+#orderPage_item1 {
+    width: 40rem;
+    column-gap: 10px;
+    flex-direction: row;
+}
+
+#orderPage_item2 {
+    width: 27rem;
+}
+
+#orderPage_item1-img {
+    width: 7rem;
+    border: 1px solid #c4c4c4;
+    border-radius: 5px;
+}
+
+#orderPage_item1-text {
+    display: flex;
+    flex-direction: column;
+}
+
+#orderPage_item1-name {
+    font-size: 1.15rem;
+    line-height: 1.2;
+    display: -webkit-box;
+    line-clamp: 2;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-transform: capitalize;
+}
+
+#orderPage_item1-cate {
+    font-size: 1rem;
+    color: #767676;
+}
+
+.orderPage_item2-text {
+    font-size: 1.1rem;
+}
+
+.orderPage-total, .orderPage-price {
+    width: 30%;
+    text-align: center;
+}
+
+.block-select {
+    user-select: none;
+}
+
+#orderPage_voucher, #orderPage_payMethod {
+    width: 100%;
+    height: auto;
+    font-size: 1.1rem;
+    padding: 10px 25px;
+    border-bottom: 1px solid #c4c4c4;
+}
+
+#orderPage_voucher,#orderPage_voucher1 {
+    display: flex;
+    align-items: center;
+}
+
+#orderPage_voucher {
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+#orderPage_voucher1, #orderPage_payMethod1 {
+    column-gap: 5px;
+    flex-direction: row;
+    color: #212529;
+}
+
+#orderPage_payMethod1 {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+}
+
+#orderPage_voucher1 {
+    justify-content: start;
+}
+
+#orderPage_payMethod {
+    display: flex;
+    justify-content: start;
+    align-items: start;
+    flex-direction: column;
+}
+
+#orderPage_voucher2 {
+    color: #1b335c;
+    font-weight: 600;
+    font-size: 1.1rem;
+    cursor: pointer;
+}
+
+#orderPage_voucher2:active {
+    color: #3d6cbd;
+}
+
+.voucher-icon, .payMethod-icon1 {
+    width: 1.3rem;
+}
+
+.payMethod-icon1 {
+    margin-top: -3px;
+}
+
+#orderPage_payMethod2 {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
+    padding-top: 5px;
+    row-gap: 10px;
+}
+
+.payMethod-select {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    align-items: center;
+    column-gap: 10px;
+}
+
+.vnpay-icon {
+    width: 6rem;
+    height: auto;
+}
+
+.payMethod-radio {
+    width: 15px;
+    height: 15px;
+}
+
+#orderPage_total, .orderPage_total-blk, .orderPage_total-btn {
+    height: auto;
+    display: flex;
+}
+
+#orderPage_total {
+    width: 100%;
+    padding: 20px 25px;
+    justify-content: center;
+    align-items: end;
+    flex-direction: column;
+}
+
+.orderPage_total-blk {
+    margin-bottom: 5px;
+    justify-content: space-between;
+    flex-direction: row;
+    align-items: center;
+}
+
+.orderPage_total-btn, .orderPage_total-blk {
+    width: 30rem;
+}
+
+.orderPage_total-blk:last-child {
+    margin-bottom: 0;
+}
+
+.orderPage_total-btn {
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+}
+
+#total-btn {
+    color: #fff;
+    background-color: #d81f19;
+    padding: 12px 70px;
+    font-size: 1.3rem;
+    font-weight: 700;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    border: none;
+    border-radius: 5px;
+    text-transform: uppercase;
+}
+
+#total-btn:active {
+    background-color: #e6403a;
+}
+
+.total-text1, .total-text2, .total-text3 {
+    font-family: 'Roboto', sans-serif;
+}
+
+.total-text1, .total-text2 {
+    font-size: 1.05rem;
+}
+
+.total-text1 {
+    color: #787878;
+    cursor: default;
+    user-select: none;
+}
+
+.total-text2 {
+    color: #212529;
+}
+
+.total-text3 {
+    color: #ff5f2e;
+}
+
+.total-text4 {
+    width: 100%;
+    color: #212529;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.total-text5 {
+    font-size: 1.45rem;
+    color: #d81f19;
+    font-weight: 600;
+}
+
+.orderPage_total1, .orderPage_total2 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.orderPage_total1 {
+    align-items: start;
+}
+
+.orderPage_total2 {
+    align-items: end;
+}
+
