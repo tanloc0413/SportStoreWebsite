@@ -9,6 +9,11 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserToken {
-    private String token;
+public class UserDetailsDto {
+    private Integer id;
+    private String fullName;
+    private String phoneNumber;
+    private String email;
+    private Object authorityList;
+
 }

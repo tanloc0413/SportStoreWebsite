@@ -38,20 +38,17 @@ public class User implements UserDetails {
 
     private Date updatedOn;
 
-    private String verificationCode;
-
     @Builder.Default
     private boolean enable = false;
 
     private String provider;
 
-    @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-    @JoinTable(name = "ROLE_USER",
-            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "authority_id", referencedColumnName = "id")
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(name = "role_user",
+            joinColumns = @JoinColumn(referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(referencedColumnName = "id")
     )
     private List<Authority> authorities;
-
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

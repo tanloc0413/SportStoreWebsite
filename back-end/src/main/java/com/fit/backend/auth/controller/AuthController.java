@@ -1,16 +1,14 @@
 package com.fit.backend.auth.controller;
 
 import com.fit.backend.auth.config.JWTTokenHelper;
-import com.fit.backend.auth.dto.LoginRequest;
-import com.fit.backend.auth.dto.RegistrationRequest;
-import com.fit.backend.auth.dto.RegistrationResponse;
-import com.fit.backend.auth.dto.UserToken;
+import com.fit.backend.auth.dto.*;
 import com.fit.backend.auth.entity.User;
 import com.fit.backend.auth.helper.VerificationCodeGenerator;
 import com.fit.backend.auth.repository.UserDetailRepository;
 import com.fit.backend.auth.service.AuthorityService;
 import com.fit.backend.auth.service.EmailService;
 import com.fit.backend.auth.service.RegistrationService;
+import com.fit.backend.auth.service.TempStorage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +21,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ServerErrorException;
 
+import java.util.Date;
 import java.util.Map;
 
 @RestController
@@ -78,16 +77,59 @@ public class AuthController {
                 registrationResponse.getCode() == 200 ? HttpStatus.OK: HttpStatus.BAD_REQUEST);
     }
 
-    @PostMapping("/verify")
-    public ResponseEntity<?> verifyCode(@RequestBody Map<String,String> map) {
-        String userName = map.get("userName");
-        String code = map.get("code");
+//    @PostMapping("/verify")
+//    public ResponseEntity<?> verifyCode(@RequestBody Map<String,String> map) {
+//        String username = map.get("username");
+//        String code = map.get("code");
+//
+//        User user = (User) userDetailsService.loadUserByUsername(username);
+//
+//        if(user == null) {
+//            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+//        }
+//
+//        // hết hạn -> xóa user
+//        if(user.getVerificationExpiry().before(new Date())) {
+//            registrationService.deleteUserRegister(username);
+//            return new ResponseEntity<>(HttpStatus.GONE);
+//        }
+//
+////        if(user != null && user.getVerificationCode().equals(code)) {
+////            registrationService.verifyUser(username);
+////            return new ResponseEntity<>(HttpStatus.OK);
+////        }
+//
+//        if(user.getVerificationCode().equals(code)) {
+//            registrationService.verifyUser(username);
+//            return new ResponseEntity<>(HttpStatus.OK);
+//        }
+//
+//        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+//    }
 
-        User user = (User) userDetailsService.loadUserByUsername(userName);
-        if(null != user && user.getVerificationCode().equals(code)) {
-            registrationService.verifyUser(userName);
-            return new ResponseEntity<>(HttpStatus.OK);
-        }
+@PostMapping("/verify")
+public ResponseEntity<?> verifyCode(@RequestBody Map<String,String> map) {
+
+    String email = map.get("userName");
+    String code = map.get("code");
+
+    TempUser temp = TempStorage.get(email);
+
+    if(temp == null)
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+    if(System.currentTimeMillis() > temp.getExpiry()) {
+        TempStorage.remove(email);
+        return new ResponseEntity<>(HttpStatus.GONE);
     }
+
+    if(!temp.getCode().equals(code))
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+    registrationService.createUserFromTemp(temp);
+    TempStorage.remove(email);
+
+    return new ResponseEntity<>(HttpStatus.OK);
+}
+
 }
