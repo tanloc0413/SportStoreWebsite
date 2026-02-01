@@ -1,68 +1,65 @@
 import axios from "axios";
 import { API_BASE_URL, API_URLS } from "./constant";
 
-export const getAllProducts = async (id, typeId) => {
-  let url = API_BASE_URL + API_URLS.GET_PRODUCTS + `?categoryId=${id}`;
+// const apiClient = axios.create({
+//   baseURL: API_BASE_URL,
+//   headers: {
+//     "Content-Type": "application/json",
+//   },
+// });
 
-  if (typeId) {
+// export const getProducts = async (params = {}) => {
+//   try {
+//     const response = await apiClient.get(API_URLS.GET_PRODUCTS, {
+//       params, // ?categoryId=1&typeId=2 ...
+//     });
+
+//     return response.data;
+//   } catch (error) {
+//     console.error("Get products error:", error);
+//   }
+// };
+
+export const getAllProducts = async () => {
+  let url = API_BASE_URL + API_URLS.GET_PRODUCTS;
+  
+  try {
+    const result = await axios.get(url);
+    // console.log("All products:", result?.data);
+    return result?.data;
+  } catch(err) {
+    console.error("Lỗi khi gọi: ", err);
+  }
+}
+
+
+export const getAllProductByCategory = async (categoryId, typeId)=>{
+  let url = API_BASE_URL + API_URLS.GET_PRODUCTS + `?categoryId=${categoryId}`;
+
+  if(typeId) {
     url = url + `&typeId=${typeId}`;
   }
 
   try {
     const result = await axios(url, {
-      method: "GET"
+      method:"GET"
     });
     return result?.data;
-  } catch (err) {
+  }
+  catch(err){
     console.error(err);
   }
 }
-
-export const fetchProducts = async (page = 1, limit = 20, categoryTypeId = null) => {
-  try {
-    let url = `${API_BASE_URL}/api/products?page=${page}&limit=${limit}`;
-    if (categoryTypeId) {
-      url += `&categoryTypeId=${categoryTypeId}`;
-    }
-    const response = await axios.get(url);
-    return response.data;
-  } catch (error) {
-    console.error('Error fetching products:', error);
-    throw error;
-  }
-};
 
 export const getProductBySlug = async (slug) => {
   const url = API_BASE_URL + API_URLS.GET_PRODUCTS + `?slug=${slug}`;
-
-  try {
-    const result = await axios(url, {
-      method: "GET",
+  try{
+    const result = await axios(url,{
+      method:"GET",
     });
     return result?.data?.[0];
-  } catch (err) {
+  }
+  catch(err){
     console.error(err);
   }
 }
-
-export const fetchProductDetail = async (id) => {
-  try {
-    const response = await axios.get(`${API_BASE_URL}/api/products/${id}`);
-    return response.data;
-  } catch (error) {
-    console.error('Error fetching product detail:', error);
-    throw error;
-  }
-};
-
-export const searchProducts = async (keyword) => {
-  try {
-    const response = await axios.get(`${API_BASE_URL}/api/products/search`, {
-      params: { keyword }
-    });
-    return response.data;
-  } catch (error) {
-    console.error('Error searching products:', error);
-    throw error;
-  }
-};

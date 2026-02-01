@@ -11,16 +11,24 @@ import { FaRegHeart } from 'react-icons/fa6';
 import { Link } from 'react-router-dom';
 
 import '../../css/user/cardPropose.css';
+import { formatMoney } from '../../component/FormatMoney/formatMoney'
+import BGNImg from '../../imgs/bgn-product.png';
 
-const CardProduct = () => {
+const CardProduct = ({products}) => {
+  // Lấy ảnh sản phẩm
+  const imageUrl =
+    products.productImage?.find(img => img.isPrimary)?.url ||
+    products.productImage?.[0]?.url || BGNImg;
+
+  // console.log("Image URL:", imageUrl);
+
   return (
     <div id="item1">
       <div id="item1_image">
-        <Link to={`#`} id="item1_image-link">
+        <Link to={`/chi-tiet-san-pham/${products?.slug}`} id="item1_image-link">
           <img
-            // src={`${listImgBook[0].dataImage}`}
-            // src={products.image}
-            alt="Ảnh sản phẩm"
+            src={imageUrl ? imageUrl : BGNImg}
+            alt={`Ảnh ${products?.name}`}
             className="item1_img"
           />
         </Link>
@@ -28,17 +36,17 @@ const CardProduct = () => {
         {/* <IoHeartSharp /> */}
       </div>
       <div id="item1_content">
-        <a href={`#`} id="item1_content-link">
+        <Link to={`/chi-tiet-san-pham/${products?.slug}`} id="item1_content-link">
           <p className="item1_content-title">
-            {/* {products.name} */}
+            {products?.name}
           </p>
-        </a>
+        </Link>
         <div id='item1_content-priceBrand'>
           <p id='item1_content-brand'>
-            {/* {products.brand} */}
+            {products?.brand}
           </p>
           <p id='item1_content-price'>
-            {/* {products.price} */}
+            {formatMoney(products?.price)}
           </p>
         </div>
       </div>

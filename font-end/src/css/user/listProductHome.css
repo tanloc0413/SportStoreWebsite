@@ -1,5 +1,5 @@
 #product1, #product2 {
-    width: 105rem;
+    width: 100rem;
     height: auto;
     display: flex;
     justify-content: center;
@@ -39,7 +39,7 @@
     height: auto;
     display: grid;
     gap: 10px;
-    grid-template-columns: repeat(8, minmax(0, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 }
 
 #product1_items {

@@ -53,7 +53,10 @@ const CartPage = () => {
           <ul id='cart_list'>
             <li id='cart_list-item'>
               <div id='cart_list-item1'>
-                <input type="checkbox" id='cart_list-check'/>
+                <input 
+                  type="checkbox" 
+                  id='cart_list-check'
+                />
                 <div id='cart_list-product'>
                   <img 
                     src="https://supersports.com.vn/cdn/shop/files/1127890-RUM-1.jpg?v=1766113572&width=1000" 

@@ -12,7 +12,7 @@ import CardProduct from "../../component/Card/CardProduct";
 import PaginationPage from "./PaginationPage";
 import content from "../../data/content.json";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllProducts } from "../../api/fetchProducts";
+import { getAllProductByCategory } from "../../api/fetchProducts";
 import { setLoading } from "../../store/features/common";
 
 const ProductListPage = ({ categoryType }) => {
@@ -38,7 +38,7 @@ const ProductListPage = ({ categoryType }) => {
     // lấy tất cả sản phẩm
     useEffect(() => {      
         dispatch(setLoading(true));
-        getAllProducts(category?.id)
+        getAllProductByCategory(category?.id)
         .then(res => {
             setProduct(res);
             console.log("Product: ", res);
