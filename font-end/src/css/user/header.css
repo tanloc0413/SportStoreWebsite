@@ -322,7 +322,7 @@
     z-index: 1;
     border-radius: 5px;
     padding: 13px 5px;
-    top: 50px;
+    top: 55px;
     right: -50px;
     display: flex;
     justify-content: center;
@@ -336,6 +336,11 @@
     width: 100%;
     font-size: 1.1rem;
     background-color: #fff;
+    font-family: "Open Sans", sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: point;
 }
 
 .button_login, .button_signup {

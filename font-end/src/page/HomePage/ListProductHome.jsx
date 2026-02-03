@@ -18,10 +18,10 @@ const ListProductHome = () => {
       const shuffled = [...res].sort(() => Math.random() - 0.5);
 
       // lấy đúng 30 sản phẩm
-      const random30 = shuffled.slice(0, 30);
+      const random30 = shuffled.slice(0, 28);
 
       setProductData(random30);
-      console.log("Product data", random30);
+      // console.log("Product data", random30.);
     })
     .catch(err => {
       console.error("Lỗi khi lấy sản phẩm: ", err);

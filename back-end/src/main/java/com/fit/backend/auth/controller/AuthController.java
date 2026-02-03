@@ -77,59 +77,30 @@ public class AuthController {
                 registrationResponse.getCode() == 200 ? HttpStatus.OK: HttpStatus.BAD_REQUEST);
     }
 
-//    @PostMapping("/verify")
-//    public ResponseEntity<?> verifyCode(@RequestBody Map<String,String> map) {
-//        String username = map.get("username");
-//        String code = map.get("code");
-//
-//        User user = (User) userDetailsService.loadUserByUsername(username);
-//
-//        if(user == null) {
-//            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-//        }
-//
-//        // hết hạn -> xóa user
-//        if(user.getVerificationExpiry().before(new Date())) {
-//            registrationService.deleteUserRegister(username);
-//            return new ResponseEntity<>(HttpStatus.GONE);
-//        }
-//
-////        if(user != null && user.getVerificationCode().equals(code)) {
-////            registrationService.verifyUser(username);
-////            return new ResponseEntity<>(HttpStatus.OK);
-////        }
-//
-//        if(user.getVerificationCode().equals(code)) {
-//            registrationService.verifyUser(username);
-//            return new ResponseEntity<>(HttpStatus.OK);
-//        }
-//
-//        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-//    }
+    @PostMapping("/verify")
+    public ResponseEntity<?> verifyCode(@RequestBody Map<String,String> map) {
+        String email = map.get("userName");
+        String code = map.get("code");
 
-@PostMapping("/verify")
-public ResponseEntity<?> verifyCode(@RequestBody Map<String,String> map) {
+        TempUser temp = TempStorage.get(email);
 
-    String email = map.get("userName");
-    String code = map.get("code");
+        if(temp == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
 
-    TempUser temp = TempStorage.get(email);
+        if(System.currentTimeMillis() > temp.getExpiry()) {
+            TempStorage.remove(email);
+            return new ResponseEntity<>(HttpStatus.GONE);
+        }
 
-    if(temp == null)
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        if(!temp.getCode().equals(code)) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
 
-    if(System.currentTimeMillis() > temp.getExpiry()) {
+        registrationService.createUserFromTemp(temp);
         TempStorage.remove(email);
-        return new ResponseEntity<>(HttpStatus.GONE);
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
-
-    if(!temp.getCode().equals(code))
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-
-    registrationService.createUserFromTemp(temp);
-    TempStorage.remove(email);
-
-    return new ResponseEntity<>(HttpStatus.OK);
-}
 
 }

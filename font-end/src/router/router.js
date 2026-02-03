@@ -4,10 +4,11 @@ import App from '../App';
 import RouterPage from '../router/RouterPage';
 import CartPage from '../page/CartPage/CartPage';
 import LoginPage from '../page/LoginPage/Login';
-// import ProductDetail from '../page/ProductDetail/ProductDetail';
+import ProductDetail from '../page/ProductDetailPage/ProductDetailPage';
 import RegisterPage from '../page/RegisterPage/Register';
 import ProductListPage from '../page/ProductListPage/ProductListPage';
-// import { loadProductBySlug } from "./productSlug";
+import GoogleLogin from "../page/LoginPage/GoogleLogin";
+import { loadProductBySlug } from "./productSlug";
 
 export const router = createBrowserRouter ([
     {
@@ -30,14 +31,14 @@ export const router = createBrowserRouter ([
             {   path: '/the-loai/phu-kien',
                 element: <ProductListPage/>
             },
-            // {   path: '/the-loai/do-choi',
-            //     element: <ProductListPage/>
-            // },
-            // {
-            //     path:"/chi-tiet-san-pham/:slug",
-            //     loader: loadProductBySlug,
-            //     element: <ProductDetail/>
-            // },
+            {   path: '/the-loai/do-choi',
+                element: <ProductListPage/>
+            },
+            {
+                path:"/chi-tiet-san-pham/:slug",
+                loader: loadProductBySlug,
+                element: <ProductDetail/>
+            },
             {
                 path:'/gio-hang',
                 element: <CartPage/>
@@ -48,7 +49,11 @@ export const router = createBrowserRouter ([
             },
             {
               path:"/dang-ky",
-              element:<RegisterPage/>
+              element:<RegisterPage/>,
+            },
+            {
+              path:'/oauth2/callback',
+              element:<GoogleLogin/>
             }
         ]
     },

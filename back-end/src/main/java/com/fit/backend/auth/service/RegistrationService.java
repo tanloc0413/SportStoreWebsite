@@ -29,41 +29,6 @@ public class RegistrationService {
     @Autowired
     private EmailService emailService;
 
-//    public RegistrationResponse createUser(RegistrationRequest request) {
-//        User existing = userDetailRepository.findByEmail(request.getEmail());
-//
-//        if(null != existing) {
-//            return RegistrationResponse.builder()
-//                    .code(400)
-//                    .message("Email đã tồn tại!")
-//                    .build();
-//        }
-//
-//        try {
-//            User user = new User();
-//            user.setFullName(request.getFullName());
-//            user.setEmail(request.getEmail());
-//            user.setEnable(false);
-//            user.setPassword(passwordEncoder.encode(request.getPassword()));
-//            user.setProvider("manual");
-//
-//            String code = VerificationCodeGenerator.generateCode();
-//            user.setVerificationCode(code);
-//
-//            user.setAuthorities(authorityService.getUserAuthority());
-//            userDetailRepository.save(user);
-//            emailService.sendMail(user);
-//
-//            return RegistrationResponse.builder()
-//                    .code(200)
-//                    .message("Tạo tài khoản thành công!")
-//                    .build();
-//        } catch(Exception e) {
-//            System.out.println(e.getMessage());
-//            throw new ServerErrorException(e.getMessage(),e.getCause());
-//        }
-//    }
-
     public RegistrationResponse createUser(RegistrationRequest request) {
         if(userDetailRepository.findByEmail(request.getEmail()) != null) {
             return RegistrationResponse.builder()

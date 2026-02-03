@@ -1,25 +1,7 @@
 import axios from "axios";
 import { API_BASE_URL, API_URLS } from "./constant";
 
-// const apiClient = axios.create({
-//   baseURL: API_BASE_URL,
-//   headers: {
-//     "Content-Type": "application/json",
-//   },
-// });
-
-// export const getProducts = async (params = {}) => {
-//   try {
-//     const response = await apiClient.get(API_URLS.GET_PRODUCTS, {
-//       params, // ?categoryId=1&typeId=2 ...
-//     });
-
-//     return response.data;
-//   } catch (error) {
-//     console.error("Get products error:", error);
-//   }
-// };
-
+// lấy tất cả sản phẩm
 export const getAllProducts = async () => {
   let url = API_BASE_URL + API_URLS.GET_PRODUCTS;
   
@@ -32,8 +14,8 @@ export const getAllProducts = async () => {
   }
 }
 
-
-export const getAllProductByCategory = async (categoryId, typeId)=>{
+// lấy sản phẩm theo thể loại
+export const getAllProductByCategory = async(categoryId, typeId) => {
   let url = API_BASE_URL + API_URLS.GET_PRODUCTS + `?categoryId=${categoryId}`;
 
   if(typeId) {
@@ -41,9 +23,8 @@ export const getAllProductByCategory = async (categoryId, typeId)=>{
   }
 
   try {
-    const result = await axios(url, {
-      method:"GET"
-    });
+    const result = await axios.get(url);
+    console.log("Products by category: ", result?.data);
     return result?.data;
   }
   catch(err){
@@ -51,7 +32,7 @@ export const getAllProductByCategory = async (categoryId, typeId)=>{
   }
 }
 
-export const getProductBySlug = async (slug) => {
+export const getProductBySlug = async(slug) => {
   const url = API_BASE_URL + API_URLS.GET_PRODUCTS + `?slug=${slug}`;
   try{
     const result = await axios(url,{

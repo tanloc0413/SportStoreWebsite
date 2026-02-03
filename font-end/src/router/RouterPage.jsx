@@ -10,7 +10,7 @@ const RouterPage = () => {
 
     return (
         <>
-            <HeaderPage/>
+            <HeaderPage variant="auth"/>
             <Outlet/>
             <FooterPage/>
         </>

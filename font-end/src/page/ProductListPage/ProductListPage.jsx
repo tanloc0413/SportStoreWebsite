@@ -36,19 +36,18 @@ const ProductListPage = ({ categoryType }) => {
     }, [categoryData, categoryType])
 
     // lấy tất cả sản phẩm
-    useEffect(() => {      
+    useEffect(() => {
+        if (!category?.id) return;
         dispatch(setLoading(true));
-        getAllProductByCategory(category?.id)
-        .then(res => {
-            setProduct(res);
-            console.log("Product: ", res);
-        })
-        .catch(err => {
-            console.log("Product: ", err);
-        })
-        .finally(() => {
-            dispatch(setLoading(false));
-        })
+        getAllProductByCategory(category.id)
+            .then(res => {
+                setProduct(res);
+                console.log("Product List Page - products by category: ", res);
+            })
+            .finally(() => {
+                dispatch(setLoading(false));
+            });
+
     }, [category?.id, dispatch]);
 
     return (

@@ -25,7 +25,6 @@ public final class EndPoints {
     public static final String[] POST_API = {
             "/api/data/**",
             "/api/recommendations/**",
-
     };
 
     // Public GET API
@@ -36,5 +35,10 @@ public final class EndPoints {
     public static final String[] PUBLIC_API = {
             "/api/auth/**",
             "/api/orders/**"
+    };
+
+    // Public GOOLE LOGIN
+    public static final String[] GOOGLE_LOGIN = {
+            "/oauth2/success"
     };
 }

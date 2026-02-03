@@ -37,9 +37,14 @@ public class WebSecurityConfig {
                         .requestMatchers(HttpMethod.GET, EndPoints.GET_API).permitAll()
                         .requestMatchers(HttpMethod.POST, EndPoints.POST_API).permitAll()
                         .requestMatchers(HttpMethod.PUT, EndPoints.PUT_API).permitAll()
-//                        .requestMatchers("/oauth2/success").permitAll()
-                        // auth endpoints
+                        .requestMatchers(EndPoints.GOOGLE_LOGIN).permitAll()
                         .anyRequest().authenticated())
+                        .oauth2Login(
+                                (oauth2login) -> oauth2login
+                                        .defaultSuccessUrl("/oauth2/success")
+                                        .loginPage("/oauth2/authorization/google")
+                        )
+
                         .addFilterBefore(
                                 new JWTAuthenticationFilter(jwtTokenHelper, userDetailsService),
                                 UsernamePasswordAuthenticationFilter.class

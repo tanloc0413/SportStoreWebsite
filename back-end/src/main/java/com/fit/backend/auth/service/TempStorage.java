@@ -9,7 +9,6 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Component
 public class TempStorage {
-
     private static final Map<String, TempUser> storage = new ConcurrentHashMap<>();
 
     public static void save(RegistrationRequest req, String code) {

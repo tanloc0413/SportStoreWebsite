@@ -34,8 +34,11 @@ const App = () => {
     fetchCategories()
       .then(res => {
         dispatch(loadCategories(res));
+        // console.log("Categories: ", res);
       })
-      .finally(() => dispatch(setLoading(false)));
+      .finally(() => {
+        dispatch(setLoading(false));
+      });
   }, [dispatch]);
 
   return (

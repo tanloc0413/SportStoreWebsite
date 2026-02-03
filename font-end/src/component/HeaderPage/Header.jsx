@@ -10,16 +10,18 @@ import { Link } from 'react-router-dom';
 import '../../css/user/header.css';
 import LogoIcon from '../../imgs/sport.png';
 
-const Header = () => {
+const Header = ({variant="default"}) => {
+  const [showLogout,setShowLogout] = useState(false);
+
   return (
     <header id='header'>
       <div id='blk_header1'>
-        <a 
+        <Link 
           id='blk_logoHeader' 
-          href='/'
+          to='/'
         >
           <img id='header_logo-img' src={LogoIcon} alt="Logo Ảnh"/>
-        </a>
+        </Link>
         <div id='blk_search'>
           <input
             type='search'
@@ -87,58 +89,50 @@ const Header = () => {
               </div>
             </div>
           </Link>
-          {/* <div className='account blk_user-icon'>
-            <FaRegUser className='account-icon user-icon'/>
-            <p className='account-text title_text-icons'>Tài Khoản</p>
-          </div> */}
-          {/* 
-            // <div id='block_header-account'>
-            <Link to='/dang-ky' className='button_signup'>
-              Đăng Ký
-            </Link> 
-          </div> */}
-          <Link to='/dang-nhap' className='button_login'>
-            Đăng Nhập
-          </Link>
-          {/* {!isLoggedIn ? (
+          {variant === "default" && (
             <Link to='/dang-nhap' className='button_login'>
               Đăng Nhập
             </Link>
-          ) : (
+            )
+          }
+          {variant === "auth" && (
             <div className='block_header-user'>
-              <div className='account blk_user-icon' onClick={handleShowLogout}>
+              <div 
+                className='account blk_user-icon' 
+                onClick={() => setShowLogout(prev => !prev)}
+              >
                 <FaRegUser className='account-icon user-icon' />
                 <p className='account-text title_text-icons'>Tài Khoản</p>
               </div>
               {showLogout && (
                 <div id='block_header-account'>
                   <a href="/tai-khoan">
-                    <button
+                    <div
                       className='logout-button'
                     >
                       Tài Khoản
-                    </button>
+                    </div>
                   </a>
                   <hr className='line_blk-user'/>
                   <a href="/sach-yeu-thich">
-                    <button
+                    <div
                       className='logout-button'
                       // onClick={}
                     >
                       Yêu Thích
-                    </button>
+                    </div>
                   </a>
                   <hr className='line_blk-user'/>
-                  <button
-                    onClick={handleLogout}
+                  <div
+                    // onClick={handleLogout}
                     className='logout-button'
                   >
                     Đăng Xuất
-                  </button>
+                  </div>
                 </div>
               )}
             </div>
-          )} */}
+          )}
         </div>
       </div>
       <div id='blk_header2'>
