@@ -35,8 +35,6 @@ public class WebSecurityConfig {
                         .requestMatchers(EndPoints.SWAGGER).permitAll()
                         // lấy sản phẩm và thể loại
                         .requestMatchers(HttpMethod.GET, EndPoints.GET_API).permitAll()
-                        .requestMatchers(HttpMethod.POST, EndPoints.POST_API).permitAll()
-                        .requestMatchers(HttpMethod.PUT, EndPoints.PUT_API).permitAll()
                         .requestMatchers(EndPoints.GOOGLE_LOGIN).permitAll()
                         .anyRequest().authenticated())
                         .oauth2Login(
@@ -44,14 +42,11 @@ public class WebSecurityConfig {
                                         .defaultSuccessUrl("/oauth2/success")
                                         .loginPage("/oauth2/authorization/google")
                         )
-
                         .addFilterBefore(
                                 new JWTAuthenticationFilter(jwtTokenHelper, userDetailsService),
                                 UsernamePasswordAuthenticationFilter.class
                         );
         ;
-//                .oauth2Login((oauth2login)-> oauth2login.defaultSuccessUrl("/oauth2/success").loginPage("/oauth2/authorization/google"))
-        //.exceptionHandling((exception)-> exception.authenticationEntryPoint(new RESTAuthenticationEntryPoint()))
         return http.build();
     }
 

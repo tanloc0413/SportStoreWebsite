@@ -21,10 +21,11 @@ public final class EndPoints {
             "/images/**"
     };
 
-    // Public GET API
+    // Public POST API
     public static final String[] POST_API = {
             "/api/data/**",
             "/api/recommendations/**",
+            "/api/address"
     };
 
     // Public GET API

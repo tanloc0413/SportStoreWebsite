@@ -6,6 +6,7 @@ import com.fit.backend.exception.ResourceNotFoundEx;
 import com.fit.backend.mapper.ProductMapper;
 import com.fit.backend.repository.ProductRepository;
 import com.fit.backend.specification.ProductSpecification;
+import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -136,6 +137,11 @@ public class ProductServiceImpl implements ProductService {
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundEx("Không tìm thấy sản phẩm!"));
         productRepository.delete(product);
+    }
+
+    @Override
+    public Product fetchProductById(Integer id) throws Exception {
+        return productRepository.findById(id).orElseThrow(BadRequestException::new);
     }
 
 //    @Override

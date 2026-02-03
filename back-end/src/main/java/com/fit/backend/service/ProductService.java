@@ -16,7 +16,9 @@ public interface ProductService {
 
     Product updateProduct(ProductDto productDto);
 
-//    long getProductCount();
-
     void deleteProduct(Integer id);
+
+    Product fetchProductById(Integer id) throws Exception;
+
+//    long getProductCount();
 }
