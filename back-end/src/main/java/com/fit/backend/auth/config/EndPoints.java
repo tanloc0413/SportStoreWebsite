@@ -14,6 +14,7 @@ public final class EndPoints {
     public static final String[] GET_API = {
             "/api/category",
             "/api/products",
+            "/api/products/**",
             "/api/dashboard/**",
             "/api/brands",
             "/api/data/**",

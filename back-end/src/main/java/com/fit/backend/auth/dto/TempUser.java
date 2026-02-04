@@ -10,4 +10,3 @@ public class TempUser {
     private String code;
     private long expiry;
 }
-

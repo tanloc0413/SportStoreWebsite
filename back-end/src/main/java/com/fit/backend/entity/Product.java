@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -28,7 +29,7 @@ public class Product {
 
     private BigDecimal price;
 
-    private Boolean isNewArrival;
+    private boolean isNewArrival;
 
     private Float rating;
 
@@ -48,6 +49,26 @@ public class Product {
     @JsonIgnore
     private CategoryType cateType;
 
+    // danh sách hình ảnh sản phẩm
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<Image> imageList;
+
+    @Column(nullable = false, updatable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createdAt;
+
+    @Column(nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date updatedAt;
+
+    @PrePersist
+    protected void onCreate() {
+        createdAt = new Date();
+        updatedAt = createdAt;
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt = new Date();
+    }
 }

@@ -48,34 +48,34 @@ public class ProductServiceImpl implements ProductService {
         // Thực hiện truy vấn
         List<Product> products = productRepository.findAll(productSpecification);
 
-        return productMapper.getProductDtos(products);
+//        return productMapper.getProductDtos(products);
 
-//        // Map sản phẩm và thêm thông tin chi tiết
-//        return products.stream().map(product -> {
-//            ProductDto productDto = productMapper.mapProductToDto(product);
-//
-//            // Thêm thông tin category
-//            if (product.getCategory() != null) {
-//                productDto.setCategoryId(product.getCategory().getId());
-//                productDto.setCategoryName(product.getCategory().getName());
-//            }
-//
-//            if (product.getCateType() != null) {
-//                productDto.setCategoryTypeId(product.getCateType().getId());
-//                productDto.setCategoryTypeName(product.getCateType().getName());
-//            }
-//
-//            // Thêm thông tin hình ảnh và variants
-//            if (product.getProductVariants() != null) {
-//                productDto.setVariants(productMapper.mapProductVariantListToDto(product.getProductVariants()));
-//            }
-//
-//            if (product.getImageList() != null) {
-//                productDto.setProductImage(productMapper.mapProductImageListToDto(product.getImageList()));
-//            }
-//
-//            return productDto;
-//        }).collect(Collectors.toList());
+        // Map sản phẩm và thêm thông tin chi tiết
+        return products.stream().map(product -> {
+            ProductDto productDto = productMapper.mapProductToDto(product);
+
+            // Thêm thông tin category
+            if (product.getCategory() != null) {
+                productDto.setCategoryId(product.getCategory().getId());
+                productDto.setCategoryName(product.getCategory().getName());
+            }
+
+            if (product.getCateType() != null) {
+                productDto.setCategoryTypeId(product.getCateType().getId());
+                productDto.setCategoryTypeName(product.getCateType().getName());
+            }
+
+            // Thêm thông tin hình ảnh và variants
+            if (product.getProductVariants() != null) {
+                productDto.setVariants(productMapper.mapProductVariantListToDto(product.getProductVariants()));
+            }
+
+            if (product.getImageList() != null) {
+                productDto.setProductImage(productMapper.mapProductImageListToDto(product.getImageList()));
+            }
+
+            return productDto;
+        }).collect(Collectors.toList());
     }
 
     @Override
@@ -109,16 +109,23 @@ public class ProductServiceImpl implements ProductService {
                 .orElseThrow(() -> new ResourceNotFoundEx("Không tìm thấy sản phẩm"));
 
         ProductDto productDto = productMapper.mapProductToDto(product);
-        productDto.setCategoryId(product.getCategory().getId());
+//        productDto.setCategoryId(product.getCategory().getId());
+//        productDto.setCategoryTypeId(product.getCateType().getId());
+
+        if (product.getCategory() != null) {
+            productDto.setCategoryId(product.getCategory().getId());
+            productDto.setCategoryName(product.getCategory().getName()); // Dòng này bị thiếu trước đó
+        }
+
+        if (product.getCateType() != null) {
+            productDto.setCategoryTypeId(product.getCateType().getId());
+            productDto.setCategoryTypeName(product.getCateType().getName()); // Dòng này bị thiếu trước đó
+        }
+
         productDto.setVariants(productMapper.mapProductVariantListToDto(product.getProductVariants()));
         productDto.setProductImage(productMapper.mapProductImageListToDto(product.getImageList()));
 
-//        // Handle null cateType
-//        if (product.getCateType() != null) {
-//            productDto.setCategoryTypeId(product.getCateType().getId());
-//        } else {
-//            productDto.setCategoryTypeId(null);
-//        }
+
 
         return productDto;
     }

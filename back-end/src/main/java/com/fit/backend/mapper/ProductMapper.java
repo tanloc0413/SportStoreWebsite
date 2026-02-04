@@ -18,21 +18,24 @@ public class ProductMapper {
 
     public Product mapToProductEntity(ProductDto productDto) {
         Product product = new Product();
-        if(null != productDto.getId()) {
+
+        if(productDto.getId() != null) {
             product.setId(productDto.getId());
         }
+
         product.setName(productDto.getName());
         product.setDescription(productDto.getDescription());
-        product.setIsNewArrival(productDto.getIsNewArrival());
+        product.setNewArrival(productDto.isNewArrival());
         product.setPrice(productDto.getPrice());
         product.setRating(productDto.getRating());
         product.setSlug(productDto.getSlug());
 
         Category category = categoryService.getCategory(productDto.getCategoryId());
 
-        if(null != category) {
+        if(category != null) {
             product.setCategory(category);
             Integer categoryTypeId = productDto.getCategoryTypeId();
+
             CategoryType categoryType = category.getCategoryTypes()
                     .stream()
                     .filter(categoryType1 -> categoryType1
@@ -43,11 +46,15 @@ public class ProductMapper {
             product.setCateType(categoryType);
         }
 
-        if(null != productDto.getVariants()) {
-            product.setProductVariants(mapToProductVariant(productDto.getVariants(), product));
+        if(productDto.getVariants()  != null) {
+            product.setProductVariants(
+                    mapToProductVariant(productDto.getVariants(), product)
+            );
         }
-        if(null != productDto.getProductImage()) {
-            product.setImageList(mapToProductImages(productDto.getProductImage(), product));
+        if(productDto.getProductImage() != null) {
+            product.setImageList(
+                    mapToProductImages(productDto.getProductImage(), product)
+            );
         }
 
         return product;
@@ -92,7 +99,7 @@ public class ProductMapper {
                 .id(product.getId())
                 .name(product.getName())
                 .price(product.getPrice())
-                .isNewArrival(product.getIsNewArrival())
+                .isNewArrival(product.isNewArrival())
                 .rating(product.getRating())
                 .slug(product.getSlug())
                 .description(product.getDescription()).build();
