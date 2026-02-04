@@ -60,7 +60,6 @@ const ListProductHome = () => {
             productData
             .map((products) => (
               <CardProduct
-                key={products.id}
                 products={products}
               />
             ))

@@ -1,0 +1,110 @@
+
+const AddToCart = ({ product, selectedSize, selectedColor }) => {
+    const [quantity, setQuantity] = useState(1);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    const handleQuantityChange = (value) => {
+        const newQuantity = Math.max(1, quantity + value);
+        setQuantity(newQuantity);
+    };
+
+    const handleInputChange = (e) => {
+        const value = Math.max(1, parseInt(e.target.value) || 1);
+        setQuantity(value);
+    };
+
+    const handleAddToCart = () => {
+        // Find matching variant
+        let selectedVariant = null;
+        if (product.variants && product.variants.length > 0) {
+            selectedVariant = product.variants.find(variant => 
+                (!selectedSize || variant.size === selectedSize) &&
+                (!selectedColor || variant.color === selectedColor)
+            ) || product.variants[0];
+        }
+
+        const cartItem = {
+            id: product.id,
+            name: product.name,
+            price: product.price,
+            productImage: product.productImage || [],
+            quantity: quantity,
+            variant: selectedVariant,
+            subTotal: product.price * quantity
+        };
+
+        dispatch(addToCart(cartItem));
+        
+        // Show success message (you can replace this with a toast notification)
+        alert(`Đã thêm ${quantity} sản phẩm vào giỏ hàng!`);
+    };
+
+    const handleBuyNow = () => {
+        handleAddToCart();
+        navigate('/gio-hang');
+    };
+
+    return (
+        <div id='order_block'>
+            <div id='order_addQuantity-text'>
+                <p id='order_addQuantity-title'>Số lượng</p>
+            </div>
+            <div id='order_addQuantity'>
+                <div
+                    id='order_addQuantity-btn'
+                    onClick={() => handleQuantityChange(-1)}
+                    style={{ cursor: 'pointer' }}
+                >
+                    <p className='order_addQuantity-text order_addQuantity-text1'>
+                        -
+                    </p>
+                </div>
+                <input
+                    type='number'
+                    id='order_addQuantity-input'
+                    min={1}
+                    value={quantity}
+                    onChange={handleInputChange}
+                />
+                <div
+                    id='order_addQuantity-btn'
+                    onClick={() => handleQuantityChange(1)}
+                    style={{ cursor: 'pointer' }}
+                >
+                    <p className='order_addQuantity-text order_addQuantity-text2'>
+                        +
+                    </p>
+                </div>
+            </div>
+
+            <div id='order_provisional'>
+                <p id='order_provisional-text'>Tạm tính</p>
+                <p id='order_provisional-number'>
+                    {new Intl.NumberFormat('vi-VN', {
+                        style: 'currency',
+                        currency: 'VND'
+                    }).format(product.price * quantity)}
+                </p>
+            </div>
+
+            <div id='order_buttons'>
+                <button
+                    id='order_btn-buyNow'
+                    onClick={handleBuyNow}
+                >
+                    Mua ngay
+                </button>
+                <button
+                    id='order_btn-addCart'
+                    onClick={handleAddToCart}
+                >
+                    <IoCartOutline style={{ marginRight: '8px' }} />
+                    Thêm vào giỏ hàng
+                </button>
+            </div>
+        </div>
+    )
+}
+
+export default AddToCart;

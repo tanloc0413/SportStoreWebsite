@@ -5,13 +5,17 @@ import { FaRegUser } from "react-icons/fa";
 import { AiOutlineBell } from "react-icons/ai";
 import Nav from 'react-bootstrap/Nav';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux'
 
 // files
 import '../../css/user/header.css';
 import LogoIcon from '../../imgs/sport.png';
+import { countCartItems } from '../../store/features/cart';
 
 const Header = ({variant="default"}) => {
   const [showLogout,setShowLogout] = useState(false);
+
+  const cartLength = useSelector(countCartItems);
 
   return (
     <header id='header'>
@@ -84,9 +88,11 @@ const Header = ({variant="default"}) => {
             <div className='cart blk_user-icon'>
               <IoCartOutline className='cart-icon user-icon'/>
               <p className='cart-text title_text-icons'>Giỏ Hàng</p>
-              <div className='header_addQuantity-cart'>
-                <p className='addQuantity-cart'>0</p>
-              </div>
+              {cartLength > 0 && 
+                <div className='header_addQuantity-cart'>
+                  <p className='addQuantity-cart'>{cartLength}</p>
+                </div>
+              }
             </div>
           </Link>
           {variant === "default" && (
@@ -117,7 +123,6 @@ const Header = ({variant="default"}) => {
                   <a href="/sach-yeu-thich">
                     <div
                       className='logout-button'
-                      // onClick={}
                     >
                       Yêu Thích
                     </div>

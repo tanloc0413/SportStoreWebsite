@@ -4,7 +4,7 @@ import App from '../App';
 import RouterPage from '../router/RouterPage';
 import CartPage from '../page/CartPage/CartPage';
 import LoginPage from '../page/LoginPage/Login';
-import ProductDetail from '../page/ProductDetailPage/ProductDetailPage';
+import ProductDetail from '../page/ProductDetailPage/ProductDetail';
 import RegisterPage from '../page/RegisterPage/Register';
 import ProductListPage from '../page/ProductListPage/ProductListPage';
 import GoogleLogin from "../page/LoginPage/GoogleLogin";
@@ -35,26 +35,26 @@ export const router = createBrowserRouter ([
                 element: <ProductListPage/>
             },
             {
-                path:"/chi-tiet-san-pham/:slug",
+                path: '/chi-tiet-san-pham/:slug',
                 loader: loadProductBySlug,
                 element: <ProductDetail/>
             },
             {
-                path:'/gio-hang',
+                path: '/gio-hang',
                 element: <CartPage/>
             },
             {
-              path:"/dang-nhap",
-              element:<LoginPage/>
+              path: '/dang-nhap',
+              element: <LoginPage/>
             },
             {
-              path:"/dang-ky",
-              element:<RegisterPage/>,
+              path: '/dang-ky',
+              element: <RegisterPage/>,
             },
             {
-              path:'/oauth2/callback',
-              element:<GoogleLogin/>
-            }
+              path: '/oauth2/callback',
+              element: <GoogleLogin/>
+            },
         ]
     },
     // {

@@ -1,0 +1,257 @@
+import React, { useEffect, useMemo, useState } from "react";
+import Breadcrumbs from "@mui/material/Breadcrumbs";
+import Typography from "@mui/material/Typography";
+import Link from "@mui/material/Link";
+import Rating from "@mui/material/Rating";
+import CircularProgress from "@mui/material/CircularProgress";
+import { useLoaderData, useParams } from "react-router-dom";
+import _ from 'lodash';
+
+import "../../css/user/productDetail.css";
+import SwiperSlider from "./SwiperSlider";
+import AddToCart from './AddToCart';
+import { formatMoney } from "../../component/FormatMoney/formatMoney";
+import SizeFilter from '../../component/Filter/SizeFilter';
+import ColorFilter from '../../component/Filter/ColorFilter';
+import { useDispatch, useSelector } from "react-redux";
+import { productsAPI } from "../../services/apiService";
+
+const ProductDetail = () => {
+  const { slug } = useParams();
+  const loaderData = useLoaderData();
+  const [product, setProduct] = useState(loaderData?.product || null);
+  const [loading, setLoading] = useState(!loaderData?.product);
+  const [error, setError] = useState(null);
+  const [image, setImage] = useState();
+  const [breadCrumbLinks, setBreadCrumbLinks] = useState();
+  const [selectedSize, setSelectedSize] = useState('');
+  const [selectedColor, setSelectedColor] = useState('');
+  const categories = useSelector((state) => state?.categoryState?.categories);
+  const [similarProducts, setSimilarProducts] = useState([]);
+
+  const productCategory = useMemo(() => {
+    return categories?.find(
+      (category) => category?.id === product?.categoryId
+    );
+  }, [product, categories]);
+
+  // Use loader data first, fallback to fetch if needed
+  useEffect(() => {
+    if (loaderData?.product) {
+      setProduct(loaderData.product);
+      setLoading(false);
+    } else if (slug) {
+      // Fallback fetch if loader data is not available
+      const fetchProduct = async () => {
+        try {
+          setLoading(true);
+          const productData = await productsAPI.getProductBySlug(slug);
+          setProduct(productData);
+        } catch (err) {
+          console.error('Error fetching product: ', err);
+          setError('Không thể tải thông tin sản phẩm');
+        } finally {
+          setLoading(false);
+        }
+      };
+      fetchProduct();
+    }
+  }, [loaderData, slug]);
+
+  // Fetch similar products
+  useEffect(() => {
+    const fetchSimilarProducts = async () => {
+      if (product?.categoryId) {
+        try {
+          const result = await productsAPI.getAllProducts(product.categoryId, product.categoryTypeId);
+          // Loại bỏ sản phẩm hiện tại và deduplication
+          const excludedProduct = result?.filter((item) => item?.id !== product?.id);
+          const uniqueProducts = _.uniqBy(excludedProduct, 'id');
+          setSimilarProducts(uniqueProducts || []);
+        } catch (err) {
+          console.error('Error fetching similar products:', err);
+        }
+      }
+    };
+    fetchSimilarProducts();
+  }, [product?.categoryId, product?.categoryTypeId, product?.id]);
+
+  // Reset selectedColor when selectedSize changes
+  useEffect(() => {
+    setSelectedColor('');
+  }, [selectedSize]);
+
+  useEffect(() => {
+    if (product) {
+      setImage(product?.productImage?.[0]?.url);
+      const arrayLinks = [
+        { title: 'Trang chủ', path: '/' },
+        { title: productCategory?.name || 'Sản phẩm', path: '/san-pham' }
+      ];
+        
+      const productType = productCategory?.categoryTypes?.find((item) => item?.id === product?.categoryTypeId);
+      if (productType) {
+        arrayLinks.push({
+          title: productType?.name,
+          path: productType?.name
+        });
+      }
+      setBreadCrumbLinks(arrayLinks);
+    }
+  }, [productCategory, product]);
+
+  const colors = useMemo(() => {
+    if (!product?.variants || product.variants.length === 0) {
+      return [];
+    }
+    
+    // Nếu có selectedSize, filter colors theo size đó
+    let filteredVariants = product.variants;
+    if (selectedSize) {
+      filteredVariants = product.variants.filter(v => v.size === selectedSize);
+    }
+  
+    const colorSet = _.uniq(_.map(filteredVariants, 'color'));
+    return colorSet.filter(Boolean);
+  }, [product, selectedSize]);
+
+  const sizes = useMemo(() => {
+    const sizeSet = _.uniq(_.map(product?.variants, 'size'));
+    return sizeSet.filter(Boolean);
+  }, [product]);
+
+  if (loading) {
+    return (
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '400px' }}>
+        <CircularProgress />
+      </div>
+    );
+  }
+
+  if (error || !product) {
+    return (
+      <div style={{ textAlign: 'center', padding: '50px' }}>
+        <Typography variant="h6" color="error">
+          {error || 'Không tìm thấy sản phẩm'}
+        </Typography>
+      </div>
+    );
+  }
+
+  return (
+    <div id="productDetail">
+      <div id="productDetail_blk0">
+        <Breadcrumbs aria-label="breadcrumb" className="blk0">
+          <Link
+            href="/"
+            underline="hover"
+            sx={{ display: "flex", alignItems: "center" }}
+            color="inherit"
+            className="blk0_home-text blk0-text"
+          >
+            Trang Chủ
+          </Link>
+          <Typography
+            sx={{
+              color: "text.primary",
+              display: "flex",
+              alignItems: "center",
+            }}
+            className="blk0_product-text blk0-text"
+          >
+            Chi Tiết Sản Phẩm
+          </Typography>
+          <Typography
+            sx={{
+              color: "text.primary",
+              display: "flex",
+              alignItems: "center",
+            }}
+            className="blk0_product-text blk0-text"
+          >
+            {product?.name}
+          </Typography>
+        </Breadcrumbs>
+      </div>
+      <div id="productDetail_blk1">
+        <div id="productDetail_blk1-img">
+          <SwiperSlider product={product}/>
+        </div>
+        <div id="productDetail_blk1-info">
+          <p className="blk1_title-big">
+            {product?.name}
+          </p>
+          <div className='blk1_evalute'>
+            <Rating
+              name="half-rating-read"
+              value={product?.rating || 0}
+              precision={0.25}
+              readOnly
+              className="blk1_evalute-icon"
+            />
+            <p className="blk1_evalute-text">
+              {product?.rating || 'Chưa có đánh giá'}
+            </p>
+          </div>
+          <div className='blk1_price'>
+            <p className='blk1_price-text'>
+              {formatMoney(product?.price)}
+            </p>
+          </div>
+          {sizes?.length > 0 && (
+            <div className='blk1_size'>
+              <p className="blk1_size-title">
+                Kích cỡ
+              </p>
+              <div className="blk1_sizeList">
+                <SizeFilter 
+                  sizes={sizes} 
+                  selectedSize={selectedSize}
+                  onSizeChange={setSelectedSize}
+                />
+              </div>
+            </div>
+          )}
+          {colors?.length > 0 && (
+            <div className='blk1_color'>
+              <p className="blk1_color-title">
+                Màu sắc
+              </p>
+              <div className="blk1_colorList">
+                <ColorFilter 
+                  colors={colors}
+                  selectedColor={selectedColor}
+                  onColorChange={setSelectedColor}
+                />
+              </div>
+            </div>
+          )}
+          <div className="blk1_addCart">
+            <AddToCart 
+              product={product}
+              selectedSize={selectedSize}
+              selectedColor={selectedColor}
+            />
+          </div>
+        </div>
+      </div>
+      <div id="productDetail_blk2">
+        <p className="productDetail_blk2-title">
+          Mô tả:
+        </p>
+        <div className='productDetail_blk2-content'>
+          <p className="blk2_content-text">
+            {product?.description}
+          </p>
+        </div>
+      </div>
+      <div id="productDetail_blk3">
+        <p className="productDetail_blk3-title">
+          Bình luận:
+        </p>
+      </div>
+    </div>
+  );
+};
+
+export default ProductDetail;

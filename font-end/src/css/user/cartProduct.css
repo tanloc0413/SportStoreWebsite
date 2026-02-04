@@ -111,7 +111,6 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    display: none;
 }
 
 #cart_empty-img {
@@ -142,8 +141,14 @@
     height: auto;
     border-radius: 5px;
     justify-content: space-between;
-    padding-bottom: 15px;
     border-bottom: 1px solid #838383;
+    margin-top: 15px;
+    padding-bottom: 15px;
+}
+
+#cart_list-item:first-child {
+    padding-bottom: 15px;
+    margin-top: 0;
 }
 
 #cart_list-item:last-child {
@@ -269,6 +274,7 @@
     line-height: 1;
     color: #646464;
     font-size: 1.7rem;
+    cursor: pointer;
 }
 
 .cart_list-icon:active, .cart_list-icon:hover {
@@ -409,7 +415,7 @@
     font-size: 1.1rem;
 }
 
-#amount_remove {
+.amount_remove {
     color: #d81f19;
     font-size: 1.2rem;
     display: flex;
@@ -420,6 +426,11 @@
     font-weight: 600;
     margin-top: 5px;
     cursor: pointer;
+}
+
+.donRemove {
+    color: #8e8e8e;
+    pointer-events: none;
 }
 
 .amount_remove-icon {
@@ -478,7 +489,7 @@
     font-weight: 700;
 }
 
-#amount_btn {
+.amount_btn {
     width: 100%;
     color: #fff;
     border: none;
@@ -486,9 +497,20 @@
     border-radius: 6px;
     text-transform: uppercase;
     font-weight: 700;
-    background-color: #d4d4d4;
     padding: 15px 0;
     line-height: 1;
-    cursor: not-allowed;
+    background-color: #ff1313;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.amount-noClick {
+    cursor: not-allowed;
+    background-color: #d4d4d4;
+}
+
+.amount_notifi {
+    font-size: 1.1rem;
+    color: #d81f19;
+    font-family: 'Open Sans', sans-serif;
+    margin-top: 3px;
 }

@@ -1,14 +1,15 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import '../../css/user/filterProduct.css';
 
-const SizeFilter = ({sizes, multi=true}) => {
+const SizeFilter = ({ sizes, multi=true, onChange }) => {
     const [appliedSize,setAppliedSize] = useState([]);
-    const onClickDiv = useCallback((item)=>{
-        if(appliedSize.indexOf(item) > -1){  
+
+    const onClickDiv = useCallback((item) => {
+        if(appliedSize.indexOf(item) > -1) {  
             setAppliedSize(appliedSize?.filter(size => size !== item));
         }
-        else{
+        else {
             if(multi) {
                 setAppliedSize([...appliedSize,item]);
             }
@@ -17,19 +18,19 @@ const SizeFilter = ({sizes, multi=true}) => {
             }
             setAppliedSize([item]);
         }
-    // }, [appliedSize, multi]);
-    }, [appliedSize]);
+    }, [appliedSize, multi]);
  
-    // useEffect(() => {
-    //     onChange && onChange(appliedSize);
-    // }, [appliedSize, onChange])
+    useEffect(() => {
+        onChange && onChange(appliedSize);
+    }, [appliedSize, onChange])
     
 
     return (
         <div className='sizeList'>
             {
-                sizes?.map(item => (
+                sizes?.map((item,index) => (
                     <div 
+                        key={index}
                         className='sizeList_item'
                         style = {appliedSize?.includes(item) ? {
                             background: '#d81f19',

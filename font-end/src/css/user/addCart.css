@@ -56,6 +56,13 @@ input[type="number"]::-webkit-outer-spin-button {
     cursor: pointer;
 }
 
+#order_addQuantity-btn:hover {
+    background-color: #198cff;
+    .order_addQuantity-text {
+        color: #fff;
+    }
+}
+
 #order_addQuantity-input {
     width: 3.5rem;
     height: 2.5rem;
@@ -70,17 +77,17 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 .order_addQuantity-text {
-    font-weight: 400;
+    font-weight: 600;
     color: #5e5959;
     font-family: "Roboto", serif;
 }
 
 .order_addQuantity-text1 {
-    font-size: 22px;
+    font-size: 20px;
 }
 
 .order_addQuantity-text2 {
-    font-size: 19px;
+    font-size: 20px;
 }
 
 #order_addToCart {
@@ -94,7 +101,7 @@ input[type="number"]::-webkit-outer-spin-button {
     height: 100%;
     border-radius: 5px;
     color: #fff;
-    background-color: #ff140b;
+    background-color: #227bff;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -105,7 +112,7 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 .addToCart:hover {
-    background-color: #e0130c;
+    background-color: #1c61c9;
 }
 
 .addToCart-icon {
@@ -119,4 +126,19 @@ input[type="number"]::-webkit-outer-spin-button {
     font-family: "Nunito Sans", sans-serif;
     text-align: center!important;
     margin-top: 3px;
+}
+
+.order_error {
+    margin-top: 5px;
+}
+
+.addToCart-error {
+    width: 100%;
+    color: #e0130c;
+    font-size: 17px;
+    font-family: "Open Sans", serif;
+}
+
+.addToCart-error::first-letter {
+    text-transform: uppercase;
 }

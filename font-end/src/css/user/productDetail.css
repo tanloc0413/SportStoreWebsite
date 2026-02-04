@@ -38,7 +38,9 @@
 }
 
 #productDetail_blk1-img {
-    width: 40rem;
+    flex: 0 0 40%;
+    max-width: 40rem;
+    min-height: 450px;
 }
 
 .blk1_img-big {
@@ -77,7 +79,8 @@
 }
 
 #productDetail_blk1-info {
-    width: 59rem;
+    flex: 1;
+    min-width: 0;
 }
 
 .blk1_title-big {
@@ -153,4 +156,3 @@
 #productDetail_blk3 {
     margin-top: 10px;
 }
-
