@@ -143,9 +143,9 @@ const CartPage = () => {
     setSelectedItems([]);
   };
 
-  console.log("isLoggedIn ", isLoggedIn, isTokenValid());
+  // console.log("isLoggedIn ", isLoggedIn, isTokenValid());
 
-  console.log("Cart items:", cartItems);
+  // console.log("Cart items:", cartItems);
 
   return (
     <div id="cartPage">

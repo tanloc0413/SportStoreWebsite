@@ -16,29 +16,43 @@ import { setLoading } from "../../store/features/common";
 const OrderPage = () => {
   const cartItems = useSelector(selectCartItems);
   const dispatch = useDispatch();
-  const [userInfo,setUserInfo] = useState([]);
+  // const [userInfo,setUserInfo] = useState([]);
+  const [userInfo, setUserInfo] = useState({});
   const navigate = useNavigate();
   const [paymentMethod,setPaymentMethod] = useState('');
   const [payMethod, setPayMethod] = useState("cod");
-  
+
   const subTotal = useMemo(()=>{
     let value = 0;
     cartItems?.forEach(element => {
-       value += element?.subTotal 
+      value += element?.subTotal 
     });
-    return value?.toFixed(2);
+    // return value?.toFixed(2);
+    return value;
   },[cartItems]);
 
   useEffect(()=>{
     dispatch(setLoading(true))
     fetchUserDetails().then(res=>{
-      setUserInfo(res);
+      // setUserInfo(res);
+      setUserInfo(res ?? {});
+      console.log(res);
     }).catch(err=>{
-
+      console.error("Không thể lấy thông tin người dùng:", err);
     }).finally(()=>{
       dispatch(setLoading(false))
     })
   },[dispatch]);
+
+  const shippingFee = useMemo(() => {
+    if (subTotal > 1_000_000) return 0;
+    if (subTotal > 500_000) return 15_000;
+    return 30_000;
+  }, [subTotal]);
+
+  const totalPayment = useMemo(() => {
+    return subTotal + shippingFee;
+  }, [subTotal, shippingFee]);
 
   return (
     <div id="orderPage">
@@ -48,8 +62,6 @@ const OrderPage = () => {
           <p id="shipping-title">Địa chỉ nhận hàng:</p>
         </div>
         <div id="orderPage_shipping2">
-          {/* {userInfo?.addressList && ( */}
-          {/* {primaryAddress?.length > 0 && ( */}
           {userInfo?.addressList && 
             <>
               <div id="shipping-contact">
@@ -163,15 +175,17 @@ const OrderPage = () => {
           </div>
           <div className="orderPage_total-blk">
             <p className="total-text1">Tổng phí vận chuyển:</p>
-            <p className="total-text2">1.000.000.000đ</p>
+            <p className="total-text2">{formatMoney(shippingFee)}</p>
           </div>
           <div className="orderPage_total-blk">
             <p className="total-text1">Tổng số tiền giảm giá:</p>
-            <p className="total-text2 total-text3">-1.000.000.000đ</p>
+            <p className="total-text2 total-text3">
+              
+            </p>
           </div>
           <div className="orderPage_total-blk">
             <p className="total-text4">Tổng thanh toán:</p>
-            <p className="total-text5">{formatMoney(subTotal)}</p>
+            <p className="total-text5">{formatMoney(totalPayment)}</p>
           </div>
           <div className="orderPage_total-btn">
             <button id="total-btn">Đặt hàng</button>

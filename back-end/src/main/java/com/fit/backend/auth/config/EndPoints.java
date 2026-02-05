@@ -19,7 +19,8 @@ public final class EndPoints {
             "/api/brands",
             "/api/data/**",
             "/api/recommendations/**",
-            "/images/**"
+            "/images/**",
+            "/api/payment/vnpay/callback"
     };
 
     // Public POST API
