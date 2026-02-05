@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import { Link, useNavigate } from 'react-router-dom';
 import { loginAPI } from '../../api/authentication';
@@ -8,6 +8,7 @@ import { useDispatch } from 'react-redux';
 import '../../css/user/login.css';
 import { setLoading } from '../../store/features/common';
 import GoogleIcon from '../../imgs/google.png';
+import { API_BASE_URL } from '../../api/constant';
 
 const Login = () => {
   // hiện mật khẩu
@@ -36,6 +37,7 @@ const Login = () => {
 
     if (!values.password || values.password.length < 5) {
       setError("Mật khẩu phải có ít nhất 5 ký tự!");
+      // dispatch(setLoading(false));
       return;
     }
 
@@ -48,13 +50,12 @@ const Login = () => {
         setError("Đã xảy ra lỗi!");
       }
     })
-    .catch(err => {
-      setError("Thông tin đăng nhập không hợp lệ!", err);
+    .catch(() => {
+      setError("Thông tin đăng nhập không hợp lệ!");
     })
     .finally(() => {
       dispatch(setLoading(false));
     });
-    console.log("Value:", values);
   }, [dispatch, navigate, values]);
 
   // thay đổi giá trị
@@ -68,7 +69,7 @@ const Login = () => {
 
   // đăng nhập bằng Google
   const handleClick = useCallback(() => {
-    window.location.href = "http://localhost:8080/oauth2/authorization/google";
+    window.location.href = API_BASE_URL + "/oauth2/authorization/google";
   },[])
 
   return (
@@ -122,8 +123,6 @@ const Login = () => {
           </div>
           <div className="input-box btn-box">
             <button
-              type="submit"
-              value="login"
               className='login-btn'
             >
               Đăng nhập

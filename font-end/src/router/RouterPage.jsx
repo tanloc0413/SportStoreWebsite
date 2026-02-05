@@ -1,18 +1,25 @@
 import { Outlet, useLocation } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
 
 import HeaderPage from '../component/HeaderPage/Header';
 import FooterPage from '../component/FooterPage/Footer';
 import { isTokenValid } from '../util/jwt-helper';
 
 const RouterPage = () => {
-    const isLoggedIn = isTokenValid();
-    const location = useLocation();
+    // const isLoggedIn = isTokenValid();
+    const [isLoggedIn, setIsLoggedIn] = useState(isTokenValid());
 
-    const hideFooterRoutes = ["/dang-nhap", "/dang-ky"];
-    const shouldHideFooter = hideFooterRoutes.includes(location.pathname);
-    const isLoading = useSelector((state) => state?.commonState?.loading);
+    useEffect(() => {
+        const syncAuthState = () => setIsLoggedIn(isTokenValid());
 
+        window.addEventListener('auth-changed', syncAuthState);
+        window.addEventListener('storage', syncAuthState);
+
+        return () => {
+            window.removeEventListener('auth-changed', syncAuthState);
+            window.removeEventListener('storage', syncAuthState);
+        }
+    }, []);
 
 
     return (

@@ -18,10 +18,12 @@ export const isTokenValid = () => {
 
 export const saveToken = (token) => {
   localStorage.setItem('authToken',token);
+  window.dispatchEvent(new Event('auth-changed'));
 }
 
 export const logOut = () => {
   localStorage.removeItem('authToken');
+  window.dispatchEvent(new Event('auth-changed'));
 }
 
 export const getToken = () => {

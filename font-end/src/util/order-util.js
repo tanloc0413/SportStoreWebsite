@@ -10,10 +10,10 @@ export const createOrderRequest = (cartItems,userId,addressId)=>{
     cartItems?.map((item)=>{
         amount += item?.subTotal; 
         orderItems.push({
-            productId: item.productId,
-            productVariantId: item?.variant?.id,
-            discount: 0,
-            quantity: item?.quantity
+          productId: item.productId,
+          productVariantId: item?.variant?.id,
+          discount: 0,
+          quantity: item?.quantity
         })
     });
     request.orderItemRequests = orderItems;

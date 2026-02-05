@@ -16,15 +16,15 @@ export const userSlice = createSlice({
       }
     },
     saveAddress: (state,action) => {
-        const addresses = [...state?.userInfo?.addressList] ?? [];
-        addresses.push(action?.payload);
-        return {
-          ...state,
-          userInfo: {
-            ...state?.userInfo,
-            addressList:addresses
-          }
+      const addresses = [...state?.userInfo?.addressList] ?? [];
+      addresses.push(action?.payload);
+      return {
+        ...state,
+        userInfo: {
+          ...state?.userInfo,
+          addressList:addresses
         }
+      }
     },
     removeAddress: (state, action) => {
       return {
