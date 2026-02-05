@@ -196,8 +196,6 @@ const CartPage = () => {
                     <input 
                       type="checkbox" 
                       id="cart_list-check"
-                      // checked={selectedItems.includes(item.variant?.id)}
-                      // onChange={() => onSelectItem(item.variant?.id)}
                       checked={selectedItems.includes(getItemKey(item))}
                       onChange={() => onSelectItem(getItemKey(item))}
                     />
