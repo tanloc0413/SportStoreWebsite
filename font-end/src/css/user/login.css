@@ -3,12 +3,12 @@
     height: 100%;
     background-color: #fff;
     background-image: url('https://images4.alphacoders.com/973/thumb-1920-973967.jpg');
-    padding: 3% 5%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     background-size: cover;
+    padding: 10rem 0 10rem 0;
 }
 
 .login-form {

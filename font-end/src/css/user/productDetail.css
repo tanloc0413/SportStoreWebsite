@@ -118,6 +118,7 @@
     font-weight: 700;
     color: #ff1c20;
     font-family: "Nunito Sans", sans-serif;
+    user-select: none;
 }
 
 .blk1_size-title, .blk1_color-title {

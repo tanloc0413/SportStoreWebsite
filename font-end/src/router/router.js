@@ -8,6 +8,7 @@ import ProductDetail from '../page/ProductDetailPage/ProductDetail';
 import RegisterPage from '../page/RegisterPage/Register';
 import ProductListPage from '../page/ProductListPage/ProductListPage';
 import GoogleLogin from "../page/LoginPage/GoogleLogin";
+import OrderPage from '../page/OrderPage/OrderPage';
 import { loadProductBySlug } from "./productSlug";
 
 export const router = createBrowserRouter ([
@@ -44,17 +45,21 @@ export const router = createBrowserRouter ([
                 element: <CartPage/>
             },
             {
-              path: '/dang-nhap',
-              element: <LoginPage/>
+                path: '/dang-nhap',
+                element: <LoginPage/>
+            },  
+            {   
+                path: '/dang-ky',
+                element: <RegisterPage/>,
             },
             {
-              path: '/dang-ky',
-              element: <RegisterPage/>,
+                path: '/oauth2/callback',
+                element: <GoogleLogin/>
             },
             {
-              path: '/oauth2/callback',
-              element: <GoogleLogin/>
-            },
+                path: '/thanh-toan',
+                element: <OrderPage/>
+            }
         ]
     },
     // {

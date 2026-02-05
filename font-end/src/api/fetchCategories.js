@@ -7,7 +7,8 @@ export const fetchCategories = async() => {
     try {
         const result = await axios.get(url);
         return result?.data;
-    } catch(e) {
+    } 
+    catch(e) {
         console.log(e);
     }
 }

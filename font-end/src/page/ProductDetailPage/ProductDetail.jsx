@@ -168,7 +168,7 @@ const ProductDetail = () => {
         </div>
         <div id="productDetail_blk1-info">
           <p className="blk1_title-big">
-            {/* {product?.name} */}
+            {product?.name}
           </p>
           <div className='blk1_evalute'>
             <Rating

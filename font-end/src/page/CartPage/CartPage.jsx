@@ -7,9 +7,9 @@ import "../../css/user/cartProduct.css";
 import CartEmpty from "../../imgs/cart-empty.png";
 import VoucherImg from "../../imgs/voucher-icon.svg";
 import { useCallback, useMemo, useState, useEffect } from "react";
-import { 
-  delteItemFromCartAction, 
-  updateItemToCartAction 
+import {
+  delteItemFromCartAction,
+  updateItemToCartAction,
 } from "../../store/actions/cartAction";
 import { formatMoney } from "../../component/FormatMoney/formatMoney";
 import { selectCartItems } from "../../store/features/cart";
@@ -25,6 +25,13 @@ const CartPage = () => {
     new Date().toLocaleDateString("vi-VN"),
   );
 
+  // điều hướng
+  const navigate = useNavigate();
+
+  const isLoggedIn = useMemo(() => {
+    return isTokenValid();
+  }, []);
+
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentDate(new Date().toLocaleDateString("vi-VN"));
@@ -33,16 +40,15 @@ const CartPage = () => {
     return () => clearInterval(timer);
   }, []);
 
-  const navigate = useNavigate();
-
   // tạo key
-  const getItemKey = (item) => `${item.id || item.productId}-${item.variant?.id}`;
+  const getItemKey = (item) =>
+    `${item.id || item.productId}-${item.variant?.id}`;
 
   const onChangeQuantity = useCallback(
     (value, productId, variantId) => {
       dispatch(
         updateItemToCartAction({
-          productId: productId, // Đảm bảo action này truyền đủ productId
+          productId: productId,
           variant_id: variantId,
           quantity: value,
         }),
@@ -64,44 +70,38 @@ const CartPage = () => {
     setModalIsOpen(false);
   }, []);
 
-  const onDeleteItem = useCallback((productId, variantId) => {
-    dispatch(
-      delteItemFromCartAction({ productId, variantId }) 
-    );
-    setModalIsOpen(false);
-  }, [deleteItem, dispatch]);
+  const onDeleteItem = useCallback(
+    (productId, variantId) => {
+      dispatch(delteItemFromCartAction({ productId, variantId }));
+      setModalIsOpen(false);
+    },
+    [deleteItem, dispatch],
+  );
 
-  const subTotal = useMemo(()=>{
+  const subTotal = useMemo(() => {
     let value = 0;
-    cartItems?.forEach(element => {
-       value += element?.subTotal 
+    cartItems?.forEach((element) => {
+      value += element?.subTotal;
     });
     return value?.toFixed(2);
-  },[cartItems]);
-
-  const isLoggedIn = useMemo(() => {
-    return isTokenValid();
-  }, []);
-  console.log("isLoggedIn ", isLoggedIn, isTokenValid());
+  }, [cartItems]);
 
   // tích chọn tất cả
-  const isSelectAll = cartItems.length > 0 && selectedItems.length === cartItems.length;
-  
+  const isSelectAll =
+    cartItems.length > 0 && selectedItems.length === cartItems.length;
+
   const onSelectAll = (e) => {
     if (e.target.checked) {
-      // FIX: Chọn tất cả thì lưu danh sách các key duy nhất
-      setSelectedItems(cartItems.map(item => getItemKey(item)));
+      setSelectedItems(cartItems.map((item) => getItemKey(item)));
     } else {
       setSelectedItems([]);
     }
-  };  
+  };
 
   // tích chọn từng sản phẩm
   const onSelectItem = (key) => {
-    setSelectedItems(prev =>
-      prev.includes(key)
-        ? prev.filter(k => k !== key)
-        : [...prev, key]
+    setSelectedItems((prev) =>
+      prev.includes(key) ? prev.filter((k) => k !== key) : [...prev, key],
     );
   };
 
@@ -113,11 +113,13 @@ const CartPage = () => {
 
     // nếu không chọn gì hoặc đã chọn tất cả
     if (isSelectAll) {
-      cartItems.forEach(item => {
-        dispatch(delteItemFromCartAction({
-          productId: item.productId,
-          variantId: item.variant.id
-        }));
+      cartItems.forEach((item) => {
+        dispatch(
+          delteItemFromCartAction({
+            productId: item.productId,
+            variantId: item.variant.id,
+          }),
+        );
       });
 
       setSelectedItems([]);
@@ -125,24 +127,25 @@ const CartPage = () => {
     }
 
     // xóa theo lựa chọn
-    selectedItems.forEach(key => {
-      const item = cartItems.find(
-        i => getItemKey(i) === key
-      );
+    selectedItems.forEach((key) => {
+      const item = cartItems.find((i) => getItemKey(i) === key);
 
       if (!item) return;
 
-      dispatch(delteItemFromCartAction({
-        productId: item.productId,
-        variantId: item.variant.id
-      }));
+      dispatch(
+        delteItemFromCartAction({
+          productId: item.productId,
+          variantId: item.variant.id,
+        }),
+      );
     });
 
     setSelectedItems([]);
   };
 
-  console.log("Cart items:", cartItems);
+  console.log("isLoggedIn ", isLoggedIn, isTokenValid());
 
+  console.log("Cart items:", cartItems);
 
   return (
     <div id="cartPage">
@@ -150,13 +153,11 @@ const CartPage = () => {
         <div id="cart_header">
           <div id="cart_title">
             <p id="cart_title-text">Giỏ hàng</p>
-            <p id="cart_time">
-              {currentDate}
-            </p>
+            <p id="cart_time">{currentDate}</p>
           </div>
           <div id="cart_description">
             <div id="cart_description1">
-              <input 
+              <input
                 type="checkbox"
                 id="cart_description1-check"
                 onChange={onSelectAll}
@@ -180,99 +181,93 @@ const CartPage = () => {
           </div>
         </div>
         <div id="cart_container">
-          {
-            !cartItems?.length &&  (
-              <div className="cart_empty">
-                <img src={CartEmpty} alt="Giỏ hàng trống" id="cart_empty-img" />
-                <p id="cart_empty-text">Chưa có sản phẩm trong giỏ hàng của bạn!</p>
-              </div>
-            )
-          }
+          {!cartItems?.length && (
+            <div className="cart_empty">
+              <img src={CartEmpty} alt="Giỏ hàng trống" id="cart_empty-img" />
+              <p id="cart_empty-text">
+                Chưa có sản phẩm trong giỏ hàng của bạn!
+              </p>
+            </div>
+          )}
           <ul id="cart_list">
-            {
-              cartItems?.map((item,index) => (
-                <li id="cart_list-item" key={index}>
-                  <div id="cart_list-item1">
-                    <input 
-                      type="checkbox" 
-                      id="cart_list-check"
-                      checked={selectedItems.includes(getItemKey(item))}
-                      onChange={() => onSelectItem(getItemKey(item))}
+            {cartItems?.map((item, index) => (
+              <li id="cart_list-item" key={index}>
+                <div id="cart_list-item1">
+                  <input
+                    type="checkbox"
+                    id="cart_list-check"
+                    checked={selectedItems.includes(getItemKey(item))}
+                    onChange={() => onSelectItem(getItemKey(item))}
+                  />
+                  <div id="cart_list-product">
+                    <img
+                      src={item?.image || CartEmpty}
+                      alt="sản phẩm"
+                      id="cart_list-img"
                     />
-                    <div id="cart_list-product">
-                      <img
-                        src={item?.image || CartEmpty}
-                        alt="sản phẩm"
-                        id="cart_list-img"
-                      />
-                      <div id="cart_list-text">
-                        <p id="cart_list-title">
-                          {item?.name || 'Name'}
-                        </p>
-                        <p id="cart_list-cate">
-                          Loại hàng:
-                        </p>
-                      </div>
+                    <div id="cart_list-text">
+                      <p id="cart_list-title">{item?.name || "Name"}</p>
+                      <p id="cart_list-cate">Loại hàng:</p>
                     </div>
                   </div>
-                  <div id="cart_list-item2">
-                    <p id="cart_list-price" className="cart_product">
-                      {formatMoney(item?.price)}
-                    </p>
-                    <div className="cart_list-quantity">
-                      <button 
-                        className="cart_list-btn1"
-                        onClick={() =>
-                          onChangeQuantity(
-                            item.quantity > 1 ? item.quantity - 1 : 1,
-                            item.productId,
-                            item.variant?.id
-                          )
-                        }
-                      >
-                        -
-                      </button>
-                      <input 
-                        type="number"
-                        className="cart_list-input"
-                        value={item.quantity}
-                        onChange={(e) =>
-                          onChangeQuantity(
-                            Number(e.target.value),
-                            item.productId,
-                            item.variant?.id
-                          )
-                        }
-                      />
-                      <button 
-                        className="cart_list-btn2"
-                        onClick={() =>
-                          onChangeQuantity(
-                            item.quantity + 1,
-                            item.productId,
-                            item.variant?.id
-                          )
-                        }
-                      >
-                        +
-                      </button>
-                    </div>
-                    <p id="cart_list-money" className="cart_product">
-                      {formatMoney(item.subTotal)}
-                    </p>
-                    <div 
-                      id="cart_list-linkIcon"
-                      className="cart_product"
+                </div>
+                <div id="cart_list-item2">
+                  <p id="cart_list-price" className="cart_product">
+                    {formatMoney(item?.price)}
+                  </p>
+                  <div className="cart_list-quantity">
+                    <button
+                      className="cart_list-btn1"
                       onClick={() =>
-                        onDeleteItem(item?.productId, item?.variant?.id)
+                        onChangeQuantity(
+                          item.quantity > 1 ? item.quantity - 1 : 1,
+                          item.productId,
+                          item.variant?.id,
+                        )
                       }
                     >
-                      <FaRegTrashCan className="cart_list-icon" />
-                    </div>
+                      -
+                    </button>
+                    <input
+                      type="number"
+                      className="cart_list-input"
+                      value={item.quantity}
+                      onChange={(e) =>
+                        onChangeQuantity(
+                          Number(e.target.value),
+                          item.productId,
+                          item.variant?.id,
+                        )
+                      }
+                    />
+                    <button
+                      className="cart_list-btn2"
+                      onClick={() =>
+                        onChangeQuantity(
+                          item.quantity + 1,
+                          item.productId,
+                          item.variant?.id,
+                        )
+                      }
+                    >
+                      +
+                    </button>
                   </div>
-                </li>
-              ))
-            }
+                  <p id="cart_list-money" className="cart_product">
+                    {formatMoney(item.subTotal)}
+                  </p>
+                  <div
+                    id="cart_list-linkIcon"
+                    className="cart_product"
+                    onClick={() =>
+                      onDeleteItem(item?.productId, item?.variant?.id)
+                    }
+                  >
+                    <FaRegTrashCan className="cart_list-icon" />
+                  </div>
+                </div>
+              </li>
+            ))}
           </ul>
         </div>
       </div>
@@ -289,13 +284,9 @@ const CartPage = () => {
         </div>
         {/* <hr id='cart_payment-line'/> */}
         <div id="amount">
-          <div 
-            id="amount1"
-          >
-            <p id="amount_count">
-              Số sản phẩm: {cartItems.length}
-            </p>
-            <div 
+          <div id="amount1">
+            <p id="amount_count">Số sản phẩm: {cartItems.length}</p>
+            <div
               onClick={onDeleteSelected}
               className={`amount_remove ${
                 selectedItems.length === 0 ? "donRemove" : ""
@@ -303,12 +294,11 @@ const CartPage = () => {
             >
               <FaRegTrashCan className="amount_remove-icon" />
               <p id="amount_remove-text">
-                {
-                  selectedItems.length === 0
-                    ? "Xóa hết"
-                    : isSelectAll
-                    ? "Xóa hết"
-                    : "Xóa theo lựa chọn"
+                {selectedItems.length === 0
+                  ? "Xóa hết"
+                  : isSelectAll
+                  ? "Xóa hết"
+                  : "Xóa theo lựa chọn"
                 }
               </p>
             </div>
@@ -323,35 +313,33 @@ const CartPage = () => {
               </p>
             </div>
             <div id="amount_title2">
-              <p id="amount_title2-text">Tổng tiền (Bao gồm VAT):</p>
-              <p id="amount_title2-money">
+              <p id="amount_title2-text">
+                Tổng tiền (Bao gồm VAT):
+              </p>
+              <p id="amount_title2-money"
+              >
                 {formatMoney(subTotal)}
               </p>
             </div>
-            {
-              isLoggedIn && (
-                <button 
-                  className="amount_btn" 
-                  onClick={() => navigate('/thanh-toan')}
-                >
+            {isLoggedIn && (
+              <button
+                className={`amount_btn ${cartItems.length === 0 ? "amount-noClick" : ""}`}
+                onClick={() => navigate("/thanh-toan")}
+                disabled={cartItems.length === 0}
+              >
+                Thanh toán
+              </button>
+            )}
+            {!isLoggedIn && (
+              <>
+                <button className="amount_btn amount-noClick">
                   Thanh toán
                 </button>
-              )
-            }
-            {
-              !isLoggedIn && (
-                <>
-                  <button 
-                    className="amount_btn amount-noClick"
-                  >
-                    Thanh toán
-                  </button>
-                  <p className="amount_notifi">
-                    ❗️Vui lòng đăng nhập để thanh toán
-                  </p>
-                </>
-              )
-            }
+                <p className="amount_notifi">
+                  ❗️Vui lòng đăng nhập để thanh toán
+                </p>
+              </>
+            )}
           </div>
         </div>
       </div>

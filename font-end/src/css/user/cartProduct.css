@@ -125,6 +125,7 @@
     font-weight: 500;
     color: #a7a7a7;
     font-family: "Open Sans", sans-serif;
+    user-select: none;
 }
 
 #cart_list {
@@ -483,6 +484,10 @@
     font-weight: bold;
 }
 
+#amount_title2-text {
+    color: #d81f19;
+}
+
 #amount_title2-money {
     color: #d81f19;
     font-size: 1.5rem;
@@ -504,8 +509,9 @@
 }
 
 .amount-noClick {
-    cursor: not-allowed;
+    cursor: default;
     background-color: #d4d4d4;
+    user-select: none;
 }
 
 .amount_notifi {

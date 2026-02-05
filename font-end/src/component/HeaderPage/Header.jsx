@@ -1,21 +1,32 @@
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import { useState } from 'react';
 import { IoMdSearch } from "react-icons/io";
 import { IoCartOutline } from "react-icons/io5";
 import { FaRegUser } from "react-icons/fa";
 import { AiOutlineBell } from "react-icons/ai";
 import Nav from 'react-bootstrap/Nav';
-import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux'
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 // files
 import '../../css/user/header.css';
 import LogoIcon from '../../imgs/sport.png';
 import { countCartItems } from '../../store/features/cart';
+import { logOut } from '../../util/jwt-helper';
 
 const Header = ({variant="default"}) => {
   const [showLogout,setShowLogout] = useState(false);
 
   const cartLength = useSelector(countCartItems);
+
+  const navigate = useNavigate();
+
+  const location = useLocation();
+
+  const handleLogout = () => {
+    logOut();
+    setShowLogout(false);
+    navigate("/");
+  };
 
   return (
     <header id='header'>
@@ -96,7 +107,12 @@ const Header = ({variant="default"}) => {
             </div>
           </Link>
           {variant === "default" && (
-            <Link to='/dang-nhap' className='button_login'>
+            <Link 
+              to='/dang-nhap' 
+              className={`button_loginH ${
+                location.pathname === "/dang-nhap" ? "activeHeader" : ""
+              }`}
+            >
               Đăng Nhập
             </Link>
             )
@@ -129,7 +145,7 @@ const Header = ({variant="default"}) => {
                   </a>
                   <hr className='line_blk-user'/>
                   <div
-                    // onClick={handleLogout}
+                    onClick={handleLogout}
                     className='logout-button'
                   >
                     Đăng Xuất

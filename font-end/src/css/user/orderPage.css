@@ -323,7 +323,7 @@
 }
 
 .orderPage_total-btn, .orderPage_total-blk {
-    width: 30rem;
+    width: 28rem;
 }
 
 .orderPage_total-blk:last-child {
@@ -337,9 +337,10 @@
 }
 
 #total-btn {
+    width: 100%;
     color: #fff;
     background-color: #d81f19;
-    padding: 12px 70px;
+    padding: 12px 0;
     font-size: 1.3rem;
     font-weight: 700;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;

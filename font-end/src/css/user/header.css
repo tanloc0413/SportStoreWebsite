@@ -184,7 +184,7 @@
 
 /* Tài Khoản */
 #blk_user {
-    width: 25%;
+    width: auto;
     justify-content: end;
     flex-direction: row;
     column-gap: 2rem;
@@ -340,17 +340,38 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    cursor: point;
+    cursor: pointer;
 }
 
-.button_login, .button_signup {
-    width: auto;
-    padding: 5px 10px;
+.button_loginH, .button_signup {
     font-size: 16px;
     border: 1px solid #318aff;
     border-radius: 5px;
     color: #318aff!important;
 }
+
+.activeHeader {
+    color: #fff!important;
+    background-color: #318aff;    
+}
+
+.button_signup {
+    width: auto;
+    padding: 5px 10px;
+}
+
+.button_loginH {
+    width: 7.5rem;
+    height: 2.7rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.1rem;
+    font-family: 'Nunito Sans', sans-serif;
+    line-height: 1;
+}
+
+
 
 #blk_user {
     position: relative;
