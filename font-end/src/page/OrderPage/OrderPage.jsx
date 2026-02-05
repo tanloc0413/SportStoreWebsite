@@ -12,105 +12,33 @@ import { selectCartItems } from "../../store/features/cart";
 import { formatMoney } from "../../component/FormatMoney/formatMoney";
 import { fetchUserDetails } from "../../api/userInfo";
 import { setLoading } from "../../store/features/common";
-import { isTokenValid } from "../../util/jwt-helper";
 
 const OrderPage = () => {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
   const cartItems = useSelector(selectCartItems);
-  const [userInfo, setUserInfo] = useState({});
+  const dispatch = useDispatch();
+  const [userInfo,setUserInfo] = useState([]);
+  const navigate = useNavigate();
+  const [paymentMethod,setPaymentMethod] = useState('');
   const [payMethod, setPayMethod] = useState("cod");
-
-  const normalizeProfile = (payload, depth = 0) => {
-    if (!payload || depth > 3) return {};
-
-    if (typeof payload === "string") {
-      try {
-        const parsed = JSON.parse(payload);
-        return normalizeProfile(parsed, depth + 1);
-      } catch (error) {
-        console.error("Invalid profile payload format:", error);
-        return {};
-      }
-    }
-
-    if (typeof payload !== "object") {
-      return {};
-    }
-
-    if (payload?.data) {
-      return normalizeProfile(payload.data, depth + 1);
-    }
-
-    const normalizedAddressList = Array.isArray(payload?.addressList)
-      ? payload.addressList
-      : normalizeProfile(payload?.addressList, depth + 1);
-
-    return {
-      ...payload,
-      addressList: Array.isArray(normalizedAddressList) ? normalizedAddressList : [],
-    };
-  };
-
   
-  const subTotal = useMemo(() => {
+  const subTotal = useMemo(()=>{
     let value = 0;
-    cartItems?.forEach((element) => {
-      value += element?.subTotal;
+    cartItems?.forEach(element => {
+       value += element?.subTotal 
     });
     return value?.toFixed(2);
-  }, [cartItems]);
+  },[cartItems]);
 
-  // useEffect(() => {
-  //   dispatch(setLoading(true));
-  //   fetchUserDetails()
-  //     .then((res) => {
-  //       console.log("User info:", res);
-  //       setUserInfo(res);
-  //     })
-  //     .catch((err) => {
-  //       console.error("Error fetching user details:", err);
-  //     })
-  //     .finally(() => {
-  //       dispatch(setLoading(false));
-  //     });
-  // }, [dispatch]);
+  useEffect(()=>{
+    dispatch(setLoading(true))
+    fetchUserDetails().then(res=>{
+      setUserInfo(res);
+    }).catch(err=>{
 
-  useEffect(() => {
-    if (!isTokenValid()) {
-      navigate("/dang-nhap");
-      return;
-    }
-
-    dispatch(setLoading(true));
-    fetchUserDetails()
-      .then((res) => {
-        // console.log("User info:", res);
-        // const profile = res?.data ?? res ?? {};
-        // setUserInfo(profile);
-        const profile = normalizeProfile(res);
-        setUserInfo(profile);
-      })
-      .catch((err) => {
-        if (err?.response?.status === 401) {
-          navigate("/dang-nhap");
-          return;
-        }
-
-        console.error("Error fetching user details:", err);
-      })
-      .finally(() => {
-        dispatch(setLoading(false));
-      });
-  // }, [dispatch]);
-  }, [dispatch, navigate]);
-
-  const primaryAddress = Array.isArray(userInfo?.addressList)
-    ? userInfo?.addressList?.[0]
-    : undefined;
-
-
-  
+    }).finally(()=>{
+      dispatch(setLoading(false))
+    })
+  },[dispatch]);
 
   return (
     <div id="orderPage">
@@ -122,30 +50,27 @@ const OrderPage = () => {
         <div id="orderPage_shipping2">
           {/* {userInfo?.addressList && ( */}
           {/* {primaryAddress?.length > 0 && ( */}
-          {primaryAddress ? (
+          {userInfo?.addressList && 
             <>
               <div id="shipping-contact">
                 <p className="shipping-user shipping-text">
-                  {primaryAddress?.fullName}
+                  {userInfo?.addressList?.[0]?.fullName}
                 </p>
                 <p className="shipping-phone shipping-text">
-                  {primaryAddress?.phoneNumber}
+                  {userInfo?.addressList?.[0]?.phoneNumber}
                 </p>
                 <p className="shipping-address shipping-text">
                   <span>Địa chỉ: </span>
-                  {primaryAddress?.street},{" "}
-                  {primaryAddress?.ward},{" "}
-                  {primaryAddress?.cityOfProvince}
+                  {userInfo?.addressList?.[0]?.street},{" "}
+                  {userInfo?.addressList?.[0]?.ward},{" "}
+                  {userInfo?.addressList?.[0]?.cityOfProvince}
                 </p>
               </div>
               <button className="shipping_edit-btn">
                 <FaRegEdit className="shipping_edit-icon" />
               </button>
             </>
-          // )}
-          ) : (
-            <p className="shipping-address shipping-text">Bạn chưa có địa chỉ nhận hàng.</p>
-          )}
+          }
         </div>
       </div>
       <div id="orderPage_product">

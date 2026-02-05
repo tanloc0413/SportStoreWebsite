@@ -9,21 +9,8 @@ export const API_URLS = {
 
 export const API_BASE_URL = 'http://localhost:8080';
 
-// export const getHeaders = () => {
-//     return {
-//         'Authorization': `Bearer ${getToken()}`
-//     }
-// }
-
-export const getHeaders = () => {
-    const token = getToken();
-
-    if (!token) {
-        return {};
-    }
-
+export const getHeaders = ()=>{
     return {
-        // 'Authorization': `Bearer ${getToken()}`
-        'Authorization': `Bearer ${token}`
+        'Authorization':`Bearer ${getToken()}`
     }
 }
