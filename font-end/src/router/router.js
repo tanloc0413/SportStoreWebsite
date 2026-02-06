@@ -10,6 +10,9 @@ import ProductListPage from '../page/ProductListPage/ProductListPage';
 import GoogleLogin from "../page/LoginPage/GoogleLogin";
 import OrderPage from '../page/OrderPage/OrderPage';
 import { loadProductBySlug } from "./productSlug";
+import ProtectedRouter from '../component/ProtectedRouter/ProtectedRouter';
+import ProfilePage from "../page/UserPage/ProfilePage";
+import AddressUpdate from '../page/UserPage/AddressUpdate';
 
 export const router = createBrowserRouter ([
     {
@@ -59,7 +62,25 @@ export const router = createBrowserRouter ([
             {
                 path: '/thanh-toan',
                 element: <OrderPage/>
-            }
+            },
+            {
+                path:'/tai-khoan',
+                element: <ProtectedRouter><ProfilePage/></ProtectedRouter>,
+                children:[
+                {
+                    path:'/dia-chi',
+                    element:<ProtectedRouter><AddressUpdate/></ProtectedRouter>
+                },
+                // {
+                //     path:'/',
+                //     element:<ProtectedRouter><Orders/></ProtectedRouter>
+                // },
+                // {
+                //     path:'/chinh-sua-ho-so',
+                //     element:<ProtectedRouter><Settings /></ProtectedRouter>
+                // }
+                ]
+            },
         ]
     },
     // {
