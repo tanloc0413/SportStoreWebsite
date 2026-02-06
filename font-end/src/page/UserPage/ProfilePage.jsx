@@ -1,6 +1,8 @@
 import React from 'react'
 
 import '../../css/user/profile.css';
+import AddressUpdate from'./AddressUpdate';
+import EditProfile from'./EditProfile';
 
 const ProfilePage = () => {
   return (
@@ -17,7 +19,7 @@ const ProfilePage = () => {
         </div>
       </div>
       <div id='profile-content'>
-        {/* <EditProfile/> */}
+        <EditProfile/>
         {/* <AddressUpdate/> */}
         {/* <ChangePassword/> */}
       </div>

@@ -63,24 +63,30 @@ export const router = createBrowserRouter ([
                 path: '/thanh-toan',
                 element: <OrderPage/>
             },
+
             {
-                path:'/tai-khoan',
-                element: <ProtectedRouter><ProfilePage/></ProtectedRouter>,
-                children:[
-                {
-                    path:'/dia-chi',
-                    element:<ProtectedRouter><AddressUpdate/></ProtectedRouter>
-                },
-                // {
-                //     path:'/',
-                //     element:<ProtectedRouter><Orders/></ProtectedRouter>
-                // },
-                // {
-                //     path:'/chinh-sua-ho-so',
-                //     element:<ProtectedRouter><Settings /></ProtectedRouter>
-                // }
-                ]
+                path: '/tai-khoan',
+                element: <ProfilePage/>
             },
+
+            // {
+            //     path:'/tai-khoan',
+            //     element: <ProtectedRouter><ProfilePage/></ProtectedRouter>,
+            //     children:[
+            //     {
+            //         path:'/dia-chi',
+            //         element:<ProtectedRouter><AddressUpdate/></ProtectedRouter>
+            //     },
+            //     // {
+            //     //     path:'/',
+            //     //     element:<ProtectedRouter><Orders/></ProtectedRouter>
+            //     // },
+            //     // {
+            //     //     path:'/chinh-sua-ho-so',
+            //     //     element:<ProtectedRouter><Settings /></ProtectedRouter>
+            //     // }
+            //     ]
+            // },
         ]
     },
     // {
