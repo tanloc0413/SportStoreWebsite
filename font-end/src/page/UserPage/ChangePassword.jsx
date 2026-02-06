@@ -1,6 +1,6 @@
-import React from 'react';
 import { FaRegEye, FaEyeSlash } from "react-icons/fa";
 import { SiKeepassxc } from "react-icons/si";
+import React, { useCallback, useState } from 'react';
 
 import '../../css/user/profile.css';
 

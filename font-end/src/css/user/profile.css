@@ -384,3 +384,17 @@
 .changePassword-btn:active, .changePassword-btn:hover {
     background-color: #a01512;
 }
+
+.changePassword-error, .changePassword-success {
+    margin-top: 10px;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.changePassword-error {
+    color: #d81f19;
+}
+
+.changePassword-success {
+    color: #2e7d32;
+}

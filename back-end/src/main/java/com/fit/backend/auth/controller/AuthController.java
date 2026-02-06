@@ -21,6 +21,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ServerErrorException;
 
+import java.security.Principal;
 import java.util.Date;
 import java.util.Map;
 
@@ -39,6 +40,12 @@ public class AuthController {
 
     @Autowired
     UserDetailsService userDetailsService;
+
+    @Autowired
+    private UserDetailRepository userDetailRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @PostMapping("/login")
     public ResponseEntity<UserToken> login(@RequestBody LoginRequest loginRequest) {
@@ -103,4 +110,33 @@ public class AuthController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PostMapping("/change-password")
+    public ResponseEntity<?> changePassword(@RequestBody ChangePasswordRequest request, Principal principal) {
+        if (principal == null) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+
+        User user = userDetailRepository.findByEmail(principal.getName());
+        if (user == null) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+
+        if (request.getCurrentPassword() == null || request.getNewPassword() == null) {
+            return new ResponseEntity<>("Vui lòng nhập đầy đủ thông tin", HttpStatus.BAD_REQUEST);
+        }
+
+        if (request.getNewPassword().length() < 5) {
+            return new ResponseEntity<>("Mật khẩu mới phải có ít nhất 5 ký tự", HttpStatus.BAD_REQUEST);
+        }
+
+        if (!passwordEncoder.matches(request.getCurrentPassword(), user.getPassword())) {
+            return new ResponseEntity<>("Mật khẩu hiện tại không chính xác", HttpStatus.BAD_REQUEST);
+        }
+
+        user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+        user.setUpdatedOn(new Date());
+        userDetailRepository.save(user);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }
