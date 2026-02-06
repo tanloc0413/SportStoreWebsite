@@ -173,7 +173,7 @@ const ProductDetail = () => {
           <div className='blk1_evalute'>
             <Rating
               name="half-rating-read"
-              // value={product?.rating || 0}
+              value={product?.rating || 0}
               precision={0.25}
               readOnly
               className="blk1_evalute-icon"
