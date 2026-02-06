@@ -35,15 +35,14 @@ const ListProductHome = () => {
           Đồ thể thao đề xuất
         </p>
         <div id='product1_items'>
-          {/* {
-            productData
-            .slice(0, 24).map((products) => (
-              <CardTest
-                key={products.id}
+          {
+            productData.slice(0,6)
+            .map((products) => (
+              <CardProduct
                 products={products}
               />
             ))
-          } */}
+          }
         </div>
       </div>
       <div id='product2'>

@@ -91,10 +91,10 @@ const Header = ({variant="default"}) => {
           )} */}
         </div>
         <div id='blk_user'>
-          <div className='notification blk_user-icon'>
+          {/* <div className='notification blk_user-icon'>
             <AiOutlineBell className='notification-icon user-icon'/>
             <p className='notification-text title_text-icons'>Thông Báo</p>
-          </div>
+          </div> */}
           <Link to='/gio-hang'>
             <div className='cart blk_user-icon'>
               <IoCartOutline className='cart-icon user-icon'/>
