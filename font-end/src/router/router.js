@@ -23,19 +23,10 @@ export const router = createBrowserRouter ([
                 path: '/',
                 element: <App/>
             },
-            {   path: '/the-loai/nu',
-                element: <ProductListPage categoryType={'nu'}/>
-            },
-            {   path: '/the-loai/nam',
-                element: <ProductListPage categoryType={'nam'}/>
-            },
-            {   path: '/the-loai/tre-em',
+            {   path: '/the-loai/:category',
                 element: <ProductListPage/>
             },
-            {   path: '/the-loai/phu-kien',
-                element: <ProductListPage/>
-            },
-            {   path: '/the-loai/do-choi',
+            {   path: '/san-pham',
                 element: <ProductListPage/>
             },
             {

@@ -33,20 +33,33 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests((authorize)-> authorize
                         // swagger
                         .requestMatchers(EndPoints.SWAGGER).permitAll()
-                        // lấy sản phẩm và thể loại
+                        // lấy sản phẩm và thể loại - allow public access
                         .requestMatchers(HttpMethod.GET, EndPoints.GET_API).permitAll()
+                        .requestMatchers(HttpMethod.POST, EndPoints.POST_API).permitAll() 
+                        .requestMatchers(HttpMethod.PUT, EndPoints.PUT_API).permitAll()
+                        .requestMatchers(EndPoints.PUBLIC_API).permitAll()
                         .requestMatchers(EndPoints.GOOGLE_LOGIN).permitAll()
                         .anyRequest().authenticated())
                         .oauth2Login(
                                 (oauth2login) -> oauth2login
-                                        .defaultSuccessUrl("/oauth2/success")
+                                        .defaultSuccessUrl("http://localhost:3000/oauth2/callback")
                                         .loginPage("/oauth2/authorization/google")
+                        )
+                        .exceptionHandling(ex -> ex
+                                .authenticationEntryPoint((request, response, authException) -> {
+                                    // Don't redirect API calls to login
+                                    String requestURI = request.getRequestURI();
+                                    if (requestURI.startsWith("/api/")) {
+                                        response.sendError(401, "Unauthorized");
+                                    } else {
+                                        response.sendRedirect("/oauth2/authorization/google");
+                                    }
+                                })
                         )
                         .addFilterBefore(
                                 new JWTAuthenticationFilter(jwtTokenHelper, userDetailsService),
                                 UsernamePasswordAuthenticationFilter.class
                         );
-        ;
         return http.build();
     }
 
