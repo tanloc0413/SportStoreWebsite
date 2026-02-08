@@ -21,14 +21,7 @@ const OrderPage = () => {
   const [paymentMethod,setPaymentMethod] = useState('COD');
 
   // const [userInfo,setUserInfo] = useState([]);
-  const [userInfo, setUserInfo] = useState({
-    addressList: []
-  });
-
-  useEffect(() => {
-    const token = localStorage.getItem("authToken");
-    console.log("TOKEN ORDER:", token);
-  }, []);
+  const [userInfo, setUserInfo] = useState([]);
 
   const navigate = useNavigate();
 
@@ -43,16 +36,13 @@ const OrderPage = () => {
 
   useEffect(() => {
     dispatch(setLoading(true))
-    fetchUserDetails()
-    .then(res => {
-      setUserInfo(res);
-    }).catch(err => {
-      console.error("Không thể lấy thông tin người dùng:", err);
-    }).finally(() => {
-      dispatch(setLoading(false))
+    fetchUserDetails().then(res => {
+      setUserInfo(res)
+    })
+    .catch((err) => {
+
     })
   }, [dispatch]);
-
   
   const shippingFee = useMemo(() => {
     if (subTotal > 1_000_000) return 0;
@@ -64,6 +54,8 @@ const OrderPage = () => {
     return subTotal + shippingFee;
   }, [subTotal, shippingFee]);
 
+  const primaryAddress = userInfo?.addressList?.[0];
+
   return (
     <div id="orderPage">
       <div id="orderPage_shipping">
@@ -72,27 +64,54 @@ const OrderPage = () => {
           <p id="shipping-title">Địa chỉ nhận hàng:</p>
         </div>
         <div id="orderPage_shipping2">
-          {userInfo?.addressList?.length > 0 &&
+          {/* {userInfo?.addressList?.length > 0 && */}
+          {/* {userInfo?.addressList &&  */}
+          {userInfo?.addressList?.length > 0 ?
             <>
               <div id="shipping-contact">
                 <p className="shipping-user shipping-text">
                   {userInfo?.addressList?.[0]?.fullName}
+                  {userInfo?.fullName || "Chưa có thông tin người nhận"}
                 </p>
                 <p className="shipping-phone shipping-text">
                   {userInfo?.addressList?.[0]?.phoneNumber}
                 </p>
                 <p className="shipping-address shipping-text">
-                  <span>Địa chỉ: </span>
-                  {userInfo?.addressList[0]?.street},{" "},
-                  {userInfo?.addressList[0]?.commune},{" "}
-                  {userInfo?.addressList[0]?.ward},{" "}
-                  {userInfo?.addressList[0]?.cityOfProvince}
+                  {/* <span>Địa chỉ: </span>
+                  {userInfo?.addressList?.[0]?.street},{" "},
+                  {userInfo?.addressList?.[0]?.commune},{" "}
+                  {userInfo?.addressList?.[0]?.ward},{" "}
+                  {userInfo?.addressList?.[0]?.cityOfProvince} */}
+                  {primaryAddress ? (
+                    <>
+                      <span>Địa chỉ: </span>
+                      {primaryAddress?.street},{" "}
+                      {primaryAddress?.commune},{" "}
+                      {primaryAddress?.ward},{" "}
+                      {primaryAddress?.cityOfProvince}
+                    </>
+                  ) : (
+                    <span>Chưa có địa chỉ mặc định. Vui lòng thêm địa chỉ trong hồ sơ.</span>
+                  )}
                 </p>
               </div>
               <button className="shipping_edit-btn">
                 <FaRegEdit className="shipping_edit-icon" />
               </button>
             </>
+          :
+            <div id="shipping-contact">
+              <p className="shipping-user shipping-text">
+                {userInfo?.fullName || "Chưa có thông tin người nhận"}
+              </p>
+              <p className="shipping-phone shipping-text">
+                {userInfo?.phoneNumber || "Chưa có số điện thoại"}
+              </p>
+              <p className="shipping-address shipping-text">
+                <span>Địa chỉ: </span>
+                Bạn chưa có địa chỉ mặc định. Vui lòng cập nhật địa chỉ trước khi đặt hàng.
+              </p>
+            </div>
           }
         </div>
       </div>

@@ -28,6 +28,6 @@ export const logOut = () => {
   window.dispatchEvent(new Event('auth-changed'));
 }
 
-export const getToken = () => {
-  return localStorage.getItem('authToken');
+export const getToken = (token) => {
+  return localStorage.getItem('authToken', token);
 }

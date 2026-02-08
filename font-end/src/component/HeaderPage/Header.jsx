@@ -136,7 +136,7 @@ const Header = ({variant="default"}) => {
                     </div>
                   </a>
                   <hr className='line_blk-user'/>
-                  <a href="/sach-yeu-thich">
+                  <a href="/san-pham-yeu-thich">
                     <div
                       className='logout-button'
                     >

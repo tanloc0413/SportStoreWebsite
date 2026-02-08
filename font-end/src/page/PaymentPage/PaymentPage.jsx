@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import '../../css/user/payment.css';
 import { setLoading } from "../../store/features/common";
 import { fetchUserDetails } from "../../api/userInfo";
+import { selectCartItems } from "../../store/features/cart";
 
 const PaymentPage = () => {
+  const cartItems = useSelector(selectCartItems);
   const dispatch = useDispatch();
   const [userInfo, setUserInfo] = useState([]);
 
