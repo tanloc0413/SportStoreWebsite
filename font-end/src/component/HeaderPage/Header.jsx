@@ -15,7 +15,6 @@ import { logOut } from '../../util/jwt-helper';
 
 const Header = ({variant="default"}) => {
   const [showLogout,setShowLogout] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
 
   const cartLength = useSelector(countCartItems);
 
@@ -27,18 +26,6 @@ const Header = ({variant="default"}) => {
     logOut();
     setShowLogout(false);
     navigate("/");
-  };
-
-  const handleSearch = () => {
-    if (searchQuery.trim()) {
-      navigate(`/san-pham?search=${encodeURIComponent(searchQuery.trim())}`);
-    }
-  };
-
-  const handleKeyPress = (e) => {
-    if (e.key === 'Enter') {
-      handleSearch();
-    }
   };
 
   return (
@@ -55,16 +42,16 @@ const Header = ({variant="default"}) => {
             type='search'
             placeholder='Tìm kiếm'
             id='input-search'
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
+            // onChange={onSearchInputChange}
+            // value={tprKeyword}
             autoComplete="off"
             autoCorrect="off"
             spellCheck="false"
-            onKeyDown={handleKeyPress}
+            // onKeyDown={onSearchKeyPress}
           />
           <div id='blk_search-icon'>
             <button id='search'
-              onClick={handleSearch}
+              // onClick={handleSearch}
             >
               <IoMdSearch className='search-icon'/>
             </button>
@@ -187,7 +174,9 @@ const Header = ({variant="default"}) => {
             <Nav.Link as={Link} to="the-loai/phu-kien" className='nav_link-textH'>
               Phụ Kiện
             </Nav.Link>
-           
+            <Nav.Link as={Link} to="/thuong-hieu" className='nav_link-textH'>
+              Thương Hiệu
+            </Nav.Link>
           </Nav>
         </div>
       </div>

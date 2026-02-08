@@ -14,16 +14,20 @@ import {
 import { formatMoney } from "../../component/FormatMoney/formatMoney";
 import { selectCartItems } from "../../store/features/cart";
 import { isTokenValid } from "../../util/jwt-helper";
+import { API_BASE_URL } from "../../api/constant";
 
 const CartPage = () => {
   const [selectedItems, setSelectedItems] = useState([]);
   const cartItems = useSelector(selectCartItems);
   const dispatch = useDispatch();
-  const [modalIsOpen, setModalIsOpen] = useState(false);
   const [deleteItem, setDeleteItem] = useState({});
   const [currentDate, setCurrentDate] = useState(
     new Date().toLocaleDateString("vi-VN"),
   );
+  
+  useEffect(() => {
+    console.log("Cart items:", cartItems);
+  }, [cartItems]);
 
   // điều hướng
   const navigate = useNavigate();
@@ -57,23 +61,10 @@ const CartPage = () => {
     [dispatch],
   );
 
-  const onDeleteProduct = useCallback((productId, variantId) => {
-    setModalIsOpen(true);
-    setDeleteItem({
-      productId: productId,
-      variantId: variantId,
-    });
-  }, []);
-
-  const onCloseModal = useCallback(() => {
-    setDeleteItem({});
-    setModalIsOpen(false);
-  }, []);
-
   const onDeleteItem = useCallback(
     (productId, variantId) => {
       dispatch(delteItemFromCartAction({ productId, variantId }));
-      setModalIsOpen(false);
+      // setModalIsOpen(false);
     },
     [deleteItem, dispatch],
   );
@@ -143,10 +134,6 @@ const CartPage = () => {
     setSelectedItems([]);
   };
 
-  // console.log("isLoggedIn ", isLoggedIn, isTokenValid());
-
-  // console.log("Cart items:", cartItems);
-
   return (
     <div id="cartPage">
       <div id="cart_content">
@@ -205,6 +192,16 @@ const CartPage = () => {
                       alt="sản phẩm"
                       id="cart_list-img"
                     />
+                    {/* <img
+                      src={
+                        item?.image
+                          ? item.image.startsWith("http")
+                            ? item.image
+                            : API_BASE_URL + item.image
+                          : CartEmpty
+                      }
+                      alt="sản phẩm"
+                    /> */}
                     <div id="cart_list-text">
                       <p id="cart_list-title">{item?.name || "Name"}</p>
                       <p id="cart_list-cate">Loại hàng:</p>

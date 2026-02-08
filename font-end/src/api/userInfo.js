@@ -1,19 +1,44 @@
 import axios from "axios";
 import { API_BASE_URL, getHeaders } from "./constant";
 
-export const fetchUserDetails = async ()=>{
+export const fetchUserDetails = async() => {
     const url = API_BASE_URL + '/api/user/profile';
-    try{
+    
+    try {
         const response = await axios(url,{
             method:"GET",
-            headers:getHeaders()
+            headers: getHeaders()
         });
         return response?.data;
     }
-    catch(err){
+    catch(err) {
         throw new Error(err);
     }
 }
+
+export const fetchUserDetail = async () => {
+  const token = localStorage.getItem("authToken");
+
+  if (!token) {
+    console.log("Không có token");
+    return { addressList: [] };
+  }
+
+  const url = API_BASE_URL + '/api/user/profile';
+
+  const response = await axios(url, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    data: {
+      token: token
+    }
+  });
+
+  return response?.data;
+};
+
 
 export const addAddressAPI = async(data) => {
     const url = API_BASE_URL + '/api/address';

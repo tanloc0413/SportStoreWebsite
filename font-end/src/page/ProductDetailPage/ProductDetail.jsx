@@ -14,7 +14,6 @@ import ColorFilter from '../../component/Filter/ColorFilter';
 import { useLoaderData } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllProductByCategory } from "../../api/fetchProducts";
-import { addItemToCartAction } from "../../store/actions/cartAction";
 
 const ProductDetail = () => {
   // state get value product
@@ -38,22 +37,26 @@ const ProductDetail = () => {
   //
   const [selectedColor, setSelectedColor] = useState('');
 
-
-  const [breadCrumbLinks, setBreadCrumbLink] = useState([]);
-  
-  const [similarProduct,setSimilarProducts] = useState([]);
-
   const categories = useSelector((state)=> state?.categoryState?.categories);
 
+  // const productCategory = useMemo(() => {
+  //   return categories?.find((category) => category?.id === product?.categoryId);
+  // }, [product, categories]);
+
   const productCategory = useMemo(() => {
-    return categories?.find((category) => category?.id === product?.categoryId);
-  }, [product,categories]);
+    if (!Array.isArray(categories)) return null;
+    
+    return categories.find(
+      (category) => category?.id === product?.categoryId
+    );
+  }, [product, categories]);
+
 
   useEffect(() => {
     getAllProductByCategory(product?.categoryId,product?.categoryTypeId)
     .then(res => {
       const excludedProduct = res?.filter((item)=> item?.id !== product?.id);
-      setSimilarProducts(excludedProduct);
+      // setSimilarProducts(excludedProduct);
     })
     .catch(() => [
     ])
@@ -61,7 +64,7 @@ const ProductDetail = () => {
 
   useEffect(() => {
     setImage(product?.thumbnail);
-    setBreadCrumbLink([]);
+    // setBreadCrumbLink([]);
     const arrayLinks = [{ title: 'Shop', path: '/' }, {
       title: productCategory?.name,
       path: productCategory?.name
@@ -74,42 +77,14 @@ const ProductDetail = () => {
         path: productType?.name
       })
     }
-    setBreadCrumbLink(arrayLinks);
+    // setBreadCrumbLink(arrayLinks);
   }, [productCategory, product]);
-
-  const addItemToCart = useCallback(()=>{
-    //dispatch(addToCart({id:product?.id,quantity:1}));
-    //const selectedSize = 
-    console.log("size ",selectedSize);
-    if(!selectedSize){
-      setError('Vui lòng chọn kích cỡ');
-    }
-    else{
-      const selectedVariant = product?.variants?.filter((variant)=> variant?.size === selectedSize)?.[0];
-      console.log("selected ",selectedVariant);
-      if(selectedVariant?.stockQuantity>0){
-        dispatch(addItemToCartAction({
-          productId: product?.id,
-          name: product?.name,
-          variant: selectedVariant,
-          quantity: 1,
-          subTotal: product?.price,
-          price: product?.price
-        }))
-      }
-      else{
-        setError('Out of Stock');
-      }
-    }
-
-  },[dispatch, product, selectedSize]);
 
   useEffect(()=>{
     if(selectedSize){
       setError('');
     }
   },[selectedSize]);
-
 
   // chọn kích cỡ
   const sizes = useMemo(() => {
@@ -173,7 +148,7 @@ const ProductDetail = () => {
           <div className='blk1_evalute'>
             <Rating
               name="half-rating-read"
-              // value={product?.rating || 0}
+              value={product?.rating || 0}
               precision={0.25}
               readOnly
               className="blk1_evalute-icon"

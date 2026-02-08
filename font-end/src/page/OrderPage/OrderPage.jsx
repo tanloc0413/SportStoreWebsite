@@ -16,34 +16,44 @@ import { setLoading } from "../../store/features/common";
 const OrderPage = () => {
   const cartItems = useSelector(selectCartItems);
   const dispatch = useDispatch();
-  // const [userInfo,setUserInfo] = useState([]);
-  const [userInfo, setUserInfo] = useState({});
-  const navigate = useNavigate();
-  const [paymentMethod,setPaymentMethod] = useState('');
-  const [payMethod, setPayMethod] = useState("cod");
 
-  const subTotal = useMemo(()=>{
+  // phương thức thanh toán
+  const [paymentMethod,setPaymentMethod] = useState('COD');
+
+  // const [userInfo,setUserInfo] = useState([]);
+  const [userInfo, setUserInfo] = useState({
+    addressList: []
+  });
+
+  useEffect(() => {
+    const token = localStorage.getItem("authToken");
+    console.log("TOKEN ORDER:", token);
+  }, []);
+
+  const navigate = useNavigate();
+
+  const subTotal = useMemo(() => {
     let value = 0;
     cartItems?.forEach(element => {
       value += element?.subTotal 
     });
     // return value?.toFixed(2);
     return value;
-  },[cartItems]);
+  }, [cartItems]);
 
-  useEffect(()=>{
+  useEffect(() => {
     dispatch(setLoading(true))
-    fetchUserDetails().then(res=>{
-      // setUserInfo(res);
-      setUserInfo(res ?? {});
-      console.log(res);
-    }).catch(err=>{
+    fetchUserDetails()
+    .then(res => {
+      setUserInfo(res);
+    }).catch(err => {
       console.error("Không thể lấy thông tin người dùng:", err);
-    }).finally(()=>{
+    }).finally(() => {
       dispatch(setLoading(false))
     })
-  },[dispatch]);
+  }, [dispatch]);
 
+  
   const shippingFee = useMemo(() => {
     if (subTotal > 1_000_000) return 0;
     if (subTotal > 500_000) return 15_000;
@@ -62,7 +72,7 @@ const OrderPage = () => {
           <p id="shipping-title">Địa chỉ nhận hàng:</p>
         </div>
         <div id="orderPage_shipping2">
-          {userInfo?.addressList && 
+          {userInfo?.addressList?.length > 0 &&
             <>
               <div id="shipping-contact">
                 <p className="shipping-user shipping-text">
@@ -73,9 +83,10 @@ const OrderPage = () => {
                 </p>
                 <p className="shipping-address shipping-text">
                   <span>Địa chỉ: </span>
-                  {userInfo?.addressList?.[0]?.street},{" "}
-                  {userInfo?.addressList?.[0]?.ward},{" "}
-                  {userInfo?.addressList?.[0]?.cityOfProvince}
+                  {userInfo?.addressList[0]?.street},{" "},
+                  {userInfo?.addressList[0]?.commune},{" "}
+                  {userInfo?.addressList[0]?.ward},{" "}
+                  {userInfo?.addressList[0]?.cityOfProvince}
                 </p>
               </div>
               <button className="shipping_edit-btn">
@@ -151,9 +162,10 @@ const OrderPage = () => {
               <input
                 type="radio"
                 className="payMethod-radio"
-                name="payMethod"
-                checked={payMethod === "cod"}
-                onChange={() => setPayMethod("cod")}
+                name="payment_method"
+                value={'COD'}
+                checked={paymentMethod === "COD"}
+                onChange={() => setPaymentMethod('COD')}
               />
               <p id="payMethod-text">Thanh toán bằng tiền mặt (COD)</p>
             </label>
@@ -161,8 +173,10 @@ const OrderPage = () => {
               <input
                 type="radio"
                 className="payMethod-radio"
-                checked={payMethod === "vnpay"}
-                onChange={() => setPayMethod("vnpay")}
+                name="payment_method"
+                value={'VNPay'}
+                checked={paymentMethod === "VNPay"}
+                onChange={() => setPaymentMethod('VNPay')}
               />
               <img src={VNPayIcon} alt="VNPay Icon" className="vnpay-icon" />
             </label>
@@ -188,7 +202,8 @@ const OrderPage = () => {
             <p className="total-text5">{formatMoney(totalPayment)}</p>
           </div>
           <div className="orderPage_total-btn">
-            <button id="total-btn">Đặt hàng</button>
+            {paymentMethod === 'CARD' && <button id="total-btn">Đặt hàng</button>}
+            {paymentMethod !== 'CARD' && <button id="total-btn" onClick={() => navigate('/dat-hang-thanh-cong')}>Đặt hàng</button>}
           </div>
         </div>
       </div>

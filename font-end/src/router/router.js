@@ -13,6 +13,7 @@ import { loadProductBySlug } from "./productSlug";
 import ProtectedRouter from '../component/ProtectedRouter/ProtectedRouter';
 import ProfilePage from "../page/UserPage/ProfilePage";
 import AddressUpdate from '../page/UserPage/AddressUpdate';
+import PaymentPage from '../page/PaymentPage/PaymentPage';
 
 export const router = createBrowserRouter ([
     {
@@ -23,10 +24,19 @@ export const router = createBrowserRouter ([
                 path: '/',
                 element: <App/>
             },
-            {   path: '/the-loai/:category',
+            {   path: '/the-loai/nu',
+                element: <ProductListPage categoryType={'nu'}/>
+            },
+            {   path: '/the-loai/nam',
+                element: <ProductListPage categoryType={'nam'}/>
+            },
+            {   path: '/the-loai/tre-em',
                 element: <ProductListPage/>
             },
-            {   path: '/san-pham',
+            {   path: '/the-loai/phu-kien',
+                element: <ProductListPage/>
+            },
+            {   path: '/the-loai/do-choi',
                 element: <ProductListPage/>
             },
             {
@@ -52,12 +62,15 @@ export const router = createBrowserRouter ([
             },
             {
                 path: '/thanh-toan',
-                element: <OrderPage/>
+                element: <ProtectedRouter><OrderPage/></ProtectedRouter>
             },
-
             {
                 path: '/tai-khoan',
                 element: <ProfilePage/>
+            },
+            {
+                path: '/dat-hang-thanh-cong',
+                element: <ProtectedRouter><PaymentPage/></ProtectedRouter>
             },
 
             // {

@@ -45,6 +45,8 @@ const Login = () => {
     .then(res => {
       if(res?.token) {
         saveToken(res?.token);
+        console.log("TOKEN SAVED:", res.token);
+
         navigate('/')
       } else {
         setError("Đã xảy ra lỗi!");

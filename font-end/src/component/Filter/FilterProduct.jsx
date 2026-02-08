@@ -22,11 +22,10 @@ const FilterProduct = ({types, metaData}) => {
                 </p>
                 <div className='filter_content'>
                     {
-                        types?.map((type, index) => (
-                            <div key={type?.code || type?.id || index} className='filter_contentDiv'>
+                        types?.map(type => (
+                            <div className='filter_contentDiv'>
                                 <input
                                     type='checkbox'
-                                    id={type?.code}
                                     name={type?.code}
                                     className='filter_content-input'
                                 />
