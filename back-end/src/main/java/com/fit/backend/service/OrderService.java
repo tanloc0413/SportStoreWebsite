@@ -2,6 +2,7 @@ package com.fit.backend.service;
 
 import com.fit.backend.auth.entity.User;
 import com.fit.backend.dto.OrderRequest;
+import com.fit.backend.dto.OrderResponse;
 import com.fit.backend.entity.*;
 import com.fit.backend.repository.OrderRepository;
 import org.apache.coyote.BadRequestException;
@@ -13,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.security.Principal;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class OrderService {
@@ -78,20 +80,19 @@ public class OrderService {
         payment.setPaymentDate(new Date());
         payment.setOrder(order);
         payment.setAmount(order.getTotalAmount());
-        payment.setPaymentMethod("");
+        payment.setPaymentMethod(order.getPaymentMethod());
         order.setPayment(payment);
-//        Order savedOrder = orderRepository.save(order);
+        Order savedOrder = orderRepository.save(order);
 
-        return orderRepository.save(order);
-//        OrderResponse orderResponse = OrderResponse.builder()
-//                .paymentMethod(orderRequest.getPaymentMethod())
-//                .orderId(savedOrder.getId())
-//                .build();
+        OrderResponse orderResponse = OrderResponse.builder()
+                .paymentMethod(orderRequest.getPaymentMethod())
+                .orderId(savedOrder.getId())
+                .build();
 //        if(Objects.equals(orderRequest.getPaymentMethod(), "CARD")){
 //            orderResponse.setCredentials(paymentIntentService.createPaymentIntent(order));
 //        }
-//
-//        return orderResponse;
+
+        return orderResponse;
 
     }
 }
