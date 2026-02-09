@@ -259,7 +259,7 @@
     cursor: pointer;
 }
 
-#orderPage_voucher2:active {
+#orderPage_voucher2:active, #orderPage_voucher2:hover {
     color: #3d6cbd;
 }
 

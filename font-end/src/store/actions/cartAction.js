@@ -17,7 +17,7 @@ export const updateItemToCartAction = (productItem) => {
     }
 }
 
-export const delteItemFromCartAction = (payload) => {
+export const deleteItemFromCartAction = (payload) => {
     return (dispatch,state) => {
         dispatch(removeFromCart(payload));
         updateLocalStorage(state);

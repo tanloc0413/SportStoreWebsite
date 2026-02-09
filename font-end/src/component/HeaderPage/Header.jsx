@@ -128,13 +128,13 @@ const Header = ({variant="default"}) => {
               </div>
               {showLogout && (
                 <div id='block_header-account'>
-                  <a href="/tai-khoan">
+                  <Link to="/tai-khoan/ho-so">
                     <div
                       className='logout-button'
                     >
                       Tài Khoản
                     </div>
-                  </a>
+                  </Link>
                   <hr className='line_blk-user'/>
                   <a href="/san-pham-yeu-thich">
                     <div

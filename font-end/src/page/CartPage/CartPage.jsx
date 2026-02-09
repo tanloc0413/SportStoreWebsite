@@ -8,7 +8,7 @@ import CartEmpty from "../../imgs/cart-empty.png";
 import VoucherImg from "../../imgs/voucher-icon.svg";
 import { useCallback, useMemo, useState, useEffect } from "react";
 import {
-  delteItemFromCartAction,
+  deleteItemFromCartAction,
   updateItemToCartAction,
 } from "../../store/actions/cartAction";
 import { formatMoney } from "../../component/FormatMoney/formatMoney";
@@ -63,7 +63,7 @@ const CartPage = () => {
 
   const onDeleteItem = useCallback(
     (productId, variantId) => {
-      dispatch(delteItemFromCartAction({ productId, variantId }));
+      dispatch(deleteItemFromCartAction({ productId, variantId }));
       // setModalIsOpen(false);
     },
     [deleteItem, dispatch],
@@ -106,7 +106,7 @@ const CartPage = () => {
     if (isSelectAll) {
       cartItems.forEach((item) => {
         dispatch(
-          delteItemFromCartAction({
+          deleteItemFromCartAction({
             productId: item.productId,
             variantId: item.variant.id,
           }),
@@ -124,7 +124,7 @@ const CartPage = () => {
       if (!item) return;
 
       dispatch(
-        delteItemFromCartAction({
+        deleteItemFromCartAction({
           productId: item.productId,
           variantId: item.variant.id,
         }),
@@ -275,7 +275,7 @@ const CartPage = () => {
             <p id="voucher_item1-text">Mã khuyến mãi</p>
           </div>
           <div id="voucher_item2">
-            <p id="voucher_item2-text">Chọn mã</p>
+            <p className="voucher_item2-text ">Chọn mã</p>
             <MdNavigateNext className="voucher_item2-icon" />
           </div>
         </div>

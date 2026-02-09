@@ -218,6 +218,11 @@
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+.address-text span {
+    color: #1b335c;
+    font-weight: 700;
+}
+
 #profile_address-btn {
     width: 100%;
     height: auto;
@@ -233,20 +238,24 @@
     height: 3.2rem;
     color: #fff;
     border: none;
-    padding: 0 25px;
+    padding: 0 40px;
     border-radius: 5px;
     font-weight: 800;
-    font-size: 1.15rem;
+    font-size: 1.2rem;
     line-height: 1;
     font-family: 'Nunito Sans', sans-serif;
     text-transform: uppercase;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
 }
 
 .address-createBtn {
     background-color: #5dd053;
 }
 
-.address-createBtn:active {
+.address-createBtn:active, .address-createBtn:hover {
     background-color: #3abb31;
 }
 
@@ -278,10 +287,21 @@
     justify-content: center;
     border-radius: 5px;
     margin-left: 15px;
+    flex-direction: column;
 }
 
-.profile_address-blk2 {
+.profile_address-actionD {
+    display: flex;
+    flex-direction: column;
+}
+
+.profile_address-delete {
     color: #d81f19;
+    font-size: 2.2rem;
+}
+
+.profile_address-edit {
+    color: #ffdb0c;
     font-size: 2.2rem;
 }
 
@@ -363,13 +383,13 @@
 }
 
 .changePassword-btn {
-    width: 16.5rem;
+    width: 100%;
     height: 3.5rem;
     border: none;
     border-radius: 5px;
     margin-top: 15px;
     color: #fff;
-    font-size: 1.15rem;
+    font-size: 1.2rem;
     text-align: center;
     background-color: #d81f19;
     font-family: 'Nunito Sans', sans-serif;

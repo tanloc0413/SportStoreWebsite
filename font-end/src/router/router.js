@@ -12,8 +12,11 @@ import OrderPage from '../page/OrderPage/OrderPage';
 import { loadProductBySlug } from "./productSlug";
 import ProtectedRouter from '../component/ProtectedRouter/ProtectedRouter';
 import ProfilePage from "../page/UserPage/ProfilePage";
-import AddressUpdate from '../page/UserPage/AddressUpdate';
+import AddressPage from '../page/UserPage/AddressPage';
 import PaymentPage from '../page/PaymentPage/PaymentPage';
+import ChangePassword from "../page/UserPage/ChangePassword";
+import OrderListPage from "../page/UserPage/OrderListPage";
+import MyProfilePage from '../page/UserPage/MyProfilePage'
 
 export const router = createBrowserRouter ([
     {
@@ -65,14 +68,32 @@ export const router = createBrowserRouter ([
                 element: <ProtectedRouter><OrderPage/></ProtectedRouter>
             },
             {
-                path: '/tai-khoan',
-                element: <ProfilePage/>
-            },
-            {
                 path: '/dat-hang-thanh-cong',
                 element: <ProtectedRouter><PaymentPage/></ProtectedRouter>
             },
-
+            {
+                path: '/tai-khoan/',
+                element: <ProtectedRouter><ProfilePage/></ProtectedRouter>,
+                children: [
+                    {
+                        path: 'ho-so',
+                        index: true,
+                        element: <MyProfilePage/>
+                    },
+                    {
+                        path: 'dia-chi',
+                        element: <AddressPage/>
+                    },
+                    {
+                        path: 'doi-mat-khau',
+                        element: <ChangePassword/>
+                    },
+                    {
+                        path: 'don-hang',
+                        element: <OrderListPage/>
+                    },
+                ]
+            },
             // {
             //     path:'/tai-khoan',
             //     element: <ProtectedRouter><ProfilePage/></ProtectedRouter>,

@@ -3,7 +3,7 @@ import { FaShippingFast } from "react-icons/fa";
 import { FaRegEdit } from "react-icons/fa";
 import { FaRegCreditCard } from "react-icons/fa6";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import "../../css/user/orderPage.css";
 import VoucherImg from "../../imgs/voucher-icon.svg";
@@ -20,7 +20,6 @@ const OrderPage = () => {
   // phương thức thanh toán
   const [paymentMethod,setPaymentMethod] = useState('COD');
 
-  // const [userInfo,setUserInfo] = useState([]);
   const [userInfo, setUserInfo] = useState([]);
 
   const navigate = useNavigate();
@@ -36,11 +35,13 @@ const OrderPage = () => {
 
   useEffect(() => {
     dispatch(setLoading(true))
-    fetchUserDetails().then(res => {
+    fetchUserDetails()
+    .then(res => {
       setUserInfo(res)
+      console.log("USER: ", res)
     })
     .catch((err) => {
-
+      console.error("Lỗi: ", err)
     })
   }, [dispatch]);
   
@@ -66,28 +67,23 @@ const OrderPage = () => {
         <div id="orderPage_shipping2">
           {/* {userInfo?.addressList?.length > 0 && */}
           {/* {userInfo?.addressList &&  */}
-          {userInfo?.addressList?.length > 0 ?
+          {primaryAddress ?
             <>
               <div id="shipping-contact">
                 <p className="shipping-user shipping-text">
-                  {userInfo?.addressList?.[0]?.fullName}
                   {userInfo?.fullName || "Chưa có thông tin người nhận"}
                 </p>
                 <p className="shipping-phone shipping-text">
-                  {userInfo?.addressList?.[0]?.phoneNumber}
+                  <span>SĐT: </span>{primaryAddress?.phoneNumber || "Chưa có số điện thoại"}
                 </p>
                 <p className="shipping-address shipping-text">
-                  {/* <span>Địa chỉ: </span>
-                  {userInfo?.addressList?.[0]?.street},{" "},
-                  {userInfo?.addressList?.[0]?.commune},{" "}
-                  {userInfo?.addressList?.[0]?.ward},{" "}
-                  {userInfo?.addressList?.[0]?.cityOfProvince} */}
                   {primaryAddress ? (
                     <>
                       <span>Địa chỉ: </span>
-                      {primaryAddress?.street},{" "}
-                      {primaryAddress?.commune},{" "}
-                      {primaryAddress?.ward},{" "}
+                      Đường {primaryAddress?.street},{" "}
+                      {primaryAddress?.commune
+                      ? `xã ${primaryAddress.commune}`
+                      : `phường ${primaryAddress?.ward}`},{" "}
                       {primaryAddress?.cityOfProvince}
                     </>
                   ) : (
@@ -95,9 +91,9 @@ const OrderPage = () => {
                   )}
                 </p>
               </div>
-              <button className="shipping_edit-btn">
+              <Link className="shipping_edit-btn" to={'/tai-khoan/dia-chi'}>
                 <FaRegEdit className="shipping_edit-icon" />
-              </button>
+              </Link>
             </>
           :
             <div id="shipping-contact">

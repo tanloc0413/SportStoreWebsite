@@ -13,4 +13,9 @@ export const getHeaders = () => {
     return {
         'Authorization': `Bearer ${getToken()}`
     }
+    // const token = localStorage.getItem('authToken'); // Đảm bảo key đúng
+    // return {
+    //     "Authorization": `Bearer ${token}`, // Chú ý dấu cách sau chữ Bearer
+    //     "Content-Type": "application/json"
+    // }
 }

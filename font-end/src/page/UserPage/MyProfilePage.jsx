@@ -1,10 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { MdEdit } from "react-icons/md";
 import { IoCameraOutline } from "react-icons/io5";
+import { useSelector } from 'react-redux';
 
 import '../../css/user/profile.css';
+import { selectUserInfo } from '../../store/features/user';
 
-const EditProfile = () =>  {
+const MyProfilePage = () =>  {
+    const userInfo = useSelector(selectUserInfo);
+
 
     return (  
         <>
@@ -27,7 +31,7 @@ const EditProfile = () =>  {
                             Họ và tên:
                         </p>
                         <p className='info-text2'>
-                            Trần Tấn Lộc
+                            {userInfo?.fullName}
                         </p>
                     </div>
                     <div className='profile_info-item'>
@@ -35,7 +39,7 @@ const EditProfile = () =>  {
                             Số điện thoại:
                         </p>
                         <p className='info-text2'>
-                            0379383465
+                            {userInfo?.phoneNumber || 'Chưa có SĐT'}
                         </p>
                     </div>
                     <div className='profile_info-item info_noneBorder'>
@@ -43,7 +47,7 @@ const EditProfile = () =>  {
                             Email:
                         </p>
                         <p className='info-text2'>
-                            cavoibien9888@gmail.com
+                            {userInfo?.email}
                         </p>
                     </div>
                     <div className='profile_info-btn'>
@@ -60,4 +64,4 @@ const EditProfile = () =>  {
     )
 }
 
-export default EditProfile;
+export default MyProfilePage;

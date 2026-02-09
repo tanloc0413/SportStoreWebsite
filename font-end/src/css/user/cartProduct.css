@@ -367,18 +367,23 @@
     width: 1.5rem;
 }
 
-#voucher_item1-text, #voucher_item2-text {
+#voucher_item1-text, .voucher_item2-text {
     font-size: 1.15rem;
     font-family: "Poppins", sans-serif;
 }
 
-#voucher_item2-text, .voucher_item2-icon {
+.voucher_item2-text, .voucher_item2-icon {
     color: #3187ff;
     font-weight: 700;
     text-align: center;
+    cursor: pointer;
 }
 
-#voucher_item1-text, #voucher_item2-text, .voucher_item2-icon {
+.activeCart:hover, .activeCart:active {
+    color: #296cca;
+}
+
+#voucher_item1-text, .voucher_item2-text, .voucher_item2-icon {
     font-family: "Nunito Sans", sans-serif;
 }
 
