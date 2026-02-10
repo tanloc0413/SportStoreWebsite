@@ -6,9 +6,9 @@ export const placeOrderAPI = async(data)=>{
 
   try {
     const response = await axios(url, {
-      method:"POST",
-      data:data,
-      headers:getHeaders()
+      method: "POST",
+      data: data,
+      headers: getHeaders()
     });
     return response?.data;
   }
@@ -22,9 +22,9 @@ export const confirmPaymentAPI = async(data) => {
 
   try {
     const response = await axios(url, {
-      method:"POST",
-      data:data,
-      headers:getHeaders()
+      method: "POST",
+      data: data,
+      headers: getHeaders()
     });
     return response?.data;
   }

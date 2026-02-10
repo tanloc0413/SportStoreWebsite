@@ -1,6 +1,8 @@
 package com.fit.backend.service;
 
 import com.fit.backend.auth.entity.User;
+import com.fit.backend.dto.OrderDetails;
+import com.fit.backend.dto.OrderItemDetail;
 import com.fit.backend.dto.OrderRequest;
 import com.fit.backend.dto.OrderResponse;
 import com.fit.backend.entity.*;
@@ -89,13 +91,14 @@ public class OrderService {
         payment.setAmount(order.getTotalAmount());
         payment.setPaymentMethod(order.getPaymentMethod());
         order.setPayment(payment);
+
         Order savedOrder = orderRepository.save(order);
 
 //        OrderResponse orderResponse = OrderResponse.builder()
 //                .paymentMethod(orderRequest.getPaymentMethod())
 //                .orderId(savedOrder.getId())
 //                .build();
-//        if(Objects.equals(orderRequest.getPaymentMethod(), "CARD")){
+//        if(Objects.equals(orderRequest.getPaymentMethod(), "VNPay")){
 //            orderResponse.setCredentials(Map.of(
 //                    "paymentUrl", vnPayService.createPaymentUrl(order, request)
 //            ));
@@ -104,6 +107,36 @@ public class OrderService {
         return savedOrder;
 
     }
+
+//    public List<OrderDetails> getOrdersByUser(String name) {
+//        User user = (User) userDetailsService.loadUserByUsername(name);
+//        List<Order> orders = orderRepository.findByUser(user);
+//        return orders.stream().map(order -> {
+//            return OrderDetails.builder()
+//                    .id(order.getId())
+//                    .orderDate(order.getOrderDate())
+//                    .orderStatus(order.getOrderStatus())
+//                    .shipmentNumber(order.getShipmentTrackingNumber())
+//                    .address(order.getAddress())
+//                    .totalAmount(order.getTotalAmount())
+//                    .orderItemList(getItemDetails(order.getOrderItemList()))
+//                    .expectedDeliveryDate(order.getExpectedDeliveryDate())
+//                    .build();
+//        }).toList();
+//    }
+
+//    private List<OrderItemDetail> getItemDetails(List<OrderItem> orderItemList) {
+//
+//        return orderItemList.stream().map(orderItem -> {
+//            return OrderItemDetail.builder()
+//                    .id(orderItem.getId())
+//                    .itemPrice(orderItem.getItemPrice())
+//                    .product(orderItem.getProduct())
+//                    .productVariantId(orderItem.getProductVariantId())
+//                    .quantity(orderItem.getQuantity())
+//                    .build();
+//        }).toList();
+//    }
 
 //    public Map<String, String> updateStatus(String paymentVNPay, String status) {
 //        try{

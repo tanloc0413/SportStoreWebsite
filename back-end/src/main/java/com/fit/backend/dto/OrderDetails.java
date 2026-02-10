@@ -8,12 +8,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class OrderDetail {
+public class OrderDetails {
     private Integer id;
     private Date orderDate;
     private Address address;
@@ -21,5 +22,5 @@ public class OrderDetail {
     private OrderStatus orderStatus;
     private String shipmentNumber;
     private Date expectedDeliveryDate;
-//    private List<OrderItemDetail> orderItemList;
+    private List<OrderItemDetail> orderItemList;
 }

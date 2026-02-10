@@ -30,7 +30,7 @@ public final class EndPoints {
             "/api/address"
     };
 
-    // Public GET API
+    // Public PUT API
     public static final String[] PUT_API = {
 
     };

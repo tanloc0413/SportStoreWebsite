@@ -1,5 +1,6 @@
 package com.fit.backend.controller;
 
+import com.fit.backend.dto.OrderDetails;
 import com.fit.backend.dto.OrderRequest;
 import com.fit.backend.dto.OrderResponse;
 import com.fit.backend.entity.Order;
@@ -12,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -26,27 +28,75 @@ public class OrderController {
     private VNPayService vnPayService;
 
     @PostMapping
-    public ResponseEntity<?> createOrder(
-            @RequestBody OrderRequest orderRequest,
-            Principal principal,
-            HttpServletRequest request)
-            throws Exception {
-//        Order order = orderService.createOrder(orderRequest, principal);
+    public ResponseEntity<?> createOrder(@RequestBody OrderRequest orderRequest, Principal principal) throws Exception {
+        OrderResponse orderResponse = orderService.createOrder(orderRequest,principal);
+
+        return new ResponseEntity<>(orderResponse,HttpStatus.OK);
+    }
+
+//    @PostMapping("/update-payment")
+//    public ResponseEntity<?> updatePaymentStatus(@RequestBody Map<String,String> request){
+//        Map<String,String> response = orderService.updateStatus(request.get("paymentIntent"),request.get("status"));
+//        return new ResponseEntity<>(response,HttpStatus.OK);
+//    }
+//
+//    @PostMapping("/cancel/{id}")
+//    public ResponseEntity<?> cancelOrder(@PathVariable Integer id,Principal principal){
+//        orderService.cancelOrder(id,principal);
+//        return new ResponseEntity<>(HttpStatus.OK);
+//    }
+//
+//    @GetMapping("/user")
+//    public ResponseEntity<List<OrderDetails>> getOrderByUser(Principal principal) {
+//        List<OrderDetails> orders = orderService.getOrdersByUser(principal.getName());
+//        return new ResponseEntity<>(orders, HttpStatus.OK);
+//    }
+
+//    @PostMapping
+//    public ResponseEntity<?> createOrder(
+//            @RequestBody OrderRequest orderRequest,
+//            Principal principal,
+//            HttpServletRequest request)
+//            throws Exception {
+//        Order order = orderService.createOrder(orderRequest, principal, request);
 //
 //        OrderResponse orderResponse = OrderResponse.builder()
 //                .orderId(order.getId())
 //                .paymentMethod(order.getPaymentMethod())
 //                .build();
-
-        if(Objects.equals(orderRequest.getPaymentMethod(), "VNPay")) {
+//
+//        // Nếu là COD
+////        if ("COD".equals(orderRequest.getPaymentMethod())) {
+////
+////            OrderResponse orderResponse = OrderResponse.builder()
+////                    .orderId(order.getId())
+////                    .paymentMethod("COD")
+////                    .build();
+////
+////            return new ResponseEntity<>(orderResponse, HttpStatus.OK);
+////        }
+//
+//        if(Objects.equals(orderRequest.getPaymentMethod(), "VNPay")) {
 //            orderResponse.setCredentials(Map.of(
 //                    "paymentUrl", vnPayService.createPaymentUrl(order, request)
 //            ));
-        }
+//        }
+
+//        OrderResponse orderResponse = OrderResponse.builder()
+//                .orderId(order.getId())
+//                .paymentMethod(order.getPaymentMethod())
+//                .build();
+
+//        if(Objects.equals(orderRequest.getPaymentMethod(), "VNPay")) {
+////            orderResponse.setCredentials(Map.of(
+////                    "paymentUrl", vnPayService.createPaymentUrl(order, request)
+////            ));
+//        }
 
 //        return new ResponseEntity<>(orderResponse, HttpStatus.OK);
-        return null;
-    }
+//        return null;
+//        return ResponseEntity.badRequest().build();
+//    }
 
 //    @GetMapping("/vnpay/callback")
 //    public ResponseEntity<Map<String, String>> vnpayCallback(@RequestParam Map<String, String> params) {
