@@ -12,6 +12,8 @@ import '../../css/user/header.css';
 import LogoIcon from '../../imgs/sport.png';
 import { countCartItems } from '../../store/features/cart';
 import { logOut } from '../../util/jwt-helper';
+import { selectIsUserAdmin } from '../../store/features/user';
+import { useEffect } from 'react';
 
 const Header = ({variant="default"}) => {
   const [showLogout,setShowLogout] = useState(false);
@@ -22,11 +24,29 @@ const Header = ({variant="default"}) => {
 
   const location = useLocation();
 
+  const isUserAdmin = useSelector(selectIsUserAdmin);
+  console.log("isUserAdmin:", isUserAdmin);
+
   const handleLogout = () => {
     logOut();
     setShowLogout(false);
     navigate("/");
   };
+
+  // const dispatch = useDispatch();
+  
+  // useEffect(() => {
+  //   dispatch(setLoading(true))
+  //   fetchUserDetails()
+  //   .then(res => {
+  //     dispatch(loadUserInfo(res));
+  //     console.log("USER: ", res)
+  //   })
+  //   .catch((err) => {
+  //     console.error("Lỗi: ", err)
+  //   })
+  //   .finally(() => dispatch(setLoading(false)));
+  // }, [dispatch]);
 
   return (
     <header id='header'>
@@ -136,13 +156,25 @@ const Header = ({variant="default"}) => {
                     </div>
                   </Link>
                   <hr className='line_blk-user'/>
-                  <a href="/san-pham-yeu-thich">
+                  {isUserAdmin &&
+                    <>
+                      <Link to="/admin">
+                        <div
+                          className='logout-button'
+                        >
+                          Admin
+                        </div>
+                      </Link>
+                      <hr className='line_blk-user'/>
+                    </>
+                  }
+                  <Link to="/san-pham-yeu-thich">
                     <div
                       className='logout-button'
                     >
                       Yêu Thích
                     </div>
-                  </a>
+                  </Link>
                   <hr className='line_blk-user'/>
                   <div
                     onClick={handleLogout}
@@ -157,8 +189,8 @@ const Header = ({variant="default"}) => {
         </div>
       </div>
       <div id='blk_header2'>
-        <div className='navDiv'>
-          <Nav>
+        <div className='navDivH'>
+          <Nav className='navDivHeader'>
             <Nav.Link href="/">
               <i className="fa-solid fa-house house-icon nav-link-home"></i>
             </Nav.Link>

@@ -1,9 +1,7 @@
 package com.fit.backend.controller;
 
-import com.fit.backend.dto.OrderDetails;
 import com.fit.backend.dto.OrderRequest;
 import com.fit.backend.dto.OrderResponse;
-import com.fit.backend.entity.Order;
 import com.fit.backend.service.OrderService;
 import com.fit.backend.service.VNPayService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -11,11 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.security.Principal;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 
 @RestController
 @RequestMapping("/api/order")
@@ -28,8 +22,20 @@ public class OrderController {
     private VNPayService vnPayService;
 
     @PostMapping
-    public ResponseEntity<?> createOrder(@RequestBody OrderRequest orderRequest, Principal principal) throws Exception {
-        OrderResponse orderResponse = orderService.createOrder(orderRequest,principal);
+    public ResponseEntity<?> createOrder(
+            @RequestBody OrderRequest orderRequest,
+            Principal principal,
+            HttpServletRequest request) throws Exception {
+//        Order order = orderService.createOrder(
+//                orderRequest, principal, request
+//        );
+
+        OrderResponse orderResponse = orderService.createOrder(orderRequest, principal, request);
+
+//        OrderResponse orderResponse = OrderResponse.builder()
+//                .orderId(order.getId())
+//                .paymentMethod(order.getPaymentMethod())
+//                .build();
 
         return new ResponseEntity<>(orderResponse,HttpStatus.OK);
     }

@@ -275,7 +275,7 @@
     column-gap: 1.2rem;
 }
 
-.navDiv {
+.navDivH {
     width: 105rem;
     height: 3.5rem;
     display: flex;
@@ -283,8 +283,8 @@
     align-items: center;
 }
 
-.nav {
-    width: 82rem;
+.navDivHeader {
+    width: 75rem;
     height: 100%;
     display: flex;
     justify-content: start;

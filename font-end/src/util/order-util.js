@@ -1,4 +1,4 @@
-export const createOrderRequest = (cartItems, userId, addressId) => {
+export const createOrderRequest = (cartItems, userId, addressId, paymentMethod) => {
   let request = {};
   request.userId= userId;
   request.addressId = addressId;
@@ -17,8 +17,10 @@ export const createOrderRequest = (cartItems, userId, addressId) => {
   request.orderItemRequests = orderItems;
   request.totalAmount =  amount?.toFixed(2);
   request.discount = 0;
-  request.paymentMethod= "VNPay";
-  request.expectedDeliveryDate = "2024-10-05T21:11:46.202Z";
+  // request.paymentMethod= "COD";
+  request.paymentMethod= paymentMethod;
+  // request.expectedDeliveryDate = "2024-10-05T21:11:46.202Z";
+  request.expectedDeliveryDate = new Date().toISOString();
   request.currency = "vnd";
   return request;
 }

@@ -13,10 +13,12 @@ import { loadProductBySlug } from "./productSlug";
 import ProtectedRouter from '../component/ProtectedRouter/ProtectedRouter';
 import ProfilePage from "../page/UserPage/ProfilePage";
 import AddressPage from '../page/UserPage/AddressPage';
-import PaymentPage from '../page/PaymentPage/PaymentPage';
+import ConfirmOrder from '../page/OrderPage/ConfirmOrder';
 import ChangePassword from "../page/UserPage/ChangePassword";
 import OrderListPage from "../page/UserPage/OrderListPage";
-import MyProfilePage from '../page/UserPage/MyProfilePage'
+import MyProfilePage from '../page/UserPage/MyProfilePage';
+import AdminLayout from '../page/AdminPage/AdminLayout';
+import ListProductAdmin from '../page/AdminPage/AdminProductPage/ListProductAdmin';
 
 export const router = createBrowserRouter ([
     {
@@ -68,8 +70,8 @@ export const router = createBrowserRouter ([
                 element: <ProtectedRouter><OrderPage/></ProtectedRouter>
             },
             {
-                path: '/dat-hang-thanh-cong',
-                element: <ProtectedRouter><PaymentPage/></ProtectedRouter>
+                path: '/xac-nhan-don-hang',
+                element: <ProtectedRouter><ConfirmOrder/></ProtectedRouter>
             },
             {
                 path: '/tai-khoan/',
@@ -94,66 +96,48 @@ export const router = createBrowserRouter ([
                     },
                 ]
             },
-            // {
-            //     path:'/tai-khoan',
-            //     element: <ProtectedRouter><ProfilePage/></ProtectedRouter>,
-            //     children:[
-            //     {
-            //         path:'/dia-chi',
-            //         element:<ProtectedRouter><AddressUpdate/></ProtectedRouter>
-            //     },
-            //     // {
-            //     //     path:'/',
-            //     //     element:<ProtectedRouter><Orders/></ProtectedRouter>
-            //     // },
-            //     // {
-            //     //     path:'/chinh-sua-ho-so',
-            //     //     element:<ProtectedRouter><Settings /></ProtectedRouter>
-            //     // }
-            //     ]
-            // },
         ]
     },
-    // {
-    //     path: '/admin',
-    //     element: <AdminLayout/>,
-    //     children: [
-    //         {
-    //             path: '/admin',
-    //             element: <AdminDashboard/>
-    //         },
-    //         {
-    //             path: '/admin/dashboard',
-    //             element: <AdminDashboard/>
-    //         },
-    //         {
-    //             path: '/admin/products',
-    //             element: <ListProductAdmin/>
-    //         },
-    //         {
-    //             path: '/admin/products/add',
-    //             element: <AddProductAdmin/>
-    //         },
-    //         {
-    //             path: '/admin/brands',
-    //             element: <ListBrandAdmin/>
-    //         },
-    //         {
-    //             path: '/admin/categories',
-    //             element: <ListCategoryAdmin/>
-    //         },
-    //         {
-    //             path: '/admin/users',
-    //             element: <ListUserAdmin/>
-    //         },
-    //         {
-    //             path: '/admin/orders',
-    //             element: <ListOrderAdmin/>
-    //         },
-    //         {
-    //             path: '/admin/password',
-    //             element: <ResetPasswordAdmin/>
-    //         }
-    //     ]
-    // }
+    {
+        path: '/admin/*',
+        element: <ProtectedRouter><AdminLayout/></ProtectedRouter>,
+        children: [
+            {
+                path: 'quan-ly-san-pham',
+                element: <ListProductAdmin/>
+            },
+            // {
+            //     path: '/admin/dashboard',
+            //     element: <AdminDashboard/>
+            // },
+            // {
+            //     path: '/admin/products',
+            //     element: <ListProductAdmin/>
+            // },
+            // {
+            //     path: '/admin/products/add',
+            //     element: <AddProductAdmin/>
+            // },
+            // {
+            //     path: '/admin/brands',
+            //     element: <ListBrandAdmin/>
+            // },
+            // {
+            //     path: '/admin/categories',
+            //     element: <ListCategoryAdmin/>
+            // },
+            // {
+            //     path: '/admin/users',
+            //     element: <ListUserAdmin/>
+            // },
+            // {
+            //     path: '/admin/orders',
+            //     element: <ListOrderAdmin/>
+            // },
+            // {
+            //     path: '/admin/password',
+            //     element: <ResetPasswordAdmin/>
+            // }
+        ]
+    }
 ]);

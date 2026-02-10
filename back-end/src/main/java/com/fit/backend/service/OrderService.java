@@ -36,7 +36,7 @@ public class OrderService {
     private VNPayService vnPayService;
 
     @Transactional
-    public Order createOrder(
+    public OrderResponse createOrder(
             OrderRequest orderRequest,
             Principal principal,
             HttpServletRequest request)
@@ -94,17 +94,20 @@ public class OrderService {
 
         Order savedOrder = orderRepository.save(order);
 
-//        OrderResponse orderResponse = OrderResponse.builder()
-//                .paymentMethod(orderRequest.getPaymentMethod())
-//                .orderId(savedOrder.getId())
-//                .build();
+        // nếu là COD
+        OrderResponse orderResponse = OrderResponse.builder()
+                .orderId(savedOrder.getId())
+                .paymentMethod(savedOrder.getPaymentMethod())
+                .build();
+
+        // nếu chọn là VNPay
 //        if(Objects.equals(orderRequest.getPaymentMethod(), "VNPay")){
 //            orderResponse.setCredentials(Map.of(
 //                    "paymentUrl", vnPayService.createPaymentUrl(order, request)
 //            ));
 //        }
 
-        return savedOrder;
+        return orderResponse;
 
     }
 

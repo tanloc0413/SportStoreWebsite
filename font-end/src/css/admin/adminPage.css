@@ -16,8 +16,8 @@
 
 .admin_content {
     width: 100%;
-    height: 100%;
-    flex: 1;
+    height: 100vh;
+    /* flex: 1; */
     padding: 15px 30px;
     line-height: 1;
     position: relative;

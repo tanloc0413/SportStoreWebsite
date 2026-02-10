@@ -1,0 +1,98 @@
+.confirmOrder {
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 3rem 0;
+  /* position: absolute;
+  z-index: 10;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0; */
+  /* background: rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px); */
+}
+
+.confirmOrder_form {
+  width: 35rem;
+  height: auto;
+  min-height: 10rem;
+  background-image: url('https://mfiles.alphacoders.com/101/thumb-350-1011285.png');
+  border-radius: 10px;
+  background-size: cover;
+  padding: 20px 30px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+  background-position: center;
+}
+
+.confirmOrder_form-title {
+  color: #fff;
+  font-size: 2rem;
+  text-align: center;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  text-transform: uppercase;
+  font-weight: 700;
+  user-select: none;
+  margin-bottom: 15px;
+}
+
+.confirmOrder_text {
+  height: 4.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row;
+  border-bottom: 1px solid #fff;
+}
+
+.confirmOrder_textDiv {
+  border-bottom: 0;
+}
+
+.confirmOrder_text1, .confirmOrder_text2 {
+  color: #fff;
+  font-size: 1.35rem;
+  font-family: 'Nunito Sans', sans-serif;
+}
+
+.confirmOrder_btnGr {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: start;
+  flex-direction: column;
+  row-gap: 10px;
+  margin-top: 5px;
+}
+
+.confirmOrder_btn {
+  width: 100%;
+  height: 3.2rem;
+  color: #fff;
+  border-radius: 5px;
+  font-size: 1.15rem;
+  border: none;
+}
+
+.confirmOrder_btn1 {
+  background-color: #c51e18;
+}
+
+.confirmOrder_btn1:hover, .confirmOrder_btn1:active {
+  background-color: #ab0e08;
+}
+
+.confirmOrder_btn2 {
+  background-color: #f4c801;
+}
+
+.confirmOrder_btn2:hover, .confirmOrder_btn2:active {
+  background-color: #e0c601;
+}
+
+.confirmOrder_text {
+  user-select: none;
+}

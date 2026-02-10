@@ -44,8 +44,8 @@ export const userSlice = createSlice({
     cancelOrder: (state,action) => {
       return {
         ...state,
-        orders:state?.orders?.map(order=>{
-          if(order?.id === action?.payload){
+        orders:state?.orders?.map(order => {
+          if(order?.id === action?.payload) {
             return {
               ...order,
               orderStatus:'CANCELLED'
@@ -61,5 +61,5 @@ export const userSlice = createSlice({
 export const { loadUserInfo, saveAddress, removeAddress, loadOrders, cancelOrder } = userSlice?.actions;
 export const selectUserInfo = (state) => state?.userState?.userInfo ?? {};
 export const selectAllOrders = (state) => state?.userState?.orders ?? [];
-export const selectIsUserAdmin = (state) => state?.userState?.userInfo?.authorityList?.find((authority)=> authority?.roleCode === 'ADMIN')?.authority === 'ADMIN';
+export const selectIsUserAdmin = (state) => state?.userState?.userInfo?.authorityList?.find((authority)=> authority?.roleCode === 'admin')?.authority === 'admin';
 export default userSlice?.reducer;

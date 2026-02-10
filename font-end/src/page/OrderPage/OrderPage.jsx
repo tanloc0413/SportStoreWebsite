@@ -12,18 +12,29 @@ import { selectCartItems } from "../../store/features/cart";
 import { formatMoney } from "../../component/FormatMoney/formatMoney";
 import { fetchUserDetails } from "../../api/userInfo";
 import { setLoading } from "../../store/features/common";
+import { placeOrderAPI } from "../../api/order";
+import { clearCart } from "../../store/actions/cartAction";
+import { createOrderRequest } from '../../util/order-util';
 
 const OrderPage = () => {
-  const cartItems = useSelector(selectCartItems);
   const dispatch = useDispatch();
 
+  // điều hướng
+  const navigate = useNavigate();
+  
+  // sản phẩm có trong giỏ hàng
+  const cartItems = useSelector(selectCartItems);
+
   // phương thức thanh toán
+  const [userInfo, setUserInfo] = useState([])
+
+  // chọn phương thức thanh toán
   const [paymentMethod,setPaymentMethod] = useState('COD');
 
-  const [userInfo, setUserInfo] = useState([]);
+  // tổng tiền hiển thị
+  const [displayTotal, setDisplayTotal] = useState(0);
 
-  const navigate = useNavigate();
-
+  // tổng tiền hàng
   const subTotal = useMemo(() => {
     let value = 0;
     cartItems?.forEach(element => {
@@ -33,6 +44,7 @@ const OrderPage = () => {
     return value;
   }, [cartItems]);
 
+  // lấy địa chỉ user
   useEffect(() => {
     dispatch(setLoading(true))
     fetchUserDetails()
@@ -45,17 +57,67 @@ const OrderPage = () => {
     })
   }, [dispatch]);
   
+  // tổng ship
   const shippingFee = useMemo(() => {
     if (subTotal > 1_000_000) return 0;
     if (subTotal > 500_000) return 15_000;
     return 30_000;
   }, [subTotal]);
 
+  // tổng tiền hàng
   const totalPayment = useMemo(() => {
     return subTotal + shippingFee;
   }, [subTotal, shippingFee]);
 
   const primaryAddress = userInfo?.addressList?.[0];
+
+  // thanh toán bằng COD
+  const handlePlaceOrder = async () => {
+    try {
+      dispatch(setLoading(true));
+
+      const request = createOrderRequest(
+        cartItems,
+        userInfo.id,
+        primaryAddress?.id,
+        paymentMethod
+      );
+
+      request.totalAmount = totalPayment.toFixed(2);
+
+      setDisplayTotal(subTotal);
+      
+      await placeOrderAPI(request);
+
+      navigate("/xac-nhan-don-hang", {
+        replace: true,
+        state: {
+          order: request,
+          shippingFee,
+          totalPayment,
+          receiver: {
+            fullName: userInfo.fullName,
+            phoneNumber: primaryAddress.phoneNumber,
+            address: `${primaryAddress.street},
+              ${primaryAddress.commune || primaryAddress.ward},
+              ${primaryAddress.cityOfProvince}`
+          }
+        }
+      });
+
+      dispatch(clearCart());
+
+    } catch (e) {
+      console.log(e);
+      alert("Đặt hàng thất bại");
+    } finally {
+      dispatch(setLoading(false));
+    }
+  };
+
+  useEffect(() => {
+    setDisplayTotal(totalPayment);
+  }, [totalPayment]);
 
   return (
     <div id="orderPage">
@@ -80,7 +142,7 @@ const OrderPage = () => {
                   {primaryAddress ? (
                     <>
                       <span>Địa chỉ: </span>
-                      Đường {primaryAddress?.street},{" "}
+                      {primaryAddress?.street},{" "}
                       {primaryAddress?.commune
                       ? `xã ${primaryAddress.commune}`
                       : `phường ${primaryAddress?.ward}`},{" "}
@@ -214,11 +276,11 @@ const OrderPage = () => {
           </div>
           <div className="orderPage_total-blk">
             <p className="total-text4">Tổng thanh toán:</p>
-            <p className="total-text5">{formatMoney(totalPayment)}</p>
+            <p className="total-text5">{formatMoney(displayTotal)}</p>
           </div>
           <div className="orderPage_total-btn">
-            {paymentMethod === 'CARD' && <button id="total-btn">Đặt hàng</button>}
-            {paymentMethod !== 'CARD' && <button id="total-btn" onClick={() => navigate('/dat-hang-thanh-cong')}>Đặt hàng</button>}
+            {paymentMethod === 'VNPay' && <button id="total-btn">Đặt hàng</button>}
+            {paymentMethod !== 'VNPay' && <button id="total-btn" onClick={handlePlaceOrder}>Đặt hàng</button>}
           </div>
         </div>
       </div>
