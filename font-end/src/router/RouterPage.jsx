@@ -1,12 +1,11 @@
 import { Outlet } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
+import { isTokenValid } from '../util/jwt-helper';
 import HeaderPage from '../component/HeaderPage/Header';
 import FooterPage from '../component/FooterPage/Footer';
-import { isTokenValid } from '../util/jwt-helper';
 
 const RouterPage = () => {
-    // const isLoggedIn = isTokenValid();
     const [isLoggedIn, setIsLoggedIn] = useState(isTokenValid());
 
     useEffect(() => {
@@ -23,8 +22,10 @@ const RouterPage = () => {
 
 
     return (
-        <>
-            <HeaderPage variant={isLoggedIn ? "auth" : "default"} />
+        <>  
+            <HeaderPage 
+                variant={isLoggedIn ? "auth" : "default"}
+            />
             <Outlet/>
             <FooterPage/>
         </>

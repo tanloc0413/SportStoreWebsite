@@ -13,21 +13,9 @@ export const fetchUserDetails = async() => {
         return response?.data;
     }
     catch(err) {
-        // throw new Error(err);
-        throw err;
+        throw new Error(err);
     }
 }
-
-// export const fetchUserDetails = async() => {
-//     const url = API_BASE_URL + '/api/user/profile';
-
-//     const response = await axios(url, {
-//         method: "GET",
-//         headers: getHeaders()
-//     });
-
-//     return response?.data;
-// };
 
 export const addAddressAPI = async(data) => {
     const url = API_BASE_URL + '/api/address';
@@ -88,6 +76,5 @@ export const cancelOrderAPI = async(id) => {
     }
     catch(err) {
         throw new Error(err);
-        // throw err;
     }
 }

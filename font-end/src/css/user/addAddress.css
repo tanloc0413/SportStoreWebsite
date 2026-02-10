@@ -1,0 +1,110 @@
+.addAddress {
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+  position: absolute;
+  z-index: 10;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+.formAddress {
+  width: 30rem;
+  display: flex;
+  justify-content: start;
+  flex-direction: column;
+  position: absolute;
+  padding: 15px 25px 20px 25px;
+  border-radius: 5px;
+  background-image: url('https://images.alphacoders.com/126/thumb-1920-1267108.png');
+  background-size: cover;
+  box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+}
+
+.formAddress_title {
+  font-size: 1.8rem;
+  text-align: center;
+  font-family: 'Open Sans', sans-serif;
+  text-transform: uppercase;
+  font-weight: 700;
+  user-select: none;
+}
+
+.formAddress_label {
+  font-size: 1.3rem;
+  margin-bottom: 5px;
+  font-weight: 500;
+  margin-top: 10px;
+  user-select: none;
+}
+
+.formAddress_labelF {
+  margin-top: 0;
+}
+
+.formAddress_input {
+  width: 100%;
+  height: 3rem;
+  outline: none;
+  border-radius: 5px;
+  padding-left: 10px;
+  font-size: 1.2rem;
+}
+
+.formAddress_btnGr {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+  column-gap: 15px;
+  margin-top: 15px;
+}
+
+.formAddress_btn {
+  width: 100%;
+  height: 3rem;
+  color: #000;
+  border-radius: 5px;
+  font-size: 1.35rem;
+  display: flex;
+  border: none;
+  cursor: pointer;
+  font-weight: 700;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Nunito Sans', sans-serif;
+  text-transform: capitalize;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+  filter: brightness(1.1);
+  transition: 0.2s;
+}
+
+.formAddress_btn:active, .formAddress_btn:hover {
+  filter: brightness(0.7);
+}
+
+.formAddress_btn-cancel {
+  background-size: cover;
+  background-position: left bottom;
+  background-image: url('https://images3.alphacoders.com/129/thumb-1920-1299180.jpg');
+}
+
+.formAddress_btn-add {
+  background-size: cover;
+  background-image: url('https://images7.alphacoders.com/127/thumb-1920-1271487.png');
+}
+
+.formAddress_error-text {
+  color: #ff0f06;
+  font-weight: 700;
+  margin-bottom: -5px!important;
+}

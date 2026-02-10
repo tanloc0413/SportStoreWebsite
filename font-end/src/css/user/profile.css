@@ -260,11 +260,11 @@
 }
 
 .address-editBtn {
-    background-color: #ffb700;
+    background-color: #ffd905;
 }
 
 .address-editBtn:active {
-    background-color: rgb(172, 124, 0);
+    background-color: #e4c305;
 }
 
 #profile_address-blk {
@@ -293,6 +293,7 @@
 .profile_address-actionD {
     display: flex;
     flex-direction: column;
+    row-gap: 5px;
 }
 
 .profile_address-delete {
@@ -300,9 +301,24 @@
     font-size: 2.2rem;
 }
 
+.profile_address-delete {
+    color: #ff150c;
+    cursor: pointer;
+}
+
+.profile_address-delete:active,
+.profile_address-delete:hover {
+    color: #d61009;
+}
+
 .profile_address-edit {
     color: #ffdb0c;
     font-size: 2.2rem;
+}
+
+.profile_address-edit:active, 
+.profile_address-edit:hover {
+    color: #e9c705;
 }
 
 #profile-changePassword {

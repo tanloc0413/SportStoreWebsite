@@ -20,7 +20,7 @@ public final class EndPoints {
             "/api/data/**",
             "/api/recommendations/**",
             "/images/**",
-            "/api/payment/vnpay/callback"
+            "/api/order/vnpay/callback"
     };
 
     // Public POST API
@@ -42,6 +42,7 @@ public final class EndPoints {
 
     // Public GOOLE LOGIN
     public static final String[] GOOGLE_LOGIN = {
-            "/oauth2/success"
+            "/oauth2/success",
+            "/oauth2/authorization/google"
     };
 }

@@ -56,3 +56,7 @@ p {
   text-decoration: none!important;
   font-family: "Poppins", sans-serif;
 }
+
+.absoluteLayout {
+  position: absolute;
+}

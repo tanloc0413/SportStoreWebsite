@@ -5,6 +5,8 @@ import com.fit.backend.dto.OrderRequest;
 import com.fit.backend.dto.OrderResponse;
 import com.fit.backend.entity.*;
 import com.fit.backend.repository.OrderRepository;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
 import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -14,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.security.Principal;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 @Service
@@ -27,11 +30,15 @@ public class OrderService {
     @Autowired
     private ProductService productService;
 
-//    @Autowired
-//    private PaymentIntentService paymentIntentService;
+    @Autowired
+    private VNPayService vnPayService;
 
     @Transactional
-    public Order createOrder(OrderRequest orderRequest, Principal principal) throws Exception {
+    public Order createOrder(
+            OrderRequest orderRequest,
+            Principal principal,
+            HttpServletRequest request)
+            throws Exception {
         User user = (User) userDetailsService.loadUserByUsername(principal.getName());
 
         Address address = user.getAddressList().stream().filter(
@@ -84,15 +91,56 @@ public class OrderService {
         order.setPayment(payment);
         Order savedOrder = orderRepository.save(order);
 
-        OrderResponse orderResponse = OrderResponse.builder()
-                .paymentMethod(orderRequest.getPaymentMethod())
-                .orderId(savedOrder.getId())
-                .build();
+//        OrderResponse orderResponse = OrderResponse.builder()
+//                .paymentMethod(orderRequest.getPaymentMethod())
+//                .orderId(savedOrder.getId())
+//                .build();
 //        if(Objects.equals(orderRequest.getPaymentMethod(), "CARD")){
-//            orderResponse.setCredentials(paymentIntentService.createPaymentIntent(order));
+//            orderResponse.setCredentials(Map.of(
+//                    "paymentUrl", vnPayService.createPaymentUrl(order, request)
+//            ));
 //        }
 
-        return orderResponse;
+        return savedOrder;
 
     }
+
+//    public Map<String, String> updateStatus(String paymentVNPay, String status) {
+//        try{
+//            PaymentIntent paymentIntent= PaymentIntent.retrieve(paymentIntentId);
+//            if (paymentIntent != null && paymentIntent.getStatus().equals("succeeded")) {
+//                String orderId = paymentIntent.getMetadata().get("orderId") ;
+//                Order order= orderRepository.findById(UUID.fromString(orderId)).orElseThrow(BadRequestException::new);
+//                Payment payment = order.getPayment();
+//                payment.setPaymentStatus(PaymentStatus.COMPLETED);
+//                payment.setPaymentMethod(paymentIntent.getPaymentMethod());
+//                order.setPaymentMethod(paymentIntent.getPaymentMethod());
+//                order.setOrderStatus(OrderStatus.IN_PROGRESS);
+//                order.setPayment(payment);
+//                Order savedOrder = orderRepository.save(order);
+//                Map<String,String> map = new HashMap<>();
+//                map.put("orderId", String.valueOf(savedOrder.getId()));
+//                return map;
+//            }
+//            else{
+//                throw new IllegalArgumentException("PaymentIntent not found or missing metadata");
+//            }
+//        }
+//        catch (Exception e){
+//            throw new IllegalArgumentException("PaymentIntent not found or missing metadata");
+//        }
+//    }
+
+//    public void cancelOrder(Integer id, Principal principal) {
+//        User user = (User) userDetailsService.loadUserByUsername(principal.getName());
+//        Order order = orderRepository.findById(id).get();
+//        if(null != order && order.getUser().getId().equals(user.getId())){
+//            order.setOrderStatus(OrderStatus.CANCELLED);
+//            //logic to refund amount
+//            orderRepository.save(order);
+//        }
+//        else{
+//            new RuntimeException("Invalid request");
+//        }
+//    }
 }

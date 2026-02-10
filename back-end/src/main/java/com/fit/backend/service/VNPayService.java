@@ -1,25 +1,25 @@
-//package com.fit.backend.service;
-//
-//import com.fit.backend.config.VNPayConfig;
-//import com.fit.backend.entity.Order;
-//import jakarta.servlet.http.HttpServletRequest;
-//import lombok.RequiredArgsConstructor;
-//import lombok.extern.slf4j.Slf4j;
-//import org.springframework.stereotype.Service;
-//
-//import java.io.UnsupportedEncodingException;
-//import java.net.URLEncoder;
-//import java.nio.charset.StandardCharsets;
-//import java.text.SimpleDateFormat;
-//import java.time.LocalDateTime;
-//import java.time.format.DateTimeFormatter;
-//import java.util.*;
-//
-//@Service
-//@RequiredArgsConstructor
-//@Slf4j
-//public class VNPayService {
-//
+package com.fit.backend.service;
+
+import com.fit.backend.config.VNPayConfig;
+import com.fit.backend.entity.Order;
+import jakarta.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
+
+@Service
+@RequiredArgsConstructor
+@Slf4j
+public class VNPayService {
+
 //    public String createPaymentUrl(Order order, String returnUrl, HttpServletRequest request) {
 //        try {
 //            String vnp_Version = "2.1.0";
@@ -189,4 +189,4 @@
 //        public String getMessage() { return message; }
 //        public void setMessage(String message) { this.message = message; }
 //    }
-//}
+}
