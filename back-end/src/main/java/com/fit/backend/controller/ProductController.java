@@ -3,6 +3,7 @@ package com.fit.backend.controller;
 import com.fit.backend.dto.ProductDto;
 import com.fit.backend.entity.Product;
 import com.fit.backend.service.ProductService;
+import jakarta.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +26,8 @@ public class ProductController {
     public ResponseEntity<List<ProductDto>> getAllProducts(
             @RequestParam(required = false, name = "categoryId", value = "categoryId") Integer categoryId,
             @RequestParam(required = false, name = "typeId", value = "typeId") Integer typeId,
-            @RequestParam(required = false) String slug
+            @RequestParam(required = false) String slug,
+            HttpServletResponse response
     ) {
         List<ProductDto> productList = new ArrayList<>();
 
@@ -36,6 +38,7 @@ public class ProductController {
             productList = productService.getAllProduct(categoryId, typeId);
         }
 
+        response.setHeader("Content-Range",String.valueOf(productList.size()));
         return new ResponseEntity<>(productList, HttpStatus.OK);
     }
 

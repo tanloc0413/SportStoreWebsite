@@ -17,6 +17,17 @@ export const fetchUserDetails = async() => {
     }
 }
 
+export const fetchAllUsers = async () => {
+    const url = API_BASE_URL + "/api/user/all";
+
+    const response = await axios(url, {
+        method: "GET",
+        headers: getHeaders()
+    });
+
+    return response?.data;
+};
+
 export const addAddressAPI = async(data) => {
     const url = API_BASE_URL + '/api/address';
 

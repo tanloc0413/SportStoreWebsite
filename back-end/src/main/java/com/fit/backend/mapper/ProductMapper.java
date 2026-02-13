@@ -8,6 +8,7 @@ import com.fit.backend.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,6 +30,7 @@ public class ProductMapper {
         product.setPrice(productDto.getPrice());
         product.setRating(productDto.getRating());
         product.setSlug(productDto.getSlug());
+        product.setCreatedAt(productDto.getCreatedAt());
 
         Category category = categoryService.getCategory(productDto.getCategoryId());
 
@@ -51,10 +53,15 @@ public class ProductMapper {
                     mapToProductVariant(productDto.getVariants(), product)
             );
         }
-        if(productDto.getProductImage() != null) {
-            product.setImageList(
-                    mapToProductImages(productDto.getProductImage(), product)
-            );
+//        if(productDto.getProductImage() != null) {
+//            product.setImageList(
+//                    mapToProductImages(productDto.getProductImage(), product)
+//            );
+//        }
+
+        if(productDto.getProductImage() != null && !productDto.getProductImage().isEmpty()) {
+            List<Image> images = mapToProductImages(productDto.getProductImage(), product);
+            product.setImageList(images);
         }
 
         return product;
@@ -76,15 +83,30 @@ public class ProductMapper {
 
     private List<Image> mapToProductImages(List<ProductImageDto> productImage, Product product) {
 
+//        return productImage.stream().map(productImageDto -> {
+//            Image image = new Image();
+//            if(null != productImageDto.getId()){
+//                image.setId(productImageDto.getId());
+//            }
+//            image.setName(productImageDto.getName());
+//            image.setType(productImageDto.getType());
+//            image.setUrl(productImageDto.getUrl());
+//            image.setIsPrimary(productImageDto.getIsPrimary());
+//
+//            image.setProduct(product);
+//
+//            return image;
+//        }).collect(Collectors.toList());
+        if (productImage == null) return new ArrayList<>();
+
         return productImage.stream().map(productImageDto -> {
             Image image = new Image();
-            if(null != productImageDto.getId()){
-                image.setId(productImageDto.getId());
-            }
             image.setName(productImageDto.getName());
-            image.setType(productImageDto.getType());
             image.setUrl(productImageDto.getUrl());
+            image.setType(productImageDto.getType());
             image.setIsPrimary(productImageDto.getIsPrimary());
+
+            image.setProduct(product);
 
             return image;
         }).collect(Collectors.toList());
@@ -102,7 +124,9 @@ public class ProductMapper {
                 .isNewArrival(product.isNewArrival())
                 .rating(product.getRating())
                 .slug(product.getSlug())
-                .description(product.getDescription()).build();
+                .description(product.getDescription())
+                .createdAt(product.getCreatedAt())
+                .build();
     }
 
     public List<ProductVariantDto> mapProductVariantListToDto(List<ProductVariant> productVariants) {

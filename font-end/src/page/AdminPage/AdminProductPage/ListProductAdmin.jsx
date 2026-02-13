@@ -1,4 +1,7 @@
 import * as React from 'react';
+import { useEffect } from 'react';
+import { MdEdit, MdDelete } from "react-icons/md";
+import { useDispatch, useSelector } from 'react-redux';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
@@ -11,14 +14,29 @@ import TableRow from '@mui/material/TableRow';
 import SearchIcon from '@mui/icons-material/Search';
 import Typography from '@mui/material/Typography';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
-import { MdEdit, MdDelete } from "react-icons/md";
 import TablePagination from '@mui/material/TablePagination';
 
 
 import '../../../css/admin/adminList.css';
-import Image from '../../../imgs/bgn5.png';
+import ImageProduct from '../../../imgs/bgn5.png';
+import { getAllProducts } from '../../../api/fetchProducts';
+import { loadProducts } from '../../../store/features/product';
+import { formatMoney } from '../../../component/FormatMoney/formatMoney';
+import { useNavigate } from 'react-router-dom';
 
 const ListProductAdmin = () => {
+    const dispatch = useDispatch();
+
+    const navigate = useNavigate();
+
+    const products = useSelector(state => state.productState.products);
+
+    useEffect(() => {
+        getAllProducts()
+        .then(res => {
+            dispatch(loadProducts(res));
+        });
+    }, [dispatch]);
 
 
     return (
@@ -50,7 +68,9 @@ const ListProductAdmin = () => {
                     <SearchIcon className='lpa_search-icon'/>
                 </div>
                 <div className='lpa_add'>
-                    <button className='lpa_btn-add'>
+                    <button 
+                    className='lpa_btn-add' 
+                    onClick={() => navigate('/admin/quan-ly-san-pham/them')}>
                         Thêm sản phẩm
                     </button>
                 </div>
@@ -72,11 +92,11 @@ const ListProductAdmin = () => {
                                 <TableCell align="center">
                                     Giá gốc
                                 </TableCell>
+                                {/* <TableCell align="center">
+                                    
+                                </TableCell> */}
                                 <TableCell align="center">
-                                    Giá bán
-                                </TableCell>
-                                <TableCell align="center">
-                                    Giá bán
+                                    Ngày tạo
                                 </TableCell>
                                 <TableCell align="center">
                                     Số lượng
@@ -90,44 +110,46 @@ const ListProductAdmin = () => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            <TableRow>
-                                <TableCell align="left" sx={{ width: 50 }}>
-                                    1
-                                </TableCell>
-                                <TableCell align="center">
-                                    <img
-                                        src={Image}
-                                        alt="sản phẩm"
-                                        className='lpa_product-img'
-                                    />
-                                </TableCell>
-                                <TableCell align="left">
-                                    giày bata màu đen black
-                                </TableCell>
-                                <TableCell align="center">
-                                    1.000.000đ
-                                </TableCell>
-                                <TableCell align="center">
-                                    1.000.000đ
-                                </TableCell>
-                                <TableCell align="center">
-                                    1.000.000đ
-                                </TableCell>
-                                <TableCell align="center">
-                                    1
-                                </TableCell>
-                                <TableCell align="center">
-                                    Nike
-                                </TableCell>
-                                <TableCell align="right" className='lpa_table-right'>
-                                    <button className='lpa_btn'>
-                                        <MdEdit className='lpa_btn-edit'/>
-                                    </button>
-                                    <button className='lpa_btn'>
-                                        <MdDelete className='lpa_btn-delete'/>
-                                    </button>
-                                </TableCell>
-                            </TableRow>
+                            {products?.map(products => (
+                                <TableRow>
+                                    <TableCell align="left" sx={{ width: 50 }}>
+                                        {products?.id}
+                                    </TableCell>
+                                    <TableCell align="center">
+                                        <img
+                                            src={products?.productImage?.[0]?.url || ImageProduct}
+                                            alt="sản phẩm"
+                                            className='lpa_product-img'
+                                        />
+                                    </TableCell>
+                                    <TableCell align="left">
+                                        {products?.name}
+                                    </TableCell>
+                                    <TableCell align="center">
+                                        {formatMoney(products?.price)}
+                                    </TableCell>
+                                    {/* <TableCell align="center">
+                                        1.000.000đ
+                                    </TableCell> */}
+                                    <TableCell align="center">
+                                        {new Date(products?.createdAt).toLocaleDateString("vi-VN")}
+                                    </TableCell>
+                                    <TableCell align="center">
+                                        1
+                                    </TableCell>
+                                    <TableCell align="center">
+                                        Nike
+                                    </TableCell>
+                                    <TableCell align="right" className='lpa_table-right'>
+                                        <button className='lpa_btn'>
+                                            <MdEdit className='lpa_btn-edit'/>
+                                        </button>
+                                        <button className='lpa_btn'>
+                                            <MdDelete className='lpa_btn-delete'/>
+                                        </button>
+                                    </TableCell>
+                                </TableRow>
+                            ))}
                         </TableBody>
                     </Table>
                 </TableContainer>

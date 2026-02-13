@@ -16,3 +16,28 @@ export const formatDateVN = (dateStr) => {
 
   return `${hours}:${minutes} - ${day}/${month}/${year}`;
 };
+
+export function formatMoneyVN(value) {
+  if (value == null || isNaN(value)) return '';
+
+  const abs = Math.abs(value);
+
+  const format = (num, unit) => {
+    const result = (num).toFixed(1).replace(/\.0$/, '');
+    return `${result} ${unit}`.trim();
+  };
+
+  if (abs >= 1_000_000_000) {
+    return format(value / 1_000_000_000, 'tỷ');
+  }
+
+  if (abs >= 1_000_000) {
+    return format(value / 1_000_000, 'triệu');
+  }
+
+  if (abs >= 1_000) {
+    return format(value / 1_000, 'k');
+  }
+
+  return value.toString();
+}

@@ -12,7 +12,7 @@ import '../../css/user/header.css';
 import LogoIcon from '../../imgs/sport.png';
 import { countCartItems } from '../../store/features/cart';
 import { logOut } from '../../util/jwt-helper';
-import { selectIsUserAdmin } from '../../store/features/user';
+import { selectIsUserAdmin, selectUserInfo } from '../../store/features/user';
 import { useEffect } from 'react';
 
 const Header = ({variant="default"}) => {
@@ -25,7 +25,6 @@ const Header = ({variant="default"}) => {
   const location = useLocation();
 
   const isUserAdmin = useSelector(selectIsUserAdmin);
-  console.log("isUserAdmin:", isUserAdmin);
 
   const handleLogout = () => {
     logOut();
@@ -158,7 +157,7 @@ const Header = ({variant="default"}) => {
                   <hr className='line_blk-user'/>
                   {isUserAdmin &&
                     <>
-                      <Link to="/admin">
+                      <Link to="/admin/thong-ke">
                         <div
                           className='logout-button'
                         >

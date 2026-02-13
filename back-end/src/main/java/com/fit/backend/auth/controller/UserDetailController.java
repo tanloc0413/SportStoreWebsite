@@ -2,6 +2,7 @@ package com.fit.backend.auth.controller;
 
 import com.fit.backend.auth.dto.UserDetailsDto;
 import com.fit.backend.auth.entity.User;
+import com.fit.backend.auth.repository.UserDetailRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.security.Principal;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin
@@ -19,6 +22,9 @@ import java.security.Principal;
 public class UserDetailController {
     @Autowired
     private UserDetailsService userDetailsService;
+
+    @Autowired
+    private UserDetailRepository userDetailRepository;
 
     @GetMapping("/profile")
     public ResponseEntity<UserDetailsDto> getUserProfile(Principal principal) {
@@ -37,5 +43,13 @@ public class UserDetailController {
                 .authorityList(user.getAuthorities().toArray()).build();
 
         return new ResponseEntity<>(userDetailsDto, HttpStatus.OK);
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<?> getAllUsers() {
+        return new ResponseEntity<>(
+                userDetailRepository.findAll(),
+                HttpStatus.OK
+        );
     }
 }

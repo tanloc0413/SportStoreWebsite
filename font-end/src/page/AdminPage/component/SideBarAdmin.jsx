@@ -10,7 +10,7 @@ import { TbBrandAdobe } from "react-icons/tb";
 
 import '../../../css/admin/sidebarAdmin.css';
 import LogoImg from '../../../imgs/sport.png';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 
 const SideBarAdmin = () => {
 
@@ -24,65 +24,100 @@ const SideBarAdmin = () => {
         />
       </Link>
       <ul className='sidebar_nav align-items-sm-start flex-column '>
-        <li className='nav-items nav-active'>
-          <div className='nav-iconDiv'>
-            <PiChartLineUpLight className='nav-icon'/>
-          </div>
-          <p className='nav-text'>
-            Thống kê
-          </p>
-        </li>
-        <li className='nav-items'>
-          <div className='nav-itemList'>
+        <li>
+          <NavLink 
+            className={({isActive}) => isActive ? 'nav-activeA nav-items' : 'nav-items'} 
+            to={'/admin/thong-ke'}
+          >
             <div className='nav-iconDiv'>
-              <AiOutlineShoppingCart className='nav-icon nav-iconP'/>
+              <PiChartLineUpLight className='nav-icon'/>
             </div>
             <p className='nav-text'>
-              Sản phẩm
+              Thống kê
             </p>
-          </div>
+          </NavLink>
         </li>
-        <li className='nav-items'>
-          <div className='nav-itemList'>
+        <li>
+          <NavLink
+            className={({isActive}) => isActive ? 'nav-activeA nav-items' : 'nav-items'} 
+            to={'/admin/quan-ly-san-pham'}
+          >
             <div className='nav-itemList'>
               <div className='nav-iconDiv'>
-                <BiCategoryAlt className='nav-icon nav-iconO'/>
+                <AiOutlineShoppingCart className='nav-icon nav-iconP'/>
               </div>
               <p className='nav-text'>
-                Thể loại sản phẩm
+                Sản phẩm
               </p>
             </div>
-          </div>
+          </NavLink>
         </li>
-        <li className='nav-items'>
-          <div className='nav-iconDiv'>
-            <LuUserCog className='nav-icon nav-iconU'/>
-          </div>
-          <p className='nav-text'>
-            Người dùng
-          </p>
+        <li>
+          <NavLink 
+            className={({isActive})=> isActive ? 'nav-activeA nav-items' : 'nav-items'} 
+            to={'/admin/quan-ly-the-loai'}
+          >
+            <div className='nav-itemList'>
+              <div className='nav-itemList'>
+                <div className='nav-iconDiv'>
+                  <BiCategoryAlt className='nav-icon nav-iconO'/>
+                </div>
+                <p className='nav-text'>
+                  Thể loại sản phẩm
+                </p>
+              </div>
+            </div>
+          </NavLink>
         </li>
-        <li className='nav-items'>
-          <div className='nav-iconDiv'>
-            <TbTruckDelivery className='nav-icon nav-iconO'/>
-          </div>
-          <p className='nav-text'>
-            Đơn hàng
-          </p>
+        <li>
+          <NavLink 
+            className={({isActive})=> isActive ? 'nav-activeA nav-items' : 'nav-items'} 
+            to={'/admin/quan-ly-nguoi-dung'}
+          >
+            <div className='nav-iconDiv'>
+              <LuUserCog className='nav-icon nav-iconU'/>
+            </div>
+            <p className='nav-text'>
+              Người dùng
+            </p>
+          </NavLink>
         </li>
-        <li className='nav-items'>
-          <div className='nav-iconDiv'>
-            <TbBrandAdobe className='nav-icon'/>
-          </div>
-          <p className='nav-text'>
-            Thương hiệu
-          </p>
+        <li>
+          <NavLink
+            className={({isActive})=> isActive ? 'nav-activeA nav-items' : 'nav-items'} 
+            to={'/admin/quan-ly-don-hang'}
+          >
+            <div className='nav-iconDiv'>
+              <TbTruckDelivery className='nav-icon nav-iconO'/>
+            </div>
+            <p className='nav-text'>
+              Đơn hàng
+            </p>
+          </NavLink>
         </li>
-        <li className='nav-items'>
-          <MdLockReset className='nav-icon nav-iconPr'/>
-          <p className='nav-text'>
-            Đổi mật khẩu
-          </p>
+        <li>
+          <NavLink 
+            className={({isActive})=> isActive ? 'nav-activeA nav-items' : 'nav-items'} 
+            to={'/admin/thuong-hieu'}
+          >
+            <div className='nav-iconDiv'>
+              <TbBrandAdobe className='nav-icon'/>
+            </div>
+            <p className='nav-text'>
+              Thương hiệu
+            </p>
+          </NavLink>
+        </li>
+        <li>
+          <NavLink
+            className={({isActive})=> isActive ? 'nav-activeA nav-items' : 'nav-items'} 
+            to={'/admin/doi-mat-khau'}
+          >
+            <MdLockReset className='nav-icon nav-iconPr'/>
+            <p className='nav-text'>
+              Đổi mật khẩu
+            </p>
+          </NavLink>
         </li>
       </ul>
 

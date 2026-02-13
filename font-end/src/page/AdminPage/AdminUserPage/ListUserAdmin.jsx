@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from '@mui/material/Link';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -6,11 +6,29 @@ import Breadcrumbs from '@mui/material/Breadcrumbs';
 import SearchIcon from '@mui/icons-material/Search';
 import { MdEdit, MdDelete } from "react-icons/md";
 import { TbLockOpen } from "react-icons/tb";
+import { useDispatch } from 'react-redux';
 
 import '../../../css/admin/adminList.css';
+import { loadUserInfo } from '../../../store/features/user';
+import { fetchAllUsers } from '../../../api/userInfo';
 
-const ListUserAdmin: React.FC = () => {
+const ListUserAdmin = () => {
+    const dispatch = useDispatch();
+    
+    const [user, setUser] = useState([]);
 
+    useEffect(() => {
+        fetchAllUsers()
+        .then(res => {
+            setUser(res);
+            // dispatch(loadUserInfo(res));
+            console.log("API: ", res)
+        })
+        .catch((err) => {
+            console.log("Lỗi: ", err);
+        });
+    }, [dispatch]);
+    
 
     return (
         <Box>
@@ -62,7 +80,7 @@ const ListUserAdmin: React.FC = () => {
                                     Email
                                 </th>
                                 <th scope="col" className='luaDiv2_th luaDiv2_th5'>
-                                    Giới tính
+                                    Dạng đăng ký
                                 </th>
                                 <th scope="col" className='luaDiv2_th luaDiv2_th6'>
                                     Role
@@ -73,43 +91,43 @@ const ListUserAdmin: React.FC = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr className='luaDiv2_tr2'>
-                                <td className='luaDiv2_td luaDiv2_td1'>
-                                    1
-                                </td>
-                                <td className='luaDiv2_td luaDiv2_td2'>
-                                    Trần Tấn Lộc
-                                </td>
-                                <td className='luaDiv2_td'>
-                                    0379383465
-                                </td>
-                                <td className='luaDiv2_td'>
-                                    cavoibien9888@gmail.com
-                                </td>
-                                <td className='luaDiv2_td luaDiv2_td5'>
-                                    Nam
-                                </td>
-                                <td className='luaDiv2_td luaDiv2_td6'>
-                                    User
-                                </td>
-                                <td className='luaDiv2_td luaDiv2_td7'>
-                                    <button className='luaDiv2_btn luaDiv2_btn1'>
-                                        <TbLockOpen className='luaDiv2_btn-block'/>
-                                    </button>
-                                    <button className='luaDiv2_btn luaDiv2_btn2'>
-                                        <MdEdit className='luaDiv2_btn-edit'/>
-                                    </button>
-                                    <button className='luaDiv2_btn'>
-                                        <MdDelete className='luaDiv2_btn-delete'/>
-                                    </button>
-                                </td>
-                            </tr>
+                            {user.map(user => (
+                                <tr className='luaDiv2_tr2'>
+                                    <td className='luaDiv2_td luaDiv2_td1'>
+                                        {user?.id}
+                                    </td>
+                                    <td className='luaDiv2_td luaDiv2_td2'>
+                                        {user?.fullName}
+                                    </td>
+                                    <td className='luaDiv2_td'>
+                                        {user?.phoneNumber || 'Chưa có SĐT'}
+                                    </td>
+                                    <td className='luaDiv2_td'>
+                                        {user?.email}
+                                    </td>
+                                    <td className='luaDiv2_td luaDiv2_td5'>
+                                        {user?.provider}
+                                    </td>
+                                    <td className='luaDiv2_td luaDiv2_td6'>
+                                        {user?.authorities?.[0]?.roleName}
+                                    </td>
+                                    <td className='luaDiv2_td luaDiv2_td7'>
+                                        <button className='luaDiv2_btn luaDiv2_btn1'>
+                                            <TbLockOpen className='luaDiv2_btn-block'/>
+                                        </button>
+                                        <button className='luaDiv2_btn luaDiv2_btn2'>
+                                            <MdEdit className='luaDiv2_btn-edit'/>
+                                        </button>
+                                        <button className='luaDiv2_btn'>
+                                            <MdDelete className='luaDiv2_btn-delete'/>
+                                        </button>
+                                    </td>
+                                </tr>
+                            ))}
                         </tbody>
                     </table>
                 </div>
             </div>
-            
-
         </Box>
     )
 }

@@ -1,16 +1,20 @@
 package com.fit.backend.service;
 
 import com.fit.backend.dto.ProductDto;
+import com.fit.backend.dto.ProductImageDto;
 import com.fit.backend.entity.*;
 import com.fit.backend.exception.ResourceNotFoundEx;
 import com.fit.backend.mapper.ProductMapper;
+import com.fit.backend.repository.ImageRepository;
 import com.fit.backend.repository.ProductRepository;
 import com.fit.backend.specification.ProductSpecification;
 import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,9 +29,14 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private ProductMapper productMapper;
 
+    @Autowired
+    private ImageRepository imageRepository;
+
     @Override
+    @Transactional
     public Product addProduct(ProductDto productDto) {
         Product product = productMapper.mapToProductEntity(productDto);
+
         return productRepository.save(product);
     }
 

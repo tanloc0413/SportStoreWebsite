@@ -10,7 +10,7 @@ import { MdOutlineAccountBox } from "react-icons/md";
 import { TbLogout } from "react-icons/tb";
 
 import '../../../css/admin/headerAdmin.css';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { logOut } from '../../../util/jwt-helper';
 
 const HeaderAdmin = () => {
@@ -38,9 +38,11 @@ const HeaderAdmin = () => {
     return (
         <header className='header_admin'>
             <div className='header_admin1'>
-                <p className='header_admin1-title'>
-                    Admin Sport Dashboard
-                </p>
+                <Link to={'/admin/thong-ke'}>
+                    <p className='header_admin1-title'>
+                        Admin Sport Dashboard
+                    </p>
+                </Link>
             </div>
             <div className='header_admin2'>
                 <input

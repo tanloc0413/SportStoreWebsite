@@ -2,12 +2,12 @@ package com.fit.backend.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -51,15 +51,19 @@ public class Product {
 
     // danh sách hình ảnh sản phẩm
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    @ToString.Exclude // THÊM DÒNG NÀY
+    @EqualsAndHashCode.Exclude // THÊM DÒNG NÀY
     private List<Image> imageList;
 
     @ManyToOne
     private Brand brand;
 
+    @CreationTimestamp
     @Column(nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
 
+    @UpdateTimestamp
     @Column(nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;

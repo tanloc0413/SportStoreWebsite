@@ -6,7 +6,9 @@ import SearchIcon from '@mui/icons-material/Search';
 
 import '../../../css/admin/adminList.css';
 
-const ListOrderAdmin: React.FC = () => {
+const ListOrderAdmin = () => {
+    
+
     return (
         <div className='loa'>
             <Breadcrumbs aria-label="breadcrumb">

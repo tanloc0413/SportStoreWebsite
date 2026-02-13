@@ -61,7 +61,7 @@
 }
 
 .lpa_btn {
-    background-color: #fff;
+    background-color: transparent;
 }
 
 .lcaDiv2_btn, .luaDiv2_btn {
@@ -88,6 +88,8 @@
 
 .lpa_btn-add, .lcaDiv1_btn-add, 
 .luaDiv1_btn-add, .lbaDiv1_btn-add {
+    height: 2rem;
+    padding: 0 10px;
     color: #fff;
     border-radius: 5px;
     background-color: #3f99ff;
@@ -193,6 +195,10 @@
     width: 200px;
 }
 
+.luaDiv2_td5, .luaDiv2_td6 {
+    text-transform: capitalize;
+}
+
 .luaDiv2_td6, .luaDiv2_th6 {
     width: 170px;
 }
@@ -288,6 +294,7 @@
     flex-direction: column;
     border: 1px solid #b9b9b9;
     border-radius: 10px;
+    margin-right: 10rem;
 }
 
 .lbaDiv_notifi-text {
@@ -337,6 +344,8 @@
     justify-content: center;
     align-items: center;
     margin-top: -10rem;
+    bottom: 0;
+    z-index: 20;
 }
 
 .lbaDiv1_search-icon {

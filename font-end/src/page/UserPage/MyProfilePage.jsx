@@ -4,11 +4,13 @@ import { IoCameraOutline } from "react-icons/io5";
 import { useSelector } from 'react-redux';
 
 import '../../css/user/profile.css';
-import { selectUserInfo } from '../../store/features/user';
+import { selectIsUserAdmin, selectUserInfo } from '../../store/features/user';
 
 const MyProfilePage = () =>  {
     const userInfo = useSelector(selectUserInfo);
 
+    const isUserAdmin = useSelector(selectIsUserAdmin);
+    
 
     return (  
         <>
@@ -33,16 +35,8 @@ const MyProfilePage = () =>  {
                         <p className='info-text2'>
                             {userInfo?.fullName}
                         </p>
-                    </div>
+                    </div>    
                     <div className='profile_info-item'>
-                        <p className='info-text1'>
-                            Số điện thoại:
-                        </p>
-                        <p className='info-text2'>
-                            {userInfo?.phoneNumber || 'Chưa có SĐT'}
-                        </p>
-                    </div>
-                    <div className='profile_info-item info_noneBorder'>
                         <p className='info-text1'>
                             Email:
                         </p>
@@ -50,6 +44,24 @@ const MyProfilePage = () =>  {
                             {userInfo?.email}
                         </p>
                     </div>
+                    <div className={`profile_info-item ${isUserAdmin ? "" : 'info_noneBorder'}`}>
+                        <p className='info-text1'>
+                            Số điện thoại:
+                        </p>
+                        <p className='info-text2'>
+                            {userInfo?.phoneNumber || 'Chưa có SĐT'}
+                        </p>
+                    </div>
+                    {isUserAdmin && 
+                        <div className='profile_info-item info_noneBorder'>
+                            <p className='info-text1'>
+                                Quyền:
+                            </p>
+                            <p className='info-text2'>
+                                Quản trị viên (Admin)
+                            </p>
+                        </div>
+                    }
                     <div className='profile_info-btn'>
                         <button className='info_btn'>
                             <MdEdit className='info_btn-icon'/>

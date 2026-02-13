@@ -40,7 +40,7 @@ ul, li {
     justify-content: start;
     align-items: center;
     cursor: default;
-    border-bottom: 1px solid #e0d6d6;
+    border-bottom: 1px solid #e0d6d6!important;
     flex-direction: row;
     padding: 15px 1rem 15px 1.5rem;
     column-gap: 8px;
@@ -151,17 +151,17 @@ ul, li {
     margin-left: -3px;
 }
 
-.nav-active, .nav-items:hover {
+.nav-activeA, .nav-items:hover {
     background: #e0f3ff;
 }
 
-.nav-active .nav-text,
-.nav-active .nav-icon  {
+.nav-activeA .nav-text,
+.nav-activeA .nav-icon  {
     color: #3f6ad8;
     font-weight: 700;
 }
 
-.nav-active .nav_img-icon {
+.nav-activeA .nav_img-icon {
     fill: #3f6ad8;
 }
 

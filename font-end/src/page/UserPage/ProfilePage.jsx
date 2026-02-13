@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Link, Outlet } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import '../../css/user/profile.css';
 import { fetchUserDetails } from '../../api/userInfo';
 import { setLoading } from '../../store/features/common';
-import { selectUserInfo, loadUserInfo } from '../../store/features/user';
+import { loadUserInfo, selectIsUserAdmin } from '../../store/features/user';
 
 const ProfilePage = () => {
   const dispatch = useDispatch();
@@ -22,6 +22,8 @@ const ProfilePage = () => {
     })
     .finally(() => dispatch(setLoading(false)));
   }, [dispatch]);
+
+  const isUserAdmin = useSelector(selectIsUserAdmin);
   
   return (
     <div id='profile'>
@@ -29,12 +31,16 @@ const ProfilePage = () => {
         <Link className='tab-text' to='ho-so'>
           Hồ sơ
         </Link>
-        <Link className='tab-text' to='dia-chi'>
-          Địa chỉ
-        </Link>
-        <Link className='tab-text' to='don-hang'>
-          Đơn hàng
-        </Link>
+        {!isUserAdmin &&
+          <>
+            <Link className='tab-text' to='dia-chi'>
+              Địa chỉ
+            </Link>
+            <Link className='tab-text' to='don-hang'>
+              Đơn hàng
+            </Link>
+          </>
+        }
         <Link className='tab-text' to='doi-mat-khau'>
           Đổi mật khẩu
         </Link>

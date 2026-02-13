@@ -1,13 +1,36 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import SearchIcon from '@mui/icons-material/Search';
 import { MdEdit, MdDelete } from "react-icons/md";
+import { useDispatch, useSelector } from 'react-redux';
 
 import '../../../css/admin/adminList.css';
+import { fetchCategories } from '../../../api/fetchCategories';
+import { loadCategories } from '../../../store/features/category';
+import { useNavigate } from 'react-router-dom';
 
 const ListCategoryAdmin = () => {
+    const dispatch = useDispatch();
+
+    const navigate = useNavigate();
+    
+    useEffect(() => {
+        fetchCategories()
+        .then(res => {
+            // setCategory(res);
+            dispatch(loadCategories(res));
+        })
+        .catch((err) => {
+            console.log('Lỗi: ', err);
+        });
+    }, []);
+
+    const categories = useSelector(
+      state => state.categoryState.categories
+    );
+
     return (
         <div className='lca'>
             <Breadcrumbs aria-label="breadcrumb">
@@ -36,7 +59,10 @@ const ListCategoryAdmin = () => {
                         <SearchIcon className='lcaDiv1_search-icon'/>
                     </div>
                     <div className='lcaDiv1_add'>
-                        <button className='lcaDiv1_btn-add'>
+                        <button 
+                            className='lcaDiv1_btn-add'
+                            onClick={() => navigate('/admin/quan-ly-the-loai/them')}
+                        >
                             Thêm thể loại
                         </button>
                     </div>
@@ -60,54 +86,31 @@ const ListCategoryAdmin = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td className='lcaDiv2_td1'>
-                                    1
-                                </td>
-                                <td className='lcaDiv2_td2'>
-                                    Nam
-                                </td>
-                                <td className='lcaDiv2_td3'>
-                                    #Nam
-                                </td>
-                                <td className='lcaDiv2_tbody-td4'>
-                                    <button className='lcaDiv2_btn'>
-                                        <MdEdit className='lcaDiv2_btn-edit'/>
-                                    </button>
-                                    <button className='lcaDiv2_btn'>
-                                        <MdDelete className='lcaDiv2_btn-delete'/>
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    2
-                                </td>
-                                <td>
-                                    Nam
-                                </td>
-                                <td>
-                                    #Nam
-                                </td>
-                                <td>
-                                    <button className='lpa_btn'>
-                                        <MdEdit className='lpa_btn-edit'/>
-                                    </button>
-                                    <button className='lpa_btn'>
-                                        <MdDelete className='lpa_btn-delete'/>
-                                    </button>
-                                </td>
-                            </tr>
+                            {categories?.map(categories => (
+                                <tr>
+                                    <td className='lcaDiv2_td1'>
+                                        {categories?.id}
+                                    </td>
+                                    <td className='lcaDiv2_td2'>
+                                        {categories?.name}
+                                    </td>
+                                    <td className='lcaDiv2_td3'>
+                                        #{categories?.code}
+                                    </td>
+                                    <td>
+                                        <button className='lpa_btn'>
+                                            <MdEdit className='lpa_btn-edit'/>
+                                        </button>
+                                        <button className='lpa_btn'>
+                                            <MdDelete className='lpa_btn-delete'/>
+                                        </button>
+                                    </td>
+                                </tr>
+                                ))
+                            }
                         </tbody>
                     </table>
                 </div>
-                {/* <div>
-                    <p>Thể loại</p>
-                    <form action="">
-                        <input type="text" />
-                        <button>Thêm thể loại</button>
-                    </form>
-                </div> */}
             </div>
         </div>
     )

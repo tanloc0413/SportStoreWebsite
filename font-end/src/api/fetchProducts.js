@@ -1,5 +1,5 @@
 import axios from "axios";
-import { API_BASE_URL, API_URLS } from "./constant";
+import { API_BASE_URL, API_URLS, getHeaders } from "./constant";
 
 // lấy tất cả sản phẩm
 export const getAllProducts = async () => {
@@ -43,4 +43,26 @@ export const getProductBySlug = async(slug) => {
   catch(err){
     console.error(err);
   }
+}
+
+export const addProductAPI = async (data) => {
+  const url = API_BASE_URL + "/api/products";
+
+  const response = await axios(url, {
+    method: "POST",
+    data,
+    headers: getHeaders()
+  });
+
+  return response.data;
+};
+
+export const addNewProductAPI = async (productData) => {
+  const url = API_BASE_URL + '/api/products';
+  const response = await axios(url, {
+    method: "POST",
+    data: productData,
+    headers: getHeaders()
+  });
+  return response?.data;
 }

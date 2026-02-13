@@ -4,10 +4,9 @@ import Typography from '@mui/material/Typography';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import { FaRegEye, FaRegEyeSlash  } from "react-icons/fa";
 
-
 import '../../../css/admin/adminRestPass.css';
 
-const ResetPasswordAdmin: React.FC = () => {
+const ResetPasswordAdmin = () => {
     const[showPassword, setShowPassword] = useState(false);
 
     return (
@@ -32,7 +31,7 @@ const ResetPasswordAdmin: React.FC = () => {
                     <p className='rpaDiv_blk-title'>
                         Đổi mật khẩu mới
                     </p>
-                    <form action="" className='rpaDiv_blk-form' autoComplete="off">
+                    <form className='rpaDiv_blk-form' autoComplete="off">
                         <p className='rpaDiv_blk-text'>
                             Mật khẩu mới
                         </p>
@@ -41,6 +40,8 @@ const ResetPasswordAdmin: React.FC = () => {
                                 type={showPassword ? "text" : "password"}
                                 className='rpaDiv_blk-input'
                                 placeholder='Nhập mật khẩu mới'
+                                autoComplete='off'
+                                autoSave='off'
                             />
                             {showPassword ? (
                                 <FaRegEyeSlash

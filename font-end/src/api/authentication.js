@@ -1,5 +1,5 @@
 import axios from "axios";
-import { API_BASE_URL, getHeaders } from "./constant"
+import { API_BASE_URL, getHeaders } from "./constant";
 
 export const loginAPI = async(body) => {
   const url = API_BASE_URL + '/api/auth/login';

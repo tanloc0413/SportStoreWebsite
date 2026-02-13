@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 export const initialState = {
   userInfo: {},
-  orders:[],
+  orders: [],
 }
 
 export const userSlice = createSlice({
@@ -12,7 +12,7 @@ export const userSlice = createSlice({
     loadUserInfo: (state, action) => {
       return {
         ...state,
-        userInfo:action?.payload
+        userInfo: action?.payload
       }
     },
     saveAddress: (state,action) => {
@@ -22,7 +22,7 @@ export const userSlice = createSlice({
         ...state,
         userInfo: {
           ...state?.userInfo,
-          addressList:addresses
+          addressList: addresses
         }
       }
     },
@@ -35,20 +35,20 @@ export const userSlice = createSlice({
         }
       }
     },
-    loadOrders: (state,action) => {
+    loadOrders: (state, action) => {
       return {
         ...state,
-        orders:action?.payload
+        orders: action?.payload
       }
     },
-    cancelOrder: (state,action) => {
+    cancelOrder: (state, action) => {
       return {
         ...state,
         orders:state?.orders?.map(order => {
           if(order?.id === action?.payload) {
             return {
               ...order,
-              orderStatus:'CANCELLED'
+              orderStatus: 'CANCELLED'
             }
           }
           return order;

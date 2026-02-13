@@ -9,6 +9,7 @@ import '../../css/user/login.css';
 import { setLoading } from '../../store/features/common';
 import GoogleIcon from '../../imgs/google.png';
 import { API_BASE_URL } from '../../api/constant';
+import { loadUserInfo } from '../../store/features/user';
 
 const Login = () => {
   // hiện mật khẩu
@@ -45,9 +46,8 @@ const Login = () => {
     .then(res => {
       if(res?.token) {
         saveToken(res?.token);
-        console.log("TOKEN SAVED:", res.token);
 
-        navigate('/')
+        navigate("/");
       } else {
         setError("Đã xảy ra lỗi!");
       }

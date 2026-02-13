@@ -1,6 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 
 import App from '../App';
+import { loadProductBySlug } from "./productSlug";
 import RouterPage from '../router/RouterPage';
 import CartPage from '../page/CartPage/CartPage';
 import LoginPage from '../page/LoginPage/Login';
@@ -9,7 +10,6 @@ import RegisterPage from '../page/RegisterPage/Register';
 import ProductListPage from '../page/ProductListPage/ProductListPage';
 import GoogleLogin from "../page/LoginPage/GoogleLogin";
 import OrderPage from '../page/OrderPage/OrderPage';
-import { loadProductBySlug } from "./productSlug";
 import ProtectedRouter from '../component/ProtectedRouter/ProtectedRouter';
 import ProfilePage from "../page/UserPage/ProfilePage";
 import AddressPage from '../page/UserPage/AddressPage';
@@ -19,6 +19,14 @@ import OrderListPage from "../page/UserPage/OrderListPage";
 import MyProfilePage from '../page/UserPage/MyProfilePage';
 import AdminLayout from '../page/AdminPage/AdminLayout';
 import ListProductAdmin from '../page/AdminPage/AdminProductPage/ListProductAdmin';
+import AdminDashboard from '../page/AdminPage/AdminDashboard/AdminDashboard';
+import ListCategoryAdmin from '../page/AdminPage/AdminCategoryPage/ListCategoryAdmin';
+import ListUserAdmin from '../page/AdminPage/AdminUserPage/ListUserAdmin';
+import ListBrandAdmin from '../page/AdminPage/AdminBrandPage/ListBrandAdmin';
+import ListOrderAdmin from '../page/AdminPage/AdminOrderPage/ListOrderAdmin';
+import ResetPasswordAdmin from '../page/AdminPage/AdminChangePassword/ResetPasswordAdmin';
+import AddProductAdmin from '../page/AdminPage/AdminProductPage/AddProductAdmin';
+import AddCategoryAdmin from "../page/AdminPage/AdminCategoryPage/AddCategoryAdmin";
 
 export const router = createBrowserRouter ([
     {
@@ -99,45 +107,46 @@ export const router = createBrowserRouter ([
         ]
     },
     {
-        path: '/admin/*',
+        path: '/admin/',
         element: <ProtectedRouter><AdminLayout/></ProtectedRouter>,
         children: [
+            {
+                path: 'thong-ke',
+                index: true,
+                element: <AdminDashboard/>
+            },
             {
                 path: 'quan-ly-san-pham',
                 element: <ListProductAdmin/>
             },
-            // {
-            //     path: '/admin/dashboard',
-            //     element: <AdminDashboard/>
-            // },
-            // {
-            //     path: '/admin/products',
-            //     element: <ListProductAdmin/>
-            // },
-            // {
-            //     path: '/admin/products/add',
-            //     element: <AddProductAdmin/>
-            // },
-            // {
-            //     path: '/admin/brands',
-            //     element: <ListBrandAdmin/>
-            // },
-            // {
-            //     path: '/admin/categories',
-            //     element: <ListCategoryAdmin/>
-            // },
-            // {
-            //     path: '/admin/users',
-            //     element: <ListUserAdmin/>
-            // },
-            // {
-            //     path: '/admin/orders',
-            //     element: <ListOrderAdmin/>
-            // },
-            // {
-            //     path: '/admin/password',
-            //     element: <ResetPasswordAdmin/>
-            // }
+            {
+                path: 'quan-ly-the-loai',
+                element: <ListCategoryAdmin/>
+            },
+            {
+                path: 'quan-ly-nguoi-dung',
+                element: <ListUserAdmin/>
+            },
+            {
+                path: 'thuong-hieu',
+                element: <ListBrandAdmin/>
+            },
+            {
+                path: 'quan-ly-don-hang',
+                element: <ListOrderAdmin/>
+            },
+            {
+                path: 'doi-mat-khau',
+                element: <ResetPasswordAdmin/>
+            },
+            {
+                path: 'quan-ly-san-pham/them',
+                element: <AddProductAdmin/>
+            },
+            {
+                path: 'quan-ly-the-loai/them',
+                element: <AddCategoryAdmin/>
+            },
         ]
-    }
+    },
 ]);

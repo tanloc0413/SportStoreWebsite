@@ -58,6 +58,7 @@
     font-size: 16px;
     color: #555;
     margin-top: 15px;
+    margin-bottom: 5px;
 }
 
 .addProduct-input,
@@ -86,9 +87,14 @@
     padding: 10px 12px;
 }
 
-.basic-multi-select {
-    border: none!important;
-    margin-top: 5px;
+.input_numberQ {
+    width: 100%;
+    height: 2.75rem;
+    border-radius: 5px;
+    outline: none;
+    border: 1px solid #c9bdbd;
+    /* margin-top: 5px; */
+    padding-left: 10px;
 }
 
 .css-13cymwt-control, .select__control--is-focused {

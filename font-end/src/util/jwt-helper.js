@@ -17,7 +17,7 @@ export const isTokenValid = () => {
 }
 
 export const saveToken = (token) => {
-  console.log("TOKEN SAVE:", token);
+  // console.log("TOKEN SAVE:", token);
   localStorage.setItem('authToken', token);
   window.dispatchEvent(new Event('auth-changed'));
 }
