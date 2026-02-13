@@ -120,7 +120,7 @@ const AddProductAdmin = () => {
             return;
         }
 
-        dispatch(setLoading(true)); // [cite: 701]
+        dispatch(setLoading(true));
 
         try {
             let uploadedImages = [];
@@ -161,6 +161,7 @@ const AddProductAdmin = () => {
                     });
                 });
             } 
+
             // Nếu chỉ chọn Size
             else if (selectedSizes.length > 0) {
                 selectedSizes.forEach(s => {
@@ -171,6 +172,7 @@ const AddProductAdmin = () => {
                     });
                 });
             }
+
             // Nếu không chọn gì (Sản phẩm đơn giản)
             else {
                 variants.push({
@@ -188,9 +190,9 @@ const AddProductAdmin = () => {
                 isNewArrival: true,
                 rating: 0,
                 slug: name.toLowerCase()
-                          .normalize("NFD").replace(/[\u0300-\u036f]/g, "") // Bỏ dấu tiếng Việt
-                          .replace(/ /g, '-')
-                          .replace(/[^\w-]+/g, ''),
+                        .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+                        .replace(/ /g, '-')
+                        .replace(/[^\w-]+/g, ''),
                 categoryId: selectedCategory.value,
                 categoryTypeId: selectedType?.value || null,
                 variants: variants,
