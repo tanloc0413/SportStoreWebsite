@@ -15,6 +15,7 @@ import { setLoading } from "../../store/features/common";
 import { placeOrderAPI } from "../../api/order";
 import { clearCart } from "../../store/actions/cartAction";
 import { createOrderRequest } from '../../util/order-util';
+import { trackPurchase } from '../../api/recommendation';
 
 const OrderPage = () => {
   const dispatch = useDispatch();
@@ -88,6 +89,13 @@ const OrderPage = () => {
       setDisplayTotal(subTotal);
       
       await placeOrderAPI(request);
+
+      // Track purchase interactions for recommendation
+      cartItems?.forEach(item => {
+        if (item?.productId) {
+          trackPurchase(item.productId);
+        }
+      });
 
       navigate("/xac-nhan-don-hang", {
         replace: true,

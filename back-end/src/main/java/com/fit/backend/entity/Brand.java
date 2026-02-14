@@ -21,7 +21,7 @@ public class Brand {
 
     @Column(columnDefinition = "LONGTEXT")
     private String description;
-    
+
     private String thumbnail;
 
     @OneToMany(mappedBy = "brand", cascade = CascadeType.ALL)

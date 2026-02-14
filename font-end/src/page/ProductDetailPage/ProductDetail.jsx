@@ -14,6 +14,7 @@ import ColorFilter from '../../component/Filter/ColorFilter';
 import { useLoaderData } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllProductByCategory } from "../../api/fetchProducts";
+import { trackProductView } from "../../api/recommendation";
 
 const ProductDetail = () => {
   // state get value product
@@ -51,6 +52,12 @@ const ProductDetail = () => {
     );
   }, [product, categories]);
 
+  // Track product view for recommendation
+  useEffect(() => {
+    if (product?.id) {
+      trackProductView(product.id);
+    }
+  }, [product?.id]);
 
   useEffect(() => {
     getAllProductByCategory(product?.categoryId,product?.categoryTypeId)

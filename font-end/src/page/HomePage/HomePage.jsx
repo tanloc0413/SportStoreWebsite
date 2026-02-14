@@ -10,29 +10,29 @@ import ListProductHome from './ListProductHome';
 import { getAllProducts } from '../../api/fetchProducts';
 import CardProduct from '../../component/Card/CardProduct';
 
-
 const HomePage = () => {
-    const [productData, setProductData] = useState([]);
-  
-    useEffect(() => {
-      getAllProducts()
-      .then(res => {
-        if (!res || res.length === 0) return;
-  
-        // shuffle
-        const shuffled = [...res].sort(() => Math.random() - 0.5);
-  
-        // lấy đúng 30 sản phẩm
-        const random30 = shuffled.slice(0, 28);
-  
-        setProductData(random30);
-        // console.log("Product data", random30.);
-      })
-      .catch(err => {
-        console.error("Lỗi khi lấy sản phẩm: ", err);
-      });
-    }, []);
-  
+  const [productData, setProductData] = useState([]);
+
+  useEffect(() => {
+    getAllProducts()
+    .then(res => {
+      if (!res || res.length === 0) return;
+
+      // shuffle
+      const shuffled = [...res].sort(() => Math.random() - 0.5);
+
+      // lấy đúng 30 sản phẩm
+      const random30 = shuffled.slice(0, 28);
+
+      setProductData(random30);
+      // console.log("Product data", random30.);
+    })
+    .catch(err => {
+      console.error("Lỗi khi lấy sản phẩm: ", err);
+    });
+  }, []);
+
+
   return (
     <div id='homePage'>
       <div id='carouse-home'>

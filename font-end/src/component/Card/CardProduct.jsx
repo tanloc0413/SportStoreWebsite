@@ -6,13 +6,12 @@ import {
     IoHeartSharp,
     IoCartOutline
 } from 'react-icons/io5';
-import { BsCartPlus } from 'react-icons/bs';
-import { FaRegHeart } from 'react-icons/fa6';
 import { Link } from 'react-router-dom';
 
 import '../../css/user/cardPropose.css';
 import { formatMoney } from '../../component/FormatMoney/formatMoney'
 import BGNImg from '../../imgs/bgn-product.png';
+import { API_BASE_URL } from '../../api/constant';
 
 const CardProduct = ({products}) => {
   // Lấy ảnh sản phẩm
@@ -22,12 +21,18 @@ const CardProduct = ({products}) => {
 
   // console.log("Image URL:", imageUrl);
 
+  // Nếu imageUrl bắt đầu bằng /images, ghép với API_BASE_URL
+  const fullImageUrl = imageUrl && imageUrl.startsWith('/images') 
+    ? `${API_BASE_URL}${imageUrl}` 
+    : imageUrl;
+
   return (
     <div id="item1">
       <div id="item1_image">
         <Link to={`/chi-tiet-san-pham/${products?.slug}`} id="item1_image-link">
           <img
-            src={imageUrl ? imageUrl : BGNImg}
+            // src={imageUrl ? imageUrl : BGNImg}
+            src={fullImageUrl ? fullImageUrl : BGNImg}
             alt={`Ảnh ${products?.name}`}
             className="item1_img"
           />

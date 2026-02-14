@@ -6,6 +6,7 @@ import { FiMinus, FiPlus } from "react-icons/fi";
 
 import "../../css/user/addCart.css";
 import { addItemToCartAction } from "../../store/actions/cartAction";
+import { trackAddToCart } from "../../api/recommendation";
 import { API_BASE_URL } from "../../api/constant";
 
 const AddToCart = ({ product, selectedSize, selectedColor, onReset }) => {
@@ -51,6 +52,21 @@ const AddToCart = ({ product, selectedSize, selectedColor, onReset }) => {
       return;
     }
 
+    // Track add-to-cart interaction
+    if (product?.id) {
+      trackAddToCart(product.id);
+    }
+
+    // Get image URL and handle relative paths
+    let imageUrl =
+      product?.productImage?.find((i) => i.isPrimary)?.url ||
+      product?.productImage?.[0]?.url;
+    
+    // Nếu URL bắt đầu bằng /images, ghép với API_BASE_URL
+    if (imageUrl && imageUrl.startsWith('/images')) {
+      imageUrl = `${API_BASE_URL}${imageUrl}`;
+    }
+
     setError("");
 
     dispatch(
@@ -61,16 +77,10 @@ const AddToCart = ({ product, selectedSize, selectedColor, onReset }) => {
         quantity,
         subTotal: quantity * product?.price,
         price: product?.price,
-        image:
-          product?.productImage?.find((i) => i.isPrimary)?.url ||
-          product?.productImage?.[0]?.url
         // image:
-        //   API_BASE_URL +
-        //   (
-        //     product?.productImage?.find(i => i.isPrimary)?.url ||
-        //     product?.productImage?.[0]?.url ||
-        //     ""
-        //   )
+        //   product?.productImage?.find((i) => i.isPrimary)?.url ||
+        //   product?.productImage?.[0]?.url
+        image: imageUrl
       }),
     );
 
