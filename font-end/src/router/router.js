@@ -28,7 +28,8 @@ import ResetPasswordAdmin from '../page/AdminPage/AdminChangePassword/ResetPassw
 import AddProductAdmin from '../page/AdminPage/AdminProductPage/AddProductAdmin';
 import AddCategoryAdmin from "../page/AdminPage/AdminCategoryPage/AddCategoryAdmin";
 import ForgotPassword from '../page/ForgotPassword/ForgotPassword';
-import EditProductAdmin from "../page/AdminPage/AdminBrandPage/EditProductAdmin";
+import EditProductAdmin from "../page/AdminPage/AdminProductPage/EditProductAdmin";
+import AddBrandAdmin from "../page/AdminPage/AdminBrandPage/AddBrandAdmin";
 
 export const router = createBrowserRouter ([
     {
@@ -156,6 +157,10 @@ export const router = createBrowserRouter ([
             {
                 path: 'quan-ly-san-pham/sua/:id',
                 element: <EditProductAdmin/>
+            },
+            {
+                path: 'thuong-hieu/them',
+                element: <AddBrandAdmin/>
             },
         ]
     },

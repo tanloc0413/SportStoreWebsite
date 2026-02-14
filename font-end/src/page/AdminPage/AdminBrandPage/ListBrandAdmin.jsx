@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
@@ -6,9 +6,45 @@ import { IoClose } from "react-icons/io5";
 import SearchIcon from '@mui/icons-material/Search';
 
 import '../../../css/admin/adminList.css';
+import { API_BASE_URL } from '../../../api/constant';
+import { deleteBrandAPI, fetchBrands } from '../../../api/fetchBranch';
+import { useNavigate } from 'react-router-dom';
 
 const ListBrandAdmin = () => {
-    
+    const [brands, setBrands] = useState([]);
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(5);
+
+    const navigate = useNavigate();
+
+    // Hàm load data
+    const loadBrands = async () => {
+        const data = await fetchBrands();
+        if (data) setBrands(data);
+    };
+
+    useEffect(() => {
+        loadBrands();
+    }, []);
+
+    // Xóa Brand
+    const handleDelete = async (id) => {
+        if (window.confirm("Bạn có chắc chắn muốn xóa thương hiệu này?")) {
+            try {
+                await deleteBrandAPI(id);
+                alert("Xóa thành công!");
+                loadBrands();
+            } catch (error) {
+                alert("Xóa thất bại!");
+            }
+        }
+    };
+
+    // Helper render ảnh
+    const renderImage = (thumbnail) => {
+        if (!thumbnail) return "https://static.vecteezy.com/system/resources/thumbnails/019/956/196/small/nike-transparent-nike-free-free-png.png";
+        return thumbnail.startsWith("http") ? thumbnail : `${API_BASE_URL}/images/${thumbnail}`;
+    };
 
     return (
         <>
@@ -38,27 +74,34 @@ const ListBrandAdmin = () => {
                         <SearchIcon className='lbaDiv1_search-icon'/>
                     </div>
                     <div className='lbaDiv1_add'>
-                        <button className='lbaDiv1_btn-add'>
+                        <button 
+                            className='lbaDiv1_btn-add'
+                            onClick={() => navigate('/admin/thuong-hieu/them')}
+                        >
                             Thêm thương hiệu mới
                         </button>
                     </div>
                 </div>
                 <div className='lbaDiv2'>
                     <div className='lbaGrid'>
-                        <div className='lbaDiv_card'>
-                            <img 
-                                src="https://static.vecteezy.com/system/resources/thumbnails/019/956/196/small/nike-transparent-nike-free-free-png.png"
-                                alt="Logo thương hiệu"
-                                className='lbaDiv_card-img'
-                            />
-                            <IoClose
-                                className='lbaDiv_card-icon'
-                            />
-                        </div>
+                    
+                        {brands.map((row) => (
+                            <div className='lbaDiv_card' key={row.brandId}>
+                                <img 
+                                    src={renderImage(row.thumbnail)}
+                                    alt="Logo thương hiệu"
+                                    className='lbaDiv_card-img'
+                                />
+                                <IoClose
+                                    className='lbaDiv_card-icon'
+                                    onClick={() => handleDelete(row.brandId)}
+                                />
+                            </div>
+                        ))}
                     </div>
                 </div>
             </div>
-            <div className='lbaDiv_notifiBlk'>
+            {/* <div className='lbaDiv_notifiBlk'>
                 <div className='lbaDiv_notifi'>
                     <p className='lbaDiv_notifi-text'>
                         Xác nhận xóa thương hiệu?
@@ -72,7 +115,7 @@ const ListBrandAdmin = () => {
                         </button>
                     </div>
                 </div>
-            </div>
+            </div> */}
         </>
     )
 }
