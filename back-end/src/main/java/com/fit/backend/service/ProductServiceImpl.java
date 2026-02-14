@@ -41,7 +41,10 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductDto> getAllProduct(Integer categoryId, Integer typeId) {
+    public List<ProductDto> getAllProduct(
+            Integer categoryId,
+            Integer typeId,
+            String keyword) {
         Specification<Product> productSpecification =
                 (root, query, cb) -> cb.conjunction();
 
@@ -52,6 +55,11 @@ public class ProductServiceImpl implements ProductService {
 
         if (typeId != null) {
             productSpecification = productSpecification.and(ProductSpecification.hasCategoryTypeId(typeId));
+        }
+
+        // tìm kiếm sp
+        if (keyword != null && !keyword.trim().isEmpty()) {
+            productSpecification = productSpecification.and(ProductSpecification.hasNameLike(keyword.trim()));
         }
 
         // Thực hiện truy vấn
@@ -164,4 +172,5 @@ public class ProductServiceImpl implements ProductService {
 //    public long getProductCount() {
 //        return productRepository.count();
 //    }
+
 }

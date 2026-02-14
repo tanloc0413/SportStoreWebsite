@@ -1,5 +1,4 @@
-import * as React from 'react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { MdEdit, MdDelete } from "react-icons/md";
 import { useDispatch, useSelector } from 'react-redux';
 import Box from '@mui/material/Box';
@@ -23,6 +22,7 @@ import { getAllProducts } from '../../../api/fetchProducts';
 import { loadProducts } from '../../../store/features/product';
 import { formatMoney } from '../../../component/FormatMoney/formatMoney';
 import { useNavigate } from 'react-router-dom';
+import { API_BASE_URL } from '../../../api/constant';
 
 const ListProductAdmin = () => {
     const dispatch = useDispatch();
@@ -37,6 +37,22 @@ const ListProductAdmin = () => {
             dispatch(loadProducts(res));
         });
     }, [dispatch]);
+
+    console.log("API", products)
+
+
+    // phân trang
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(10);
+
+    const handleChangePage = (event, newPage) => {
+        setPage(newPage);
+    };
+
+    const handleChangeRowsPerPage = (event) => {
+        setRowsPerPage(parseInt(event.target.value, 10));
+        setPage(0);
+    };
 
 
     return (
@@ -69,8 +85,9 @@ const ListProductAdmin = () => {
                 </div>
                 <div className='lpa_add'>
                     <button 
-                    className='lpa_btn-add' 
-                    onClick={() => navigate('/admin/quan-ly-san-pham/them')}>
+                        className='lpa_btn-add' 
+                        onClick={() => navigate('/admin/quan-ly-san-pham/them')}
+                    >
                         Thêm sản phẩm
                     </button>
                 </div>
@@ -110,14 +127,22 @@ const ListProductAdmin = () => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {products?.map(products => (
+                            {/* {products?.map(products => ( */}
+                            {products
+                                ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                .map(products => (
                                 <TableRow>
                                     <TableCell align="left" sx={{ width: 50 }}>
                                         {products?.id}
                                     </TableCell>
                                     <TableCell align="center">
                                         <img
-                                            src={products?.productImage?.[0]?.url || ImageProduct}
+                                            // src={products?.productImage?.[0]?.url || ImageProduct}
+                                            src={(() => {
+                                                const url = products?.productImage?.[0]?.url;
+                                                if (!url) return ImageProduct;
+                                                return url.startsWith('/images') ? `${API_BASE_URL}${url}` : url;
+                                            })()}
                                             alt="sản phẩm"
                                             className='lpa_product-img'
                                         />
@@ -135,7 +160,10 @@ const ListProductAdmin = () => {
                                         {new Date(products?.createdAt).toLocaleDateString("vi-VN")}
                                     </TableCell>
                                     <TableCell align="center">
-                                        1
+                                        {products?.variants?.reduce(
+                                            (sum, v) => sum + (v.quantity || 0),
+                                            0
+                                        )}
                                     </TableCell>
                                     <TableCell align="center">
                                         Nike
@@ -156,12 +184,12 @@ const ListProductAdmin = () => {
                 <TablePagination
                     component="div"
                     labelRowsPerPage="Số dòng mỗi trang:"
-                    // rowsPerPageOptions={[10, 25, 100]}
-                    // count={rows.length}
-                    // rowsPerPage={rowsPerPage}
-                    // page={page}
-                    // onPageChange={handleChangePage}
-                    // onRowsPerPageChange={handleChangeRowsPerPage}
+                    rowsPerPageOptions={[5, 10, 20]}
+                    count={products?.length || 0}
+                    rowsPerPage={rowsPerPage}
+                    page={page}
+                    onPageChange={handleChangePage}
+                    onRowsPerPageChange={handleChangeRowsPerPage}
                 />
             </Paper>
         </Box>

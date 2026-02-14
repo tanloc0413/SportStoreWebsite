@@ -34,7 +34,7 @@ public class ImageController {
                 String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
                 int statusCode = fileUploadService.uploadFile(file, fileName);
                 if (statusCode == 200 || statusCode == 201) {
-                    fileNames.add(fileName);
+                    fileNames.add("http://localhost:8080/images/" + fileName);
                 }
             }
             return ResponseEntity.ok(fileNames); // Trả về 200 kèm danh sách file

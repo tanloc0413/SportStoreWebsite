@@ -1,0 +1,87 @@
+.forgotPass {
+  width: 100%;
+  height: 100%;
+  min-height: 30rem;
+  background-image: url('https://images4.alphacoders.com/136/thumbbig-1365949.webp');
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.forgotPass1, .forgotPass2 {
+  width: 27rem;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 15px 30px 17px 30px;
+}
+
+.forgotPass1-title, .forgotPass2-title {
+  font-size: 2rem;
+  text-transform: uppercase;
+  font-family: "Nunito Sans", sans-serif;
+  font-weight: 800;
+}
+
+.forgotPass1-label {
+  width: 100%;
+  font-size: 20px;
+  font-weight: 600;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.forgotPass1-input, .forgotPass2-input {
+  width: 100%;
+  height: 3.5rem;
+  border-radius: 5px;
+  font-size: 22px;
+  padding-left: 10px;
+  outline: none;
+}
+
+.forgotPass1-input::placeholder {
+  font-size: 20px;
+}
+
+.forgotPass1-btn {
+  width: 100%;
+  height: 3rem;
+  margin-top: 10px;
+  border-radius: 5px;
+  font-size: 20px;
+  font-family: "Nunito Sans", sans-serif;
+  background-color: #7937ff;
+  color: #fff;
+  border: none;
+  text-transform: capitalize;
+  font-weight: 700;
+}
+
+.forgotPass2-inputC {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  border: 1px solid #323131;
+}
+
+.forgotPass2-inputR {
+  border: none;
+}
+
+.forgotPass2-grInput {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #323131;
+  border-radius: 5px;
+  padding-right: 5px;
+}
+
+.forgotPass2-eyeF {
+  font-size: 2.2rem;
+}

@@ -66,3 +66,15 @@ export const addNewProductAPI = async (productData) => {
   });
   return response?.data;
 }
+
+// tìm kiếm
+export const searchProductsAPI = async (keyword) => {
+  let url = API_BASE_URL + API_URLS.GET_PRODUCTS + `?keyword=${keyword}`;
+  try {
+    const result = await axios.get(url);
+    return result?.data || [];
+  } catch(err) {
+    console.error("Lỗi khi tìm kiếm sản phẩm: ", err);
+    return [];
+  }
+}

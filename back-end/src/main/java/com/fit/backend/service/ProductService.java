@@ -8,7 +8,7 @@ import java.util.List;
 public interface ProductService {
     Product addProduct(ProductDto product);
 
-    List<ProductDto> getAllProduct(Integer categoryId, Integer typeId);
+    List<ProductDto> getAllProduct(Integer categoryId, Integer typeId, String keyword);
 
     ProductDto getProductBySlug(String slug);
 

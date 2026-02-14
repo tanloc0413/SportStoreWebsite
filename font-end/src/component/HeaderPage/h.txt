@@ -1,0 +1,47 @@
+{showSearchResults && searchResults.length > 0 && (
+        <div id='blk_listSearch' style={{ position: 'absolute', top: '100%', left: 0, right: 0, background: '#fff', zIndex: 1000, boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}>
+          <ul 
+            id='list_search-result' 
+            className={searchResults.length >= 3 ? 'scrollable' : ''}
+            style={{ listStyle: 'none', padding: 0, margin: 0, maxHeight: '300px', overflowY: 'auto' }}
+          >
+            {searchResults.map((item, index) => {
+               // Xử lý lấy ảnh từ CSDL (lấy ảnh isPrimary hoặc ảnh đầu tiên)
+                const imgUrl = item.productImage && item.productImage.length > 0 
+                  ? (item.productImage[0].url.startsWith("http") ? item.productImage[0].url : API_BASE_URL + item.productImage[0].url)
+                  : "https://supersports.com.vn/cdn/shop/files/FD6574-109-1.jpg?v=1769424848&width=1000";
+
+               return (
+                  <li key={index} id='item_search-result' style={{ borderBottom: '1px solid #eee' }}>
+                    {/* Sử dụng cấu trúc link đúng theo router của bạn: /chi-tiet-san-pham/:slug */}
+                    <Link 
+                      id='item_search' 
+                      to={`/chi-tiet-san-pham/${item.slug}`} 
+                      style={{ display: 'flex', padding: '10px', textDecoration: 'none', color: '#333' }}
+                      onClick={() => setShowSearchResults(false)}
+                    >
+                      <img
+                        src={imgUrl}
+                        alt={item.name}
+                        id='img_search'
+                        style={{ width: '50px', height: '50px', objectFit: 'cover', borderRadius: '4px', marginRight: '10px' }}
+                      />
+                      <div id="b_title-search" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                        <p id='title_search-product' className='text_search' style={{ margin: 0, fontWeight: 'bold' }}>
+                          {item.name}
+                        </p>
+                        <p 
+                          id='price_search-product' 
+                          className='text_search'
+                          style={{ margin: 0, color: item.price ? '#c92127' : 'black', fontSize: '14px' }}
+                        >
+                          {formatMoney(item.price)}
+                        </p>
+                      </div>
+                    </Link>
+                  </li>
+               )
+            })}
+          </ul>
+        </div>        
+      )}

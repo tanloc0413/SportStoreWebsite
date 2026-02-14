@@ -27,6 +27,7 @@ public class ProductController {
             @RequestParam(required = false, name = "categoryId", value = "categoryId") Integer categoryId,
             @RequestParam(required = false, name = "typeId", value = "typeId") Integer typeId,
             @RequestParam(required = false) String slug,
+            @RequestParam(required = false) String keyword,
             HttpServletResponse response
     ) {
         List<ProductDto> productList = new ArrayList<>();
@@ -35,7 +36,7 @@ public class ProductController {
             ProductDto productDto = productService.getProductBySlug(slug);
             productList.add(productDto);
         } else {
-            productList = productService.getAllProduct(categoryId, typeId);
+            productList = productService.getAllProduct(categoryId, typeId, keyword);
         }
 
         response.setHeader("Content-Range",String.valueOf(productList.size()));
@@ -77,4 +78,13 @@ public class ProductController {
         productService.deleteProduct(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+//    @GetMapping("/search")
+//    public ResponseEntity<List<ProductDto>> searchProducts(
+//            @RequestParam String keyword) {
+//
+//        return ResponseEntity.ok(
+//                productService.searchProducts(keyword)
+//        );
+//    }
 }

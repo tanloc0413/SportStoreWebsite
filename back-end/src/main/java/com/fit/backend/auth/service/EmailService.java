@@ -52,4 +52,29 @@ public class EmailService {
         return "Gửi email";
     }
 
+    public void sendForgotPasswordMail(String email, String code) {
+        String subject = "Yêu cầu đặt lại mật khẩu";
+        String mailContent = """
+        <p>Xin chào,</p>
+        <p>Bạn đã yêu cầu đặt lại mật khẩu. Mã xác nhận của bạn là:</p>
+        <h3>%s</h3>
+        <p>Mã này sẽ hết hạn sau 5 phút.</p>
+        <p>Nếu bạn không yêu cầu, vui lòng bỏ qua email này.</p>
+    """.formatted(code);
+
+        try {
+            jakarta.mail.internet.MimeMessage message = javaMailSender.createMimeMessage();
+            org.springframework.mail.javamail.MimeMessageHelper helper =
+                    new org.springframework.mail.javamail.MimeMessageHelper(message, true, "UTF-8");
+
+            helper.setFrom(sender);
+            helper.setTo(email);
+            helper.setSubject(subject);
+            helper.setText(mailContent, true);
+
+            javaMailSender.send(message);
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

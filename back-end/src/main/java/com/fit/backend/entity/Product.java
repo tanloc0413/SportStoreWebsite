@@ -51,8 +51,8 @@ public class Product {
 
     // danh sách hình ảnh sản phẩm
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
-    @ToString.Exclude // THÊM DÒNG NÀY
-    @EqualsAndHashCode.Exclude // THÊM DÒNG NÀY
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private List<Image> imageList;
 
     @ManyToOne

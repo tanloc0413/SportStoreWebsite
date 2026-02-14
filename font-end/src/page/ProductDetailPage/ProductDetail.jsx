@@ -211,11 +211,11 @@ const ProductDetail = () => {
           </p>
         </div>
       </div>
-      <div id="productDetail_blk3">
+      {/* <div id="productDetail_blk3">
         <p className="productDetail_blk3-title">
           Bình luận:
         </p>
-      </div>
+      </div> */}
     </div>
   );
 };

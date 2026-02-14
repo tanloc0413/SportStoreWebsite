@@ -3,18 +3,17 @@ import React, { useCallback, useEffect, useState } from 'react';
 import '../../css/user/filterProduct.css';
 
 export const colorSelector = {
-    "Purple": "#8434E1",
-    "Black": "#252525",
-    "White":"#FFFFFF",
-    "Gray": "#808080",
-    "Blue": "#0059ff",
-    "Red": "#FF0000",
+    "Tím": "#8434E1",
+    "Đen": "#252525",
+    "Trắng":"#FFFFFF",
+    "Xám": "#808080",
+    "Xanh Dương": "#0059ff",
+    "Đỏ": "#FF0000",
     "Cam": "#ff7b00",
     "Navy": "#000080",
-    "Grey": "#808080",
-    "Yellow": "#FFFF00",
-    "Pink ": "#FFC0CB",
-    "Green": "#00da00"
+    "Vàng": "#FFFF00",
+    "Hồng": "#FFC0CB",
+    "Lục": "#00da00"
 }
 
 const ColorFilter = ({colors, onChange}) => {

@@ -44,14 +44,14 @@ const HeaderAdmin = () => {
                     </p>
                 </Link>
             </div>
-            <div className='header_admin2'>
+            {/* <div className='header_admin2'>
                 <input
                     type="text" 
                     className='header_admin-input'
                     placeholder='Tìm kiếm'
                 />
                 <SearchIcon className='header_admin-icon'/>
-            </div>
+            </div> */}
             <div className='header_admin3'>
                 <p className='admin-nameAvt'>
                     Admin

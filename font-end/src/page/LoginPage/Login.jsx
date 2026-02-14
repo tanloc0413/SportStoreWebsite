@@ -120,8 +120,18 @@ const Login = () => {
             </div>
           </div>
           <div className="input-box login_forgotPass-box">
-            <Link to="/dang-ky" className='login_signup-text'>Đăng ký ngay!</Link>
-            <a href="/quen-mat-khau" className='login_forgotPass-text'>Quên mật khẩu?</a>
+            <Link 
+              to="/dang-ky" 
+              className='login_signup-text'
+            >
+              Đăng ký ngay!
+            </Link>
+            <Link 
+              to="/quen-mat-khau" 
+              className='login_forgotPass-text'
+            >
+              Quên mật khẩu?
+            </Link>
           </div>
           <div className="input-box btn-box">
             <button

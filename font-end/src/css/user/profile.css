@@ -26,12 +26,14 @@
 
 #profile-content {
     width: 38.5rem;
-    height: 28rem;
+    height: auto;
+    min-height: 28rem;
     background-color: #fff;
     border-radius: 5px;
     overflow: hidden;
     justify-content: center;
     box-shadow: 0 0px 5px rgba(0, 0, 0, 0.5);
+    position: relative;
 }
 
 #profile-user, #profile-address, #profile-changePassword {
@@ -41,12 +43,14 @@
 
 #profile-user {
     justify-content: center;
+    margin-top: 5px;
 }
 
 #profile-address {
     margin-top: 30px;
     justify-content: start;
     padding: 0 30px;
+    position: absolute;
 }
 
 #profile_avt {
@@ -373,7 +377,7 @@
 }
 
 .changePassword-reNewPass {
-    margin-top: 15px;
+    margin-top: 10px;
 }
 
 .changePassword-input {

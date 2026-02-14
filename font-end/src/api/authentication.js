@@ -48,7 +48,7 @@ export const verifyAPI = async(body) => {
 
 export const changePasswordAPI = async(body) => {
   const url = API_BASE_URL + '/api/auth/change-password';
-
+  
   try {
     const response = await axios(url,{
       method: "POST",
@@ -62,3 +62,23 @@ export const changePasswordAPI = async(body) => {
     throw new Error(err);
   }
 }
+
+export const forgotPasswordAPI = async (email) => {
+  const url = `${API_BASE_URL}/api/auth/forgot-password`;
+  try {
+    const response = await axios.post(url, { email });
+    return response.data;
+  } catch (err) {
+    throw err.response ? err.response.data : new Error("Lỗi kết nối");
+  }
+};
+
+export const resetPasswordAPI = async (data) => {
+  const url = `${API_BASE_URL}/api/auth/reset-password`;
+  try {
+    const response = await axios.post(url, data);
+    return response.data;
+  } catch (err) {
+    throw err.response ? err.response.data : new Error("Lỗi kết nối");
+  }
+};

@@ -7,15 +7,10 @@ import { useDispatch } from 'react-redux';
 
 // Import CSS và API
 import '../../../css/admin/adminAddProduct.css';
-import { multipleFileUploadAPI } from '../../../api/fileUpload'; // [cite: 651]
-import { addNewProductAPI } from '../../../api/fetchProducts'; // [cite: 645]
-import { fetchCategories } from '../../../api/fetchCategories'; // [cite: 632]
-import { setLoading } from '../../../store/features/common'; // [cite: 701]
-import axios from 'axios';
-
-// Cấu hình URL host ảnh (Backend trả về tên file, cần ghép với host để hiển thị)
-// Dựa vào cấu hình Backend [cite: 1] và[cite: 247], URL ảnh là /images/{filename}
-const IMAGE_HOST_URL = "http://localhost:8080/images"; 
+import { multipleFileUploadAPI } from '../../../api/fileUpload';
+import { addNewProductAPI } from '../../../api/fetchProducts';
+import { fetchCategories } from '../../../api/fetchCategories';
+import { setLoading } from '../../../store/features/common';
 
 const AddProductAdmin = () => {
     const dispatch = useDispatch();
@@ -40,24 +35,29 @@ const AddProductAdmin = () => {
     const [imageFiles, setImageFiles] = useState([]); // File gốc để upload
     const [previews, setPreviews] = useState([]);     // URL preview để hiển thị
 
+    const formatCurrency = (value) => {
+        if (!value) return "";
+        return Number(value).toLocaleString("vi-VN");
+    };
+
     // --- 1. Load Categories ---
     useEffect(() => {
-        const loadCats = async () => {
-            try {
-                const res = await fetchCategories();
-                if(res) {
-                    const options = res.map(cat => ({
-                        value: cat.id,
-                        label: cat.name,
-                        types: cat.categoryTypes // [cite: 338]
-                    }));
-                    setCategories(options);
-                }
-            } catch (error) {
-                console.error("Lỗi load category:", error);
+    const loadCats = async () => {
+        try {
+            const res = await fetchCategories();
+            if(res) {
+                const options = res.map(cat => ({
+                    value: cat.id,
+                    label: cat.name,
+                    types: cat.categoryTypes // [cite: 338]
+                }));
+                setCategories(options);
             }
+        } catch (error) {
+            console.error("Lỗi load category:", error);
         }
-        loadCats();
+    }
+    loadCats();
     }, []);
 
     // --- 2. Xử lý thay đổi Category ---
@@ -134,15 +134,18 @@ const AddProductAdmin = () => {
 
                 // Gọi API upload trả về danh sách tên file
                 const fileNames = await multipleFileUploadAPI(formData); 
-                // const uploadedImageNames = await multipleFileUploadAPI(formData);
 
                 // Map sang cấu trúc ProductImageDto [cite: 323]
-                uploadedImages = fileNames.map((fileName, index) => ({
-                    url: `${IMAGE_HOST_URL}/${fileName}`,
-                    name: fileName,
-                    isPrimary: index === 0,
-                    type: "IMAGE"
-                }));
+                uploadedImages = fileNames.map((fileName, index) => {
+                    const extension = fileName.split('.').pop().toUpperCase();
+
+                    return {
+                        url: fileName,
+                        name: name, // tên sản phẩm
+                        isPrimary: index === 0,
+                        type: extension // JPG, PNG, WEBP...
+                    };
+                });
             }
 
             // BƯỚC 2: Tạo Variants 
@@ -204,13 +207,14 @@ const AddProductAdmin = () => {
                 })),
             };
 
-            console.log("Payload gửi đi:", payload);
+            // console.log("Payload gửi đi:", payload);
 
             // BƯỚC 4: Gọi API Add Product [cite: 261]
             await addNewProductAPI(payload);
             
             alert("Thêm sản phẩm thành công!");
-            navigate('/admin/quan-ly-san-pham');
+            // navigate('/admin/quan-ly-san-pham');
+            window.location.href='/admin/quan-ly-san-pham/them'
 
         } catch (error) {
             console.error("Lỗi thêm sản phẩm:", error);
@@ -227,6 +231,7 @@ const AddProductAdmin = () => {
         { value: 'M', label: 'M' },
         { value: 'L', label: 'L' },
         { value: 'XL', label: 'XL' },
+        { value: 'XXL', label: 'XXL' },
         { value: '38', label: '38' },
         { value: '39', label: '39' },
         { value: '40', label: '40' },
@@ -235,19 +240,49 @@ const AddProductAdmin = () => {
     ];
 
     const colorOptions = [
-        { value: 'Red', label: 'Đỏ' },
-        { value: 'Blue', label: 'Xanh' },
-        { value: 'Black', label: 'Đen' },
-        { value: 'White', label: 'Trắng' },
-        { value: 'Yellow', label: 'Vàng' }
+        { value: 'Tím', label: 'Tím' },
+        { value: 'Đen', label: 'Đen' },
+        { value: 'Trắng', label: 'Trắng' },
+        { value: 'Xám', label: 'Xám' },
+        { value: 'Xanh Dương', label: 'Xanh Dương'},
+        { value: 'Đỏ', label: 'Đỏ' },
+        { value: 'Cam', label: 'Cam' },
+        { value: 'Navy', label: 'Navy' },
+        { value: 'Vàng', label: 'Vàng' },
+        { value: 'Hồng', label: 'Hồng' },
+        { value: 'Lục', label: 'Lục' }
     ];
 
     return (
         <div className="add-product-page">
             <div className="add-product-header">
                 <Breadcrumbs aria-label="breadcrumb">
-                    <Link to="/admin" style={{textDecoration:'none', color:'inherit'}}>Admin</Link>
-                    <Typography color="text.primary">Thêm sản phẩm</Typography>
+                    <Link 
+                        to="/admin/thong-ke" 
+                        style={{
+                            textDecoration: 'none', 
+                            color: 'inherit'
+                        }}
+                    >
+                        Admin
+                    </Link>
+                    <Link 
+                        to="/admin/quan-ly-san-pham" 
+                        style={{
+                            textDecoration: 'none',
+                            color: 'inherit'
+                        }}
+                    >
+                        Sản phẩm
+                    </Link>
+                    <Typography 
+                        color="text.primary"
+                        style={{
+                            userSelect: 'none'
+                        }}
+                    >
+                        Thêm sản phẩm
+                    </Typography>
                 </Breadcrumbs>
                 <p className='addProduct-title'>Thêm sản phẩm mới</p>
             </div>
@@ -309,7 +344,7 @@ const AddProductAdmin = () => {
                     <div className="addProduct_card">
                         <p className='addProduct_card-title'>Biến thể & Kho</p>
                         
-                        <label className='addProduct_label-text'>Số lượng nhập (Mỗi biến thể)</label>
+                        <label className='addProduct_label-text'>Số lượng nhập</label>
                         <input 
                             type="number" 
                             className="input_numberQ" 
@@ -349,11 +384,16 @@ const AddProductAdmin = () => {
                         <p className='addProduct_card-title'>Giá cả</p>
                         <label className='addProduct_label-text'>Giá bán (VNĐ) <span style={{color:'red'}}>*</span></label>
                         <input 
-                            type="number" 
+                            type="text" 
                             className='addProduct_number-input' 
-                            value={price}
-                            onChange={(e) => setPrice(e.target.value)}
-                            placeholder="VD: 100000"
+                            // value={price}
+                            // onChange={(e) => setPrice(e.target.value)}
+                            value={formatCurrency(price)}
+                            onChange={(e) => {
+                                const raw = e.target.value.replace(/\D/g, "");
+                                setPrice(raw);
+                            }}
+                            placeholder="VD: 1.000.000"
                         />
                     </div>
 

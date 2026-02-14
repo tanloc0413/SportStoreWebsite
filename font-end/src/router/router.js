@@ -27,6 +27,7 @@ import ListOrderAdmin from '../page/AdminPage/AdminOrderPage/ListOrderAdmin';
 import ResetPasswordAdmin from '../page/AdminPage/AdminChangePassword/ResetPasswordAdmin';
 import AddProductAdmin from '../page/AdminPage/AdminProductPage/AddProductAdmin';
 import AddCategoryAdmin from "../page/AdminPage/AdminCategoryPage/AddCategoryAdmin";
+import ForgotPassword from '../page/ForgotPassword/ForgotPassword';
 
 export const router = createBrowserRouter ([
     {
@@ -60,6 +61,10 @@ export const router = createBrowserRouter ([
             {
                 path: '/gio-hang',
                 element: <CartPage/>
+            },
+            {
+                path: '/quen-mat-khau',
+                element: <ForgotPassword/>
             },
             {
                 path: '/dang-nhap',

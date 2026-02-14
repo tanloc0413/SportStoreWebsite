@@ -14,6 +14,9 @@ import { countCartItems } from '../../store/features/cart';
 import { logOut } from '../../util/jwt-helper';
 import { selectIsUserAdmin, selectUserInfo } from '../../store/features/user';
 import { useEffect } from 'react';
+import { searchProductsAPI } from '../../api/fetchProducts';
+import { formatMoney } from '../../component/FormatMoney/formatMoney';
+import { API_BASE_URL } from '../../api/constant';
 
 const Header = ({variant="default"}) => {
   const [showLogout,setShowLogout] = useState(false);
@@ -25,6 +28,11 @@ const Header = ({variant="default"}) => {
   const location = useLocation();
 
   const isUserAdmin = useSelector(selectIsUserAdmin);
+
+  // tìm kiếm
+  const [searchTerm, setSearchTerm] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
+  const [showSearchResults, setShowSearchResults] = useState(false);
 
   const handleLogout = () => {
     logOut();
@@ -47,6 +55,21 @@ const Header = ({variant="default"}) => {
   //   .finally(() => dispatch(setLoading(false)));
   // }, [dispatch]);
 
+  useEffect(() => {
+    const delayDebounceFn = setTimeout(async () => {
+      if (searchTerm.trim() !== '') {
+        const results = await searchProductsAPI(searchTerm);
+        setSearchResults(results);
+        setShowSearchResults(true);
+      } else {
+        setSearchResults([]);
+        setShowSearchResults(false);
+      }
+    }, 200);
+
+    return () => clearTimeout(delayDebounceFn);
+  }, [searchTerm]);
+
   return (
     <header id='header'>
       <div id='blk_header1'>
@@ -67,6 +90,9 @@ const Header = ({variant="default"}) => {
             autoCorrect="off"
             spellCheck="false"
             // onKeyDown={onSearchKeyPress}
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            onFocus={() => { if(searchResults.length > 0) setShowSearchResults(true); }}
           />
           <div id='blk_search-icon'>
             <button id='search'
@@ -75,39 +101,46 @@ const Header = ({variant="default"}) => {
               <IoMdSearch className='search-icon'/>
             </button>
           </div>
-          {/* {showSearchResults && searchResults.length > 0 && (
+          {showSearchResults && searchResults.length > 0 && (
             <div id='blk_listSearch'>
               <ul 
                 id='list_search-result' 
                 className={searchResults.length >= 3 ? 'scrollable' : ''}
               >
-                {searchResults.map((item, index) => (
-                  <li key={index} id='item_search-result'>
-                    <a id='item_search' href={`/san-pham/${item.productId}`}>
-                      <img
-                        src="https://nettruyen1905.com/uploads/covers/tearmoon-empire-story.jpg?1743287376"
-                        alt="anh"
-                        id='img_search'
-                        onClick={() => setShowSearchResults(false)}
-                      />
-                      <div id="b_title-search">
-                        <p id='title_search-product' className='text_search'>
-                          {item.productName}
-                        </p>
-                        <p 
-                          id='price_search-product' 
-                          className='text_search'
-                          style={{ color: item.price ? '#c92127' : 'black' }}
-                        >
-                          {formatCurrency(item.price ?? item.originalPrice ?? 0)}
-                        </p>
-                      </div>
-                    </a>
-                  </li>
-                ))}
+                {searchResults.map((item, index) => {
+                  const imgUrl = item.productImage && item.productImage.length > 0 
+                  ? (item.productImage[0].url.startsWith("http") ? item.productImage[0].url : API_BASE_URL + item.productImage[0].url)
+                  : "https://supersports.com.vn/cdn/shop/files/FD6574-109-1.jpg?v=1769424848&width=1000";
+                
+                  return(
+                    <li key={index} id='item_search-result'>
+                      <Link id='item_search' to={`/chi-tiet-san-pham/${item?.slug}`}>
+                        <img
+                          src={imgUrl}
+                          alt={`Ảnh ${item?.name}`}
+                          id='img_search'
+                          onClick={() => setShowSearchResults(false)}
+                        />
+                        <div id="b_title-search">
+                          <p id='title_search-product' className='text_search'>
+                            {item?.name}
+                          </p>
+                          <p 
+                            id='price_search-product' 
+                            className='text_search'
+                            style={{ color: item.price ? '#c92127' : 'black' }}
+                          >
+                            {/* {formatCurrency(item.price ?? item.originalPrice ?? 0)} */}
+                            {formatMoney(item?.price)}
+                          </p>
+                        </div>
+                      </Link>
+                    </li>
+                  )
+                })}
               </ul>
             </div>        
-          )} */}
+          )}
         </div>
         <div id='blk_user'>
           {/* <div className='notification blk_user-icon'>

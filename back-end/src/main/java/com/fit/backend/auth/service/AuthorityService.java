@@ -3,6 +3,7 @@ package com.fit.backend.auth.service;
 import com.fit.backend.auth.entity.Authority;
 import com.fit.backend.auth.repository.AuthorityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -34,4 +35,6 @@ public class AuthorityService {
         Authority authority= Authority.builder().roleCode(role).roleName(roleName).build();
         return authorityRepository.save(authority);
     }
+
+
 }

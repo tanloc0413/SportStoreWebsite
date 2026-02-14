@@ -13,4 +13,10 @@ public class ProductSpecification {
         return (root, query, criteriaBuilder) -> criteriaBuilder
                 .equal(root.get("cateType").get("id"), typeId);
     }
+    
+    // tìm kiếm sp
+    public static Specification<Product> hasNameLike(String keyword) {
+        return (root, query, criteriaBuilder) -> criteriaBuilder
+                .like(criteriaBuilder.lower(root.get("name")), "%" + keyword.toLowerCase() + "%");
+    }
 }

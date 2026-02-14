@@ -36,7 +36,12 @@ public final class EndPoints {
     };
 
     public static final String[] PUBLIC_API = {
-            "/api/auth/**",
+//            "/api/auth/**",
+            "/api/auth/login",
+            "/api/auth/register",
+            "/api/auth/verify",
+            "/api/auth/forgot-password",
+            "/api/auth/reset-password",
             "/api/orders/**"
     };
 

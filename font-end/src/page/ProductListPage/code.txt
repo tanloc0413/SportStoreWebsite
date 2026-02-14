@@ -1,0 +1,144 @@
+import React, { useEffect, useMemo, useState } from "react";
+import { Link } from "react-router-dom";
+// import { FaChevronRight } from "react-icons/fa6";
+// import { Checkbox } from "@mui/material";
+// import FormGroup from "@mui/material/FormGroup";
+// import FormControlLabel from "@mui/material/FormControlLabel";
+// import { MdFilterAlt } from "react-icons/md";
+
+import "../../css/user/listProduct.css";
+import FilterProduct from "../../component/Filter/FilterProduct";
+import CardProduct from "../../component/Card/CardProduct";
+import PaginationPage from "./PaginationPage";
+import content from "../../data/content.json";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllProductByCategory } from "../../api/fetchProducts";
+import { setLoading } from "../../store/features/common";
+
+const ProductListPage = ({ categoryType }) => {
+    // const categories = content?.categories;
+    const [product,setProduct] = useState([]);
+
+    const dispatch = useDispatch();
+
+    const categoryData = useSelector((state) => state?.categoryState?.categories);
+
+    // lọc theo thể loại
+    const category = useMemo(() => {
+        return categoryData?.find(element => element?.code === categoryType);
+    }, [categoryData, categoryType])
+
+    // const categoryContent = useMemo(() => {
+    //     return categoryData?.find((category) => category?.code === categoryType);
+    // }, [categoryType]);
+
+    // Lấy thông tin hiển thị (tên, đường dẫn) từ file json (nếu cần dùng kết hợp)
+    const categoryContent = useMemo(() => {
+        return content?.categories?.find((cat) => cat.code === categoryType);
+    }, [categoryType]);
+
+    // const productListItems = useMemo(()=>{
+    //     return content?.products?.filter((product) => product?.category_id === categoryContent?.id );
+    // }, [categoryContent]);
+
+
+    // lấy tất cả sản phẩm
+    useEffect(() => {
+        if (!category?.id) return;
+
+        dispatch(setLoading(true));
+
+        setCurrentPage(1); 
+
+        getAllProductByCategory(category.id)
+        .then(res => {
+            setProduct(res);
+            console.log("Product List Page - products by category: ", res);
+        })
+        .catch(err => {
+            console.error("Lỗi lấy sản phẩm:", err);
+        })
+        .finally(() => {
+            dispatch(setLoading(false));
+        });
+
+    }, [category?.id, dispatch]);
+
+    // phân trang
+    const itemsPerPage = 25;
+    const [products, setProducts] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentProducts = products.slice(indexOfFirstItem, indexOfLastItem);
+
+    const totalPages = Math.ceil(products.length / itemsPerPage);
+
+    // Hàm xử lý khi user bấm chuyển trang
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
+        // Tùy chọn: Cuộn lên đầu trang khi bấm chuyển
+        window.scrollTo(0, 0);
+    };
+
+    return (
+        <div id="productPage">
+            <div id="listProduct">
+                <div id="listProduct_header">
+                    <div id="listProduct_header-nav">
+                        <Link className="listProduct_title" to="/">
+                            Trang chủ
+                        </Link>
+                        <span className="raquo"> &raquo; </span>
+                        <p className="listProduct_title listProduct_text-none">
+                            Sản phẩm
+                        </p>
+                        <span className="raquo"> &raquo; </span>
+                        <Link
+                            className="listProduct_title listProduct_title-link"
+                            // href={`${categoryContent.path}`}
+                            to={`/the-loai/${categoryType}`}
+                        >
+                            {/* {categoryContent.name} */}
+                            {/* {category?.name || categoryContent?.name || "Danh mục"} */}
+                            {category?.name}
+                        </Link>
+                    </div>
+                </div>
+                <div id="listProduct_content">
+                    <div id="listProduct_category">
+                        <FilterProduct
+                            // types={categoryContent?.types}
+                            types={category?.categoryTypes || []}
+                            // metaData={categoryContent?.meta_data}
+                            // onApplyFilter={setFilters}
+                        />
+                    </div>
+                    <div id="listProduct_items">
+                        <div className="listProductGrid">
+                            {product?.map((item,index) => (
+                                <CardProduct
+                                    // key={item?.id+"_"+index} 
+                                    // {...item}
+                                    // title={item?.name}
+                                    key={item?.id || index} 
+                                    products={item}
+                                />
+                            ))}
+                        </div>
+                        <div className="paginationDiv">
+                            <PaginationPage
+                                currentPage={currentPage}
+                                totalPages={totalPages}
+                                onPageChange={handlePageChange}
+                            />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+export default ProductListPage;

@@ -5,10 +5,7 @@ import com.fit.backend.auth.dto.*;
 import com.fit.backend.auth.entity.User;
 import com.fit.backend.auth.helper.VerificationCodeGenerator;
 import com.fit.backend.auth.repository.UserDetailRepository;
-import com.fit.backend.auth.service.AuthorityService;
-import com.fit.backend.auth.service.EmailService;
-import com.fit.backend.auth.service.RegistrationService;
-import com.fit.backend.auth.service.TempStorage;
+import com.fit.backend.auth.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -46,6 +43,9 @@ public class AuthController {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private EmailService emailService;
 
     @PostMapping("/login")
     public ResponseEntity<UserToken> login(@RequestBody LoginRequest loginRequest) {
@@ -138,5 +138,53 @@ public class AuthController {
         userDetailRepository.save(user);
 
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("/forgot-password")
+    public ResponseEntity<?> forgotPassword(@RequestBody ForgotPasswordRequest request) {
+        User user = userDetailRepository.findByEmail(request.getEmail());
+        if (user == null) {
+            // Trả về OK để tránh lộ thông tin user, hoặc BAD_REQUEST tùy chính sách bảo mật
+            return new ResponseEntity<>("Email không tồn tại trong hệ thống", HttpStatus.BAD_REQUEST);
+        }
+
+        String code = VerificationCodeGenerator.generateCode(); // [cite: 130]
+        PasswordResetStorage.save(request.getEmail(), code);
+
+        // Gửi email (cần thêm method này vào EmailService như bước 3)
+        emailService.sendForgotPasswordMail(request.getEmail(), code);
+
+        return new ResponseEntity<>("Mã xác nhận đã được gửi", HttpStatus.OK);
+    }
+
+    @PostMapping("/reset-password")
+    public ResponseEntity<?> resetPassword(@RequestBody ResetPasswordRequest request) {
+        String[] data = PasswordResetStorage.get(request.getEmail());
+
+        if (data == null) {
+            return new ResponseEntity<>("Yêu cầu không hợp lệ hoặc đã hết hạn", HttpStatus.BAD_REQUEST);
+        }
+
+        String savedCode = data[0];
+        long expiry = Long.parseLong(data[1]);
+
+        if (System.currentTimeMillis() > expiry) {
+            PasswordResetStorage.remove(request.getEmail());
+            return new ResponseEntity<>("Mã xác nhận đã hết hạn", HttpStatus.BAD_REQUEST);
+        }
+
+        if (!savedCode.equals(request.getCode())) {
+            return new ResponseEntity<>("Mã xác nhận không chính xác", HttpStatus.BAD_REQUEST);
+        }
+
+        User user = userDetailRepository.findByEmail(request.getEmail()); // [cite: 132]
+        if (user != null) {
+            user.setPassword(passwordEncoder.encode(request.getNewPassword())); // [cite: 68]
+            userDetailRepository.save(user);
+            PasswordResetStorage.remove(request.getEmail());
+            return new ResponseEntity<>("Đổi mật khẩu thành công", HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 }

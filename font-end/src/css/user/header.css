@@ -95,7 +95,7 @@
     height: auto;
     background-color: #fff;
     position: absolute;
-    z-index: 1;
+    z-index: 5;
     border: 0.5px #9d9d9d solid;
     border-radius: 5px;
     top: calc(0.5px + 45px);
