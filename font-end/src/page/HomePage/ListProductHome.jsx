@@ -13,16 +13,18 @@ const ListProductHome = () => {
   useEffect(() => {
     getAllProducts()
     .then(res => {
-      if (!res || res.length === 0) return;
+      // if (!res || res.length === 0) return;
 
-      // shuffle
-      const shuffled = [...res].sort(() => Math.random() - 0.5);
+      // // shuffle
+      // const shuffled = [...res].sort(() => Math.random() - 0.5);
 
-      // lấy đúng 30 sản phẩm
-      const random30 = shuffled.slice(0, 30);
+      // // lấy đúng 30 sản phẩm
+      // const random30 = shuffled.slice(0, 30);
 
-      setProductData(random30);
+      // setProductData(random30);
       // console.log("Product data", random30.);
+
+      setProductData(res);
     })
     .catch(err => {
       console.error("Lỗi khi lấy sản phẩm: ", err);
@@ -59,7 +61,7 @@ const ListProductHome = () => {
         </p>
         <div id='product1_items'>
           {
-            (recommendedProducts.length > 0 ? recommendedProducts : productData.slice(0,6))
+            (recommendedProducts.length > 0 ? recommendedProducts : productData.slice(0,12))
             .map((products) => (
               <CardProduct
                 key={products?.id}
