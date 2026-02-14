@@ -12,11 +12,12 @@ import '../../css/user/header.css';
 import LogoIcon from '../../imgs/sport.png';
 import { countCartItems } from '../../store/features/cart';
 import { logOut } from '../../util/jwt-helper';
-import { selectIsUserAdmin, selectUserInfo } from '../../store/features/user';
+import { selectIsUserAdmin } from '../../store/features/user';
 import { useEffect } from 'react';
 import { searchProductsAPI } from '../../api/fetchProducts';
 import { formatMoney } from '../../component/FormatMoney/formatMoney';
 import { API_BASE_URL } from '../../api/constant';
+import { fetchUserDetails } from '../../api/userInfo';
 
 const Header = ({variant="default"}) => {
   const [showLogout,setShowLogout] = useState(false);
@@ -26,6 +27,15 @@ const Header = ({variant="default"}) => {
   const navigate = useNavigate();
 
   const location = useLocation();
+
+  useEffect(() => {
+    fetchUserDetails()
+    .then(res => {
+    })
+    .catch((err) => {
+      console.error("Lỗi: ", err)
+    })
+  }, []);
 
   const isUserAdmin = useSelector(selectIsUserAdmin);
 
@@ -39,21 +49,6 @@ const Header = ({variant="default"}) => {
     setShowLogout(false);
     navigate("/");
   };
-
-  // const dispatch = useDispatch();
-  
-  // useEffect(() => {
-  //   dispatch(setLoading(true))
-  //   fetchUserDetails()
-  //   .then(res => {
-  //     dispatch(loadUserInfo(res));
-  //     console.log("USER: ", res)
-  //   })
-  //   .catch((err) => {
-  //     console.error("Lỗi: ", err)
-  //   })
-  //   .finally(() => dispatch(setLoading(false)));
-  // }, [dispatch]);
 
   useEffect(() => {
     const delayDebounceFn = setTimeout(async () => {
@@ -226,9 +221,9 @@ const Header = ({variant="default"}) => {
             <Nav.Link href="/">
               <i className="fa-solid fa-house house-icon nav-link-home"></i>
             </Nav.Link>
-            <Nav.Link as={Link} to="/san-pham" className='nav_link-textH'>
+            {/* <Nav.Link as={Link} to="/san-pham" className='nav_link-textH'>
               Đồ Thể Thao
-            </Nav.Link>
+            </Nav.Link> */}
             <Nav.Link as={Link} to="the-loai/nam" className='nav_link-textH'>
               Nam
             </Nav.Link>

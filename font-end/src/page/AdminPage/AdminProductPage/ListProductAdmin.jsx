@@ -18,10 +18,10 @@ import TablePagination from '@mui/material/TablePagination';
 
 import '../../../css/admin/adminList.css';
 import ImageProduct from '../../../imgs/bgn5.png';
-import { getAllProducts } from '../../../api/fetchProducts';
+import { deleteProductAPI, getAllProducts } from '../../../api/fetchProducts';
 import { loadProducts } from '../../../store/features/product';
 import { formatMoney } from '../../../component/FormatMoney/formatMoney';
-import { useNavigate } from 'react-router-dom';
+import { Links, useNavigate } from 'react-router-dom';
 import { API_BASE_URL } from '../../../api/constant';
 
 const ListProductAdmin = () => {
@@ -52,6 +52,29 @@ const ListProductAdmin = () => {
     const handleChangeRowsPerPage = (event) => {
         setRowsPerPage(parseInt(event.target.value, 10));
         setPage(0);
+    };
+
+    // 1. Load dữ liệu sản phẩm    
+    const loadData = async () => {
+        const data = await getAllProducts();
+        if (data) dispatch(loadProducts(data));
+    };
+
+    useEffect(() => {
+        loadData();
+    }, []);
+
+    // 2. Hàm Xóa Sản Phẩm
+    const handleDelete = async (id) => {
+        if (window.confirm("Bạn có chắc chắn muốn xóa sản phẩm này?")) {
+            const success = await deleteProductAPI(id);
+            if (success) {
+                alert("Xóa thành công!");
+                loadData(); // Load lại bảng
+            } else {
+                alert("Xóa thất bại!");
+            }
+        }
     };
 
 
@@ -169,11 +192,22 @@ const ListProductAdmin = () => {
                                         Nike
                                     </TableCell>
                                     <TableCell align="right" className='lpa_table-right'>
-                                        <button className='lpa_btn'>
-                                            <MdEdit className='lpa_btn-edit'/>
+                                        <button
+                                            className='lpa_btn'
+                                            onClick={() => navigate(`/admin/quan-ly-san-pham/sua/${products?.id}`)}
+                                            // to={`/admin/quan-ly-san-pham/sua/${products?.id}`}
+                                        >
+                                            <MdEdit 
+                                                className='lpa_btn-edit'
+                                            />
                                         </button>
-                                        <button className='lpa_btn'>
-                                            <MdDelete className='lpa_btn-delete'/>
+                                        <button 
+                                            className='lpa_btn'
+                                            onClick={() => handleDelete(products?.id)}
+                                        >
+                                            <MdDelete
+                                                className='lpa_btn-delete'
+                                            />
                                         </button>
                                     </TableCell>
                                 </TableRow>

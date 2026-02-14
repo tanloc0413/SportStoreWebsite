@@ -78,3 +78,31 @@ export const searchProductsAPI = async (keyword) => {
     return [];
   }
 }
+
+// Cập nhật sản phẩm
+export const updateProductAPI = async (id, productData) => {
+  const url = `${API_BASE_URL}/api/products/${id}`;
+  try {
+    const response = await axios(url, {
+      method: "PUT",
+      data: productData,
+      headers: getHeaders()
+    });
+    return response?.data;
+  } catch (err) {
+    console.error("Lỗi update product:", err);
+    throw err;
+  }
+};
+
+// Xóa sản phẩm
+export const deleteProductAPI = async (id) => {
+  const url = `${API_BASE_URL}/api/products/${id}`;
+  try {
+    await axios.delete(url, { headers: getHeaders() });
+    return true;
+  } catch (err) {
+    console.error("Lỗi xóa product:", err);
+    return false;
+  }
+};

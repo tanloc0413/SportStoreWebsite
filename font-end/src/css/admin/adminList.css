@@ -72,7 +72,25 @@
 
 .lpa_btn-edit, .lpa_btn-delete,
 .lcaDiv2_btn-edit, .lcaDiv2_btn-delete {
-    font-size: 1.3rem;
+    font-size: 1.5rem;
+}
+
+.lpa_btn-delete {
+    color: #ff170f;
+}
+
+.lpa_btn-delete:active,
+.lpa_btn-delete:hover {
+    color: #a10d08;
+}
+
+.lpa_btn-edit {
+    color: #ffde0b;
+}
+
+.lpa_btn-edit:hover,
+.lpa_btn-edit:active {
+    color: #a24f0b;
 }
 
 .lpa_btn:hover, .lpa_btn:active,

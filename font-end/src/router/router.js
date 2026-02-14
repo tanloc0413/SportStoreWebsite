@@ -28,6 +28,7 @@ import ResetPasswordAdmin from '../page/AdminPage/AdminChangePassword/ResetPassw
 import AddProductAdmin from '../page/AdminPage/AdminProductPage/AddProductAdmin';
 import AddCategoryAdmin from "../page/AdminPage/AdminCategoryPage/AddCategoryAdmin";
 import ForgotPassword from '../page/ForgotPassword/ForgotPassword';
+import EditProductAdmin from "../page/AdminPage/AdminBrandPage/EditProductAdmin";
 
 export const router = createBrowserRouter ([
     {
@@ -45,14 +46,14 @@ export const router = createBrowserRouter ([
                 element: <ProductListPage categoryType={'nam'}/>
             },
             {   path: '/the-loai/tre-em',
-                element: <ProductListPage/>
+                element: <ProductListPage categoryType={'tre-em'}/>
             },
             {   path: '/the-loai/phu-kien',
-                element: <ProductListPage/>
+                element: <ProductListPage categoryType={'phu-kien'}/>
             },
-            {   path: '/the-loai/do-choi',
-                element: <ProductListPage/>
-            },
+            // {   path: '/the-loai/do-choi',
+            //     element: <ProductListPage/>
+            // },
             {
                 path: '/chi-tiet-san-pham/:slug',
                 loader: loadProductBySlug,
@@ -151,6 +152,10 @@ export const router = createBrowserRouter ([
             {
                 path: 'quan-ly-the-loai/them',
                 element: <AddCategoryAdmin/>
+            },
+            {
+                path: 'quan-ly-san-pham/sua/:id',
+                element: <EditProductAdmin/>
             },
         ]
     },

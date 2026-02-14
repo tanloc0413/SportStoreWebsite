@@ -19,7 +19,6 @@ const AddProductAdmin = () => {
     // --- State dữ liệu ---
     const [categories, setCategories] = useState([]);
     const [categoryTypes, setCategoryTypes] = useState([]);
-    
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [selectedCategory, setSelectedCategory] = useState(null);
@@ -75,20 +74,6 @@ const AddProductAdmin = () => {
         }
     };
 
-    // --- 3. Xử lý chọn ảnh (Preview & Lưu File) ---
-    // const handleMultipleImagesChange = (e) => {
-    //     const files = Array.from(e.target.files);
-    //     if (files.length === 0) return;
-
-    //     // Lưu file để upload sau
-    //     setImageFiles(prev => [...prev, ...files]);
-
-    //     // Tạo preview
-    //     // const newPreviews = files.map(file => URL.createObjectURL(file));
-    //     // setPreviews(prev => [...prev, ...newPreviews]);
-    //     const newPreviews = files.map(file => URL.createObjectURL(file));
-    //     setPreviews(prev => [...prev, ...newPreviews]);
-    // };
     const handleMultipleImagesChange = (e) => {
         const files = Array.from(e.target.files);
         if (!files.length) return;
@@ -213,8 +198,8 @@ const AddProductAdmin = () => {
             await addNewProductAPI(payload);
             
             alert("Thêm sản phẩm thành công!");
-            // navigate('/admin/quan-ly-san-pham');
-            window.location.href='/admin/quan-ly-san-pham/them'
+            navigate('/admin/quan-ly-san-pham');
+            // window.location.href='/admin/quan-ly-san-pham/them'
 
         } catch (error) {
             console.error("Lỗi thêm sản phẩm:", error);
