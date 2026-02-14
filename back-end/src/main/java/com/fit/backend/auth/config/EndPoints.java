@@ -19,8 +19,7 @@ public final class EndPoints {
             "/api/brands",
             "/api/data/**",
             "/api/recommendations/**",
-            "/images/**",
-            "/api/order/vnpay/callback"
+            "/images/**"
     };
 
     // Public POST API
@@ -36,7 +35,7 @@ public final class EndPoints {
     };
 
     public static final String[] PUBLIC_API = {
-//            "/api/auth/**",
+            // "/api/auth/**",
             "/api/auth/login",
             "/api/auth/register",
             "/api/auth/verify",

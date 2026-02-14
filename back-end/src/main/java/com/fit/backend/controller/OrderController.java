@@ -2,6 +2,8 @@ package com.fit.backend.controller;
 
 import com.fit.backend.dto.OrderRequest;
 import com.fit.backend.dto.OrderResponse;
+import com.fit.backend.entity.Order;
+import com.fit.backend.repository.OrderRepository;
 import com.fit.backend.service.OrderService;
 import com.fit.backend.service.VNPayService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -10,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/order")
@@ -21,24 +24,51 @@ public class OrderController {
     @Autowired
     private VNPayService vnPayService;
 
+    @Autowired
+    private OrderRepository orderRepository;
+
     @PostMapping
     public ResponseEntity<?> createOrder(
             @RequestBody OrderRequest orderRequest,
             Principal principal,
             HttpServletRequest request) throws Exception {
-//        Order order = orderService.createOrder(
-//                orderRequest, principal, request
-//        );
 
         OrderResponse orderResponse = orderService.createOrder(orderRequest, principal, request);
 
-//        OrderResponse orderResponse = OrderResponse.builder()
-//                .orderId(order.getId())
-//                .paymentMethod(order.getPaymentMethod())
-//                .build();
-
         return new ResponseEntity<>(orderResponse,HttpStatus.OK);
     }
+
+//    // Thêm Endpoint nhận kết quả từ VNPay (Frontend sẽ gọi cái này)
+//    @GetMapping("/vnpay-callback")
+//    public ResponseEntity<?> vnpayCallback(@RequestParam Map<String, String> params) {
+//        String responseCode = params.get("vnp_ResponseCode");
+//        String txnRef = params.get("vnp_TxnRef");
+//        Integer orderId = Integer.parseInt(txnRef.split("_")[0]);
+//
+//        if ("00".equals(responseCode)) {
+//            orderService.updatePaymentStatus(orderId, "COMPLETED"); // Cần viết hàm này trong service
+//            return ResponseEntity.ok("Success");
+//        }
+//        return ResponseEntity.badRequest().body("Failed");
+//    }
+//
+    // Endpoint xử lý callback từ Frontend
+    @GetMapping("/vnpay/return")
+    public ResponseEntity<Map<String, Object>> vnpayReturn(HttpServletRequest request) {
+        Map<String, Object> result = orderService.processPaymentReturn(request);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+//        if (result == 1) {
+//            // Thanh toán thành công -> Cập nhật trạng thái đơn hàng
+//            orderService.updatePaymentStatus(orderId, "COMPLETED");
+//            return new ResponseEntity<>(Map.of("status", "success", "message", "Thanh toán thành công"), HttpStatus.OK);
+//        } else {
+//            // Thanh toán thất bại
+//            orderService.updatePaymentStatus(orderId, "FAILED");
+//            return new ResponseEntity<>(Map.of("status", "failed", "message", "Thanh toán thất bại"), HttpStatus.BAD_REQUEST);
+//        }
+//    }
 
 //    @PostMapping("/update-payment")
 //    public ResponseEntity<?> updatePaymentStatus(@RequestBody Map<String,String> request){
@@ -71,16 +101,6 @@ public class OrderController {
 //                .paymentMethod(order.getPaymentMethod())
 //                .build();
 //
-//        // Nếu là COD
-////        if ("COD".equals(orderRequest.getPaymentMethod())) {
-////
-////            OrderResponse orderResponse = OrderResponse.builder()
-////                    .orderId(order.getId())
-////                    .paymentMethod("COD")
-////                    .build();
-////
-////            return new ResponseEntity<>(orderResponse, HttpStatus.OK);
-////        }
 //
 //        if(Objects.equals(orderRequest.getPaymentMethod(), "VNPay")) {
 //            orderResponse.setCredentials(Map.of(

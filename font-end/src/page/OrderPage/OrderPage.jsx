@@ -84,11 +84,25 @@ const OrderPage = () => {
         paymentMethod
       );
 
+      console.log("1. Dữ liệu gửi đi:", request);
+
       request.totalAmount = totalPayment.toFixed(2);
 
       setDisplayTotal(subTotal);
       
-      await placeOrderAPI(request);
+      // await placeOrderAPI(request);
+      // Gọi API tạo đơn hàng
+      const res = await placeOrderAPI(request);
+
+      console.log("2. Phản hồi từ Backend:", res);
+
+      if (res && res.credentials && res.credentials.paymentUrl) {
+          console.log("3. Tìm thấy URL thanh toán, đang chuyển hướng...");
+          window.location.href = res.credentials.paymentUrl;
+          return;
+      } else {
+            console.warn("4. Không tìm thấy paymentUrl trong phản hồi.");
+        }
 
       // Track purchase interactions for recommendation
       cartItems?.forEach(item => {
@@ -287,7 +301,7 @@ const OrderPage = () => {
             <p className="total-text5">{formatMoney(displayTotal)}</p>
           </div>
           <div className="orderPage_total-btn">
-            {paymentMethod === 'VNPay' && <button id="total-btn">Đặt hàng</button>}
+            {paymentMethod === 'VNPay' && <button id="total-btn" onClick={handlePlaceOrder}>Đặt hàng VNPAY</button>}
             {paymentMethod !== 'VNPay' && <button id="total-btn" onClick={handlePlaceOrder}>Đặt hàng</button>}
           </div>
         </div>

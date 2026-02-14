@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import '../../css/user/filterProduct.css';
 
@@ -18,7 +18,7 @@ export const colorSelector = {
 
 const ColorFilter = ({colors, onChange, selectedColors = []}) => {
     // const [appliedColors,setAppliedColors] = useState([]);
-    // const [appliedColor,setAppliedColor] = useState('');
+    const [appliedColor, setAppliedColor] = useState('');
 
     
     // const onClickDiv = useCallback((item)=>{
@@ -30,28 +30,28 @@ const ColorFilter = ({colors, onChange, selectedColors = []}) => {
     //     }
     // }, [appliedColors,setAppliedColors]);
 
-    // const onClickDiv = useCallback((item) => {
-    //     if(appliedColor === item) {
-    //         setAppliedColor('');
-    //     } else {
-    //         setAppliedColor(item);
-    //     }
-    // }, [appliedColor]);
-
-    // useEffect(() => {
-    //     onChange && onChange(appliedColor);
-    // }, [appliedColor, onChange]);
-
-
     const onClickDiv = useCallback((item) => {
-        let newColors;
-        if(selectedColors.includes(item)) {
-            newColors = selectedColors.filter(color => color !== item);
+        if(appliedColor === item) {
+            setAppliedColor('');
         } else {
-            newColors = [...selectedColors, item];
+            setAppliedColor(item);
         }
-        onChange && onChange(newColors);
-    }, [selectedColors, onChange]);
+    }, [appliedColor]);
+
+    useEffect(() => {
+        onChange && onChange(appliedColor);
+    }, [appliedColor, onChange]);
+
+
+    // const onClickDiv = useCallback((item) => {
+    //     let newColors;
+    //     if(selectedColors.includes(item)) {
+    //         newColors = selectedColors.filter(color => color !== item);
+    //     } else {
+    //         newColors = [...selectedColors, item];
+    //     }
+    //     onChange && onChange(newColors);
+    // }, [selectedColors, onChange]);
 
     return (
         <div className='colorList'>
@@ -59,10 +59,10 @@ const ColorFilter = ({colors, onChange, selectedColors = []}) => {
                 colors?.map((item, index) => (
                     <div 
                         key={index}
-                        // className={`colorList_item ${
-                        //     appliedColor === item ? 'colorActive' : ''
-                        // }`}
-                        className={`colorList_item ${selectedColors.includes(item) ? 'colorActive' : ''}`}
+                        className={`colorList_item ${
+                            appliedColor === item ? 'colorActive' : ''
+                        }`}
+                        // className={`colorList_item ${selectedColors.includes(item) ? 'colorActive' : ''}`}
                         onClick={() => onClickDiv(item)} 
                         style={{
                             background: `${colorSelector[item]}`

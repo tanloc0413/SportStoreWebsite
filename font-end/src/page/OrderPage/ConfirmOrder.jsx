@@ -3,8 +3,6 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 import '../../css/user/confirmOrder.css';
 import { formatDateVN, formatMoney } from '../../component/FormatMoney/formatMoney';
-import { useSelector } from 'react-redux';
-import { selectCartItems } from '../../store/features/cart';
 
 const ConfirmOrder = () => {
   const { state } = useLocation();
@@ -44,18 +42,6 @@ const ConfirmOrder = () => {
             {receiver?.phoneNumber}
           </p>
         </div>
-        {/* <div className='confirmOrder_text'>
-          <p
-            className='confirmOrder_text1'
-          >
-            Mã đơn hàng: 
-          </p>
-          <p
-            className='confirmOrder_text2'
-          >
-            #ORDER{order.orderId}
-          </p>
-        </div> */}
         <div className='confirmOrder_text'>
           <p
             className='confirmOrder_text1'
@@ -65,7 +51,7 @@ const ConfirmOrder = () => {
           <p
             className='confirmOrder_text2'
           >
-            {formatDateVN(order.orderDate)}
+            {formatDateVN(order?.orderDate)}
           </p>
         </div>
         <div className='confirmOrder_text'>
@@ -101,13 +87,13 @@ const ConfirmOrder = () => {
           <p
             className='confirmOrder_text2'
           >
-            {formatMoney(order.totalAmount)}
+            {formatMoney(order?.totalAmount)}
           </p>
         </div>
         <div className='confirmOrder_btnGr'>
           <button 
             className='confirmOrder_btn confirmOrder_btn1' 
-            onClick={() => navigate('/tai-khoan/don-hang')}
+            onClick={() => navigate('/')}
           >
             Tiếp tục mua sắm
           </button>

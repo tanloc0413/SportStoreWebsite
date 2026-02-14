@@ -16,10 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.security.Principal;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 @Service
 public class OrderService {
@@ -100,15 +97,77 @@ public class OrderService {
                 .paymentMethod(savedOrder.getPaymentMethod())
                 .build();
 
-        // nếu chọn là VNPay
-//        if(Objects.equals(orderRequest.getPaymentMethod(), "VNPay")){
-//            orderResponse.setCredentials(Map.of(
-//                    "paymentUrl", vnPayService.createPaymentUrl(order, request)
-//            ));
-//        }
+        if ("VNPay".equals(orderRequest.getPaymentMethod())) {
+            // Gọi Service VNPay đã viết ở bước trước để tạo link
+            String paymentUrl = vnPayService.createPaymentUrl(savedOrder, request);
+
+            // Đảm bảo gán vào Map đúng key mà Frontend đang chờ (paymentUrl)
+            Map<String, String> credentials = new HashMap<>();
+            credentials.put("paymentUrl", paymentUrl);
+            orderResponse.setCredentials(credentials);
+        }
 
         return orderResponse;
 
+    }
+
+    // Thêm method lấy Order theo ID
+    public Order getOrderById(Integer id) {
+        return orderRepository.findById(id).orElseThrow(() -> new RuntimeException("Order not found"));
+    }
+
+    // Thêm method cập nhật trạng thái thanh toán
+    public void updatePaymentStatus(Integer orderId, String status) {
+        Order order = getOrderById(orderId);
+        Payment payment = order.getPayment();
+
+        if ("COMPLETED".equals(status)) {
+            payment.setPaymentStatus(PaymentStatus.COMPLETED);
+            order.setOrderStatus(OrderStatus.IN_PROGRESS); // Hoặc trạng thái PAID
+        } else {
+            payment.setPaymentStatus(PaymentStatus.FAILED);
+            order.setOrderStatus(OrderStatus.CANCELLED); // Hoặc giữ PENDING tùy logic
+        }
+
+        payment.setPaymentDate(new Date());
+        orderRepository.save(order);
+    }
+
+    // [LOGIC MỚI] Xử lý kết quả trả về từ Frontend gọi xuống
+    public Map<String, Object> processPaymentReturn(HttpServletRequest request) {
+        int paymentStatus = vnPayService.orderReturn(request);
+        String orderInfo = request.getParameter("vnp_TxnRef");
+        String paymentTime = request.getParameter("vnp_PayDate");
+        String transactionId = request.getParameter("vnp_TransactionNo");
+
+        Map<String, Object> result = new HashMap<>();
+
+        if (orderInfo != null) {
+            Integer orderId = Integer.parseInt(orderInfo);
+            Order order = orderRepository.findById(orderId).orElse(null);
+
+            if (order != null) {
+                if (paymentStatus == 1) {
+                    // Thanh toán thành công -> Cập nhật DB
+                    order.setOrderStatus(OrderStatus.IN_PROGRESS); // Hoặc trạng thái PAID tùy logic
+                    order.getPayment().setPaymentStatus(PaymentStatus.COMPLETED);
+                    order.getPayment().setPaymentDate(new Date()); // convert paymentTime nếu cần
+                    orderRepository.save(order);
+
+                    result.put("status", "success");
+                    result.put("message", "Thanh toán thành công");
+                    result.put("data", order);
+                } else {
+                    // Thanh toán thất bại hoặc Hash không đúng
+                    order.getPayment().setPaymentStatus(PaymentStatus.FAILED);
+                    orderRepository.save(order);
+
+                    result.put("status", "failed");
+                    result.put("message", "Thanh toán thất bại");
+                }
+            }
+        }
+        return result;
     }
 
 //    public List<OrderDetails> getOrdersByUser(String name) {

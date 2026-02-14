@@ -19,6 +19,7 @@ import ChangePassword from "../page/UserPage/ChangePassword";
 import OrderListPage from "../page/UserPage/OrderListPage";
 import MyProfilePage from '../page/UserPage/MyProfilePage';
 import AdminLayout from '../page/AdminPage/AdminLayout';
+import PaymentPage from '../page/PaymentPage/PaymentPage';
 import ListProductAdmin from '../page/AdminPage/AdminProductPage/ListProductAdmin';
 import AdminDashboard from '../page/AdminPage/AdminDashboard/AdminDashboard';
 import ListCategoryAdmin from '../page/AdminPage/AdminCategoryPage/ListCategoryAdmin';
@@ -94,6 +95,10 @@ export const router = createBrowserRouter ([
                 element: <ProtectedRouter><ConfirmOrder/></ProtectedRouter>
             },
             {
+                path: '/thanh-toan/ket-qua',
+                element: <ProtectedRouter><PaymentPage/></ProtectedRouter>
+            },
+            {
                 path: '/tai-khoan/',
                 element: <ProtectedRouter><ProfilePage/></ProtectedRouter>,
                 children: [
@@ -113,7 +118,7 @@ export const router = createBrowserRouter ([
                     {
                         path: 'don-hang',
                         element: <OrderListPage/>
-                    },
+                    }
                 ]
             },
         ]
