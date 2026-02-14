@@ -47,6 +47,7 @@ public class WebSecurityConfig {
                         .requestMatchers(EndPoints.SWAGGER).permitAll()
                         // lấy sản phẩm và thể loại
                         .requestMatchers(HttpMethod.GET, EndPoints.GET_API).permitAll()
+                        .requestMatchers(HttpMethod.POST, EndPoints.POST_API).permitAll()
                         .requestMatchers("/oauth2/success").permitAll()
                         .anyRequest().authenticated())
                 .oauth2Login(

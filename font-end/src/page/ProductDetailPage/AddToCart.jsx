@@ -54,6 +54,7 @@ const AddToCart = ({ product, selectedSize, selectedColor, onReset }) => {
 
     // Track add-to-cart interaction
     if (product?.id) {
+      console.log("Tracking Add To Cart:", product.id); // Debug log
       trackAddToCart(product.id);
     }
 

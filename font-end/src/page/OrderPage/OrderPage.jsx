@@ -97,19 +97,22 @@ const OrderPage = () => {
       console.log("2. Phản hồi từ Backend:", res);
 
       if (res && res.credentials && res.credentials.paymentUrl) {
-          console.log("3. Tìm thấy URL thanh toán, đang chuyển hướng...");
-          window.location.href = res.credentials.paymentUrl;
-          return;
+        console.log("3. Tìm thấy URL thanh toán, đang chuyển hướng...");
+        window.location.href = res.credentials.paymentUrl;
+        return;
       } else {
-            console.warn("4. Không tìm thấy paymentUrl trong phản hồi.");
-        }
+        console.warn("4. Không tìm thấy paymentUrl trong phản hồi.");
+      }
 
       // Track purchase interactions for recommendation
-      cartItems?.forEach(item => {
-        if (item?.productId) {
-          trackPurchase(item.productId);
-        }
-      });
+      // Lặp qua từng sản phẩm trong giỏ để ghi nhận hành vi MUA
+      if(cartItems && cartItems.length > 0){
+        cartItems.forEach(item => {
+          if (item?.productId) {
+            trackPurchase(item.productId);
+          }
+        });
+      }
 
       navigate("/xac-nhan-don-hang", {
         replace: true,

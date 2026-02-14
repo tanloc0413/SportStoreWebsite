@@ -63,7 +63,6 @@ const ProductDetail = () => {
     getAllProductByCategory(product?.categoryId,product?.categoryTypeId)
     .then(res => {
       const excludedProduct = res?.filter((item)=> item?.id !== product?.id);
-      // setSimilarProducts(excludedProduct);
     })
     .catch(() => [
     ])

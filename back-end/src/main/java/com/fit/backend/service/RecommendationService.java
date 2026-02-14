@@ -172,7 +172,12 @@ public class RecommendationService {
                                     UserInteraction.InteractionType type, String searchKeyword) {
 
         Product product = productRepository.findById(productId).orElse(null);
-        if (product == null) return;
+//        if (product == null) return;
+
+        if (product == null) {
+            log.warn("Cannot save interaction: Product ID {} not found", productId);
+            return;
+        }
 
         UserInteraction interaction = UserInteraction.builder()
                 .userId(userId)

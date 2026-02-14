@@ -4,6 +4,7 @@ import axios from "axios";
 import { FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
 import { API_BASE_URL } from "../../api/constant"; // [cite: 1652]
 import { getHeaders } from "../../api/constant"; // Import thêm getHeaders để có token
+import { trackPurchase } from "../../api/recommendation";
 
 const PaymentPage = () => {
   const [searchParams] = useSearchParams();
@@ -20,11 +21,18 @@ const PaymentPage = () => {
         // Gọi về Backend để verify hash và cập nhật DB
         // Dùng getHeaders() để gửi kèm Token nếu API yêu cầu xác thực
         const res = await axios.get(`${API_BASE_URL}/api/order/vnpay/return?${queryString}`, {
-             headers: getHeaders() 
+          headers: getHeaders() 
         });
 
         if (res.data.status === 'success') {
           setStatus('success');
+
+          if(res.data.data && res.data.data.orderItemList){
+              res.data.data.orderItemList.forEach(item => {
+                // Gọi API track purchase cho từng sản phẩm đã mua thành công
+                trackPurchase(item.product.id); 
+              });
+          }
         } else {
           setStatus('failed');
         }

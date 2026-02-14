@@ -23,17 +23,28 @@ public class RecommendationController {
     /**
      * Lấy gợi ý sản phẩm dựa trên Collaborative Filtering
      */
+//    @GetMapping("/collaborative")
+//    public ResponseEntity<List<ProductRecommendationDto>> getCollaborativeRecommendations(
+//            @RequestParam(required = false) Integer userId,
+//            @RequestParam(defaultValue = "12") int limit,
+//            HttpServletRequest request) {
+//
+//        String sessionId = request.getSession().getId();
+//
+//        List<ProductRecommendationDto> recommendations =
+//                recommendationService.getCollaborativeRecommendations(userId, sessionId, limit);
+//
+//        return ResponseEntity.ok(recommendations);
+//    }
+    // Lấy gợi ý Collaborative
     @GetMapping("/collaborative")
     public ResponseEntity<List<ProductRecommendationDto>> getCollaborativeRecommendations(
             @RequestParam(required = false) Integer userId,
-            @RequestParam(defaultValue = "12") int limit,
-            HttpServletRequest request) {
-
-        String sessionId = request.getSession().getId();
+            @RequestParam(required = false) String sessionId, // Nhận từ Client
+            @RequestParam(defaultValue = "12") int limit) {
 
         List<ProductRecommendationDto> recommendations =
                 recommendationService.getCollaborativeRecommendations(userId, sessionId, limit);
-
         return ResponseEntity.ok(recommendations);
     }
 
@@ -74,19 +85,30 @@ public class RecommendationController {
     /**
      * Lưu tương tác xem sản phẩm
      */
+//    @PostMapping("/interactions/view")
+//    public ResponseEntity<String> saveProductView(
+//            @RequestParam Integer productId,
+//            @RequestParam(required = false) Integer userId,
+//            HttpServletRequest request) {
+//
+//        String sessionId = request.getSession().getId();
+//
+//        recommendationService.saveUserInteraction(
+//                userId, sessionId, productId,
+//                UserInteraction.InteractionType.VIEW, null);
+//
+//        return ResponseEntity.ok("Product view recorded");
+//    }
     @PostMapping("/interactions/view")
     public ResponseEntity<String> saveProductView(
             @RequestParam Integer productId,
             @RequestParam(required = false) Integer userId,
-            HttpServletRequest request) {
-
-        String sessionId = request.getSession().getId();
+            @RequestParam(required = false) String sessionId) { // Nhận từ Client
 
         recommendationService.saveUserInteraction(
                 userId, sessionId, productId,
                 UserInteraction.InteractionType.VIEW, null);
-
-        return ResponseEntity.ok("Product view recorded");
+        return ResponseEntity.ok("View saved");
     }
 
     /**
@@ -111,37 +133,59 @@ public class RecommendationController {
     /**
      * Lưu tương tác thêm vào giỏ hàng
      */
+//    @PostMapping("/interactions/add-to-cart")
+//    public ResponseEntity<String> saveAddToCartInteraction(
+//            @RequestParam Integer productId,
+//            @RequestParam(required = false) Integer userId,
+//            HttpServletRequest request) {
+//
+//        String sessionId = request.getSession().getId();
+//
+//        recommendationService.saveUserInteraction(
+//                userId, sessionId, productId,
+//                UserInteraction.InteractionType.ADD_TO_CART, null);
+//
+//        return ResponseEntity.ok("Add to cart interaction recorded");
+//    }
     @PostMapping("/interactions/add-to-cart")
     public ResponseEntity<String> saveAddToCartInteraction(
             @RequestParam Integer productId,
             @RequestParam(required = false) Integer userId,
-            HttpServletRequest request) {
-
-        String sessionId = request.getSession().getId();
+            @RequestParam(required = false) String sessionId) {
 
         recommendationService.saveUserInteraction(
                 userId, sessionId, productId,
                 UserInteraction.InteractionType.ADD_TO_CART, null);
-
-        return ResponseEntity.ok("Add to cart interaction recorded");
+        return ResponseEntity.ok("Add-to-cart saved");
     }
 
     /**
      * Lưu tương tác mua hàng
      */
+//    @PostMapping("/interactions/purchase")
+//    public ResponseEntity<String> savePurchaseInteraction(
+//            @RequestParam Integer productId,
+//            @RequestParam(required = false) Integer userId,
+//            HttpServletRequest request) {
+//
+//        String sessionId = request.getSession().getId();
+//
+//        recommendationService.saveUserInteraction(
+//                userId, sessionId, productId,
+//                UserInteraction.InteractionType.PURCHASE, null);
+//
+//        return ResponseEntity.ok("Purchase interaction recorded");
+//    }
     @PostMapping("/interactions/purchase")
     public ResponseEntity<String> savePurchaseInteraction(
             @RequestParam Integer productId,
             @RequestParam(required = false) Integer userId,
-            HttpServletRequest request) {
-
-        String sessionId = request.getSession().getId();
+            @RequestParam(required = false) String sessionId) {
 
         recommendationService.saveUserInteraction(
                 userId, sessionId, productId,
                 UserInteraction.InteractionType.PURCHASE, null);
-
-        return ResponseEntity.ok("Purchase interaction recorded");
+        return ResponseEntity.ok("Purchase saved");
     }
 
     /**
