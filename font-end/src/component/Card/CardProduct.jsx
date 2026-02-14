@@ -59,4 +59,4 @@ const CardProduct = ({products}) => {
   )
 }
 
-export default CardProduct;
+export default React.memo(CardProduct);

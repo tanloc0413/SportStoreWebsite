@@ -143,8 +143,8 @@ const AddProductAdmin = () => {
                     selectedColors.forEach(c => {
                         variants.push({
                             size: s.value,
-                            color: c.label, // Hoặc c.value tùy db
-                            quantity: parseInt(quantity) || 0 // Chia đều hoặc set chung
+                            color: c.label,
+                            quantity: parseInt(quantity) || 0
                         });
                     });
                 });
@@ -155,7 +155,7 @@ const AddProductAdmin = () => {
                 selectedSizes.forEach(s => {
                     variants.push({
                         size: s.value,
-                        color: "Default",
+                        color: "Select",
                         quantity: parseInt(quantity) || 0
                     });
                 });
@@ -164,8 +164,8 @@ const AddProductAdmin = () => {
             // Nếu không chọn gì (Sản phẩm đơn giản)
             else {
                 variants.push({
-                    size: "Free Size",
-                    color: "Default",
+                    size: "Select",
+                    color: "Select",
                     quantity: parseInt(quantity) || 0
                 });
             }

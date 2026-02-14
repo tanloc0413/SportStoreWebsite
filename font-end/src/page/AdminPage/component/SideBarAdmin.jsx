@@ -98,7 +98,7 @@ const SideBarAdmin = () => {
         <li>
           <NavLink 
             className={({isActive})=> isActive ? 'nav-activeA nav-items' : 'nav-items'} 
-            to={'/admin/thuong-hieu'}
+            to={'/admin/quan-ly-thuong-hieu'}
           >
             <div className='nav-iconDiv'>
               <TbBrandAdobe className='nav-icon'/>
@@ -108,7 +108,7 @@ const SideBarAdmin = () => {
             </p>
           </NavLink>
         </li>
-        <li>
+        {/* <li>
           <NavLink
             className={({isActive})=> isActive ? 'nav-activeA nav-items' : 'nav-items'} 
             to={'/admin/doi-mat-khau'}
@@ -118,7 +118,7 @@ const SideBarAdmin = () => {
               Đổi mật khẩu
             </p>
           </NavLink>
-        </li>
+        </li> */}
       </ul>
 
     </div>

@@ -16,7 +16,7 @@ const getUserId = () => {
 };
 
 // Lấy gợi ý sản phẩm Collaborative Filtering
-export const getCollaborativeRecommendations = async (limit = 12) => {
+export const getCollaborativeRecommendations = async(limit = 12) => {
   const userId = getUserId();
   let url = `${API_BASE_URL}/api/recommendations/collaborative?limit=${limit}`;
   if (userId) {
@@ -33,7 +33,7 @@ export const getCollaborativeRecommendations = async (limit = 12) => {
 };
 
 // Lấy sản phẩm phổ biến
-export const getPopularProducts = async (limit = 12) => {
+export const getPopularProducts = async(limit = 12) => {
   try {
     const result = await axios.get(
       `${API_BASE_URL}/api/recommendations/popular?limit=${limit}`,
@@ -47,7 +47,7 @@ export const getPopularProducts = async (limit = 12) => {
 };
 
 // Ghi nhận tương tác xem sản phẩm
-export const trackProductView = async (productId) => {
+export const trackProductView = async(productId) => {
   const userId = getUserId();
   try {
     let url = `${API_BASE_URL}/api/recommendations/interactions/view?productId=${productId}`;
@@ -60,7 +60,7 @@ export const trackProductView = async (productId) => {
 };
 
 // Ghi nhận tương tác thêm vào giỏ hàng
-export const trackAddToCart = async (productId) => {
+export const trackAddToCart = async(productId) => {
   const userId = getUserId();
   try {
     let url = `${API_BASE_URL}/api/recommendations/interactions/add-to-cart?productId=${productId}`;
@@ -72,7 +72,7 @@ export const trackAddToCart = async (productId) => {
 };
 
 // Ghi nhận tương tác mua hàng
-export const trackPurchase = async (productId) => {
+export const trackPurchase = async(productId) => {
   const userId = getUserId();
   try {
     let url = `${API_BASE_URL}/api/recommendations/interactions/purchase?productId=${productId}`;

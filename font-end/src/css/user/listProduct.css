@@ -244,6 +244,15 @@ p {
     grid-template-columns: repeat(5, 1fr);
     column-gap: 15px;
     row-gap: 10px;
+    position: relative;
+}
+
+.listProductError {
+    width: 100%;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 #listProduct_category-item {

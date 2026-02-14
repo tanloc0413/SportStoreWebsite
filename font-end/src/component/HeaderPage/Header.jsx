@@ -5,14 +5,14 @@ import { FaRegUser } from "react-icons/fa";
 import { AiOutlineBell } from "react-icons/ai";
 import Nav from 'react-bootstrap/Nav';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 // files
 import '../../css/user/header.css';
 import LogoIcon from '../../imgs/sport.png';
 import { countCartItems } from '../../store/features/cart';
 import { logOut } from '../../util/jwt-helper';
-import { selectIsUserAdmin } from '../../store/features/user';
+import { loadUserInfo, selectIsUserAdmin, selectUserInfo } from '../../store/features/user';
 import { useEffect } from 'react';
 import { searchProductsAPI } from '../../api/fetchProducts';
 import { formatMoney } from '../../component/FormatMoney/formatMoney';
@@ -28,9 +28,14 @@ const Header = ({variant="default"}) => {
 
   const location = useLocation();
 
+  const userInfo = useSelector(selectUserInfo);
+
+  const dispatch = useDispatch();
+
   useEffect(() => {
     fetchUserDetails()
     .then(res => {
+      dispatch(loadUserInfo(res));
     })
     .catch((err) => {
       console.error("Lỗi: ", err)

@@ -22,7 +22,6 @@ export const saveToken = (token) => {
   window.dispatchEvent(new Event('auth-changed'));
 }
 
-
 export const logOut = () => {
   localStorage.removeItem('authToken');
   window.dispatchEvent(new Event('auth-changed'));

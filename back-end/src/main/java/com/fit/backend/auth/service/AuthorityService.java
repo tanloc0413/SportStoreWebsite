@@ -35,6 +35,4 @@ public class AuthorityService {
         Authority authority= Authority.builder().roleCode(role).roleName(roleName).build();
         return authorityRepository.save(authority);
     }
-
-
 }

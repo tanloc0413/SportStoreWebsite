@@ -1,7 +1,7 @@
 import axios from "axios";
 import { API_BASE_URL, getHeaders } from "./constant";
 
-export const fetchBrands = async () => {
+export const fetchBrands = async() => {
   try {
     const res = await axios.get(`${API_BASE_URL}/api/brands`);
     return res.data;
@@ -11,7 +11,7 @@ export const fetchBrands = async () => {
   }
 };
 
-export const createBrandAPI = async (data) => {
+export const createBrandAPI = async(data) => {
   try {
     const res = await axios.post(`${API_BASE_URL}/api/brands`, data, {
       headers: getHeaders()
@@ -22,7 +22,7 @@ export const createBrandAPI = async (data) => {
   }
 };
 
-export const deleteBrandAPI = async (id) => {
+export const deleteBrandAPI = async(id) => {
   try {
     await axios.delete(`${API_BASE_URL}/api/brands/${id}`, {
       headers: getHeaders()

@@ -5,6 +5,7 @@ import { loadProductBySlug } from "./productSlug";
 import RouterPage from '../router/RouterPage';
 import CartPage from '../page/CartPage/CartPage';
 import LoginPage from '../page/LoginPage/Login';
+import BrandPage from "../page/BrandPage/BrandPage";
 import ProductDetail from '../page/ProductDetailPage/ProductDetail';
 import RegisterPage from '../page/RegisterPage/Register';
 import ProductListPage from '../page/ProductListPage/ProductListPage';
@@ -76,6 +77,10 @@ export const router = createBrowserRouter ([
                 path: '/dang-ky',
                 element: <RegisterPage/>,
             },
+            {   
+                path: '/thuong-hieu',
+                element: <BrandPage/>,
+            },
             {
                 path: '/oauth2/callback',
                 element: <GoogleLogin/>
@@ -135,7 +140,7 @@ export const router = createBrowserRouter ([
                 element: <ListUserAdmin/>
             },
             {
-                path: 'thuong-hieu',
+                path: 'quan-ly-thuong-hieu',
                 element: <ListBrandAdmin/>
             },
             {

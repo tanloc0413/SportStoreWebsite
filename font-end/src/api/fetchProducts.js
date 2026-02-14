@@ -2,7 +2,7 @@ import axios from "axios";
 import { API_BASE_URL, API_URLS, getHeaders } from "./constant";
 
 // lấy tất cả sản phẩm
-export const getAllProducts = async () => {
+export const getAllProducts = async() => {
   let url = API_BASE_URL + API_URLS.GET_PRODUCTS;
   
   try {
@@ -24,7 +24,7 @@ export const getAllProductByCategory = async(categoryId, typeId) => {
 
   try {
     const result = await axios.get(url);
-    console.log("Products by category: ", result?.data);
+    // console.log("Products by category: ", result?.data);
     return result?.data;
   }
   catch(err){
@@ -45,7 +45,7 @@ export const getProductBySlug = async(slug) => {
   }
 }
 
-export const addProductAPI = async (data) => {
+export const addProductAPI = async(data) => {
   const url = API_BASE_URL + "/api/products";
 
   const response = await axios(url, {
@@ -57,7 +57,7 @@ export const addProductAPI = async (data) => {
   return response.data;
 };
 
-export const addNewProductAPI = async (productData) => {
+export const addNewProductAPI = async(productData) => {
   const url = API_BASE_URL + '/api/products';
   const response = await axios(url, {
     method: "POST",
@@ -68,7 +68,7 @@ export const addNewProductAPI = async (productData) => {
 }
 
 // tìm kiếm
-export const searchProductsAPI = async (keyword) => {
+export const searchProductsAPI = async(keyword) => {
   let url = API_BASE_URL + API_URLS.GET_PRODUCTS + `?keyword=${keyword}`;
   try {
     const result = await axios.get(url);
@@ -80,7 +80,7 @@ export const searchProductsAPI = async (keyword) => {
 }
 
 // Cập nhật sản phẩm
-export const updateProductAPI = async (id, productData) => {
+export const updateProductAPI = async(id, productData) => {
   const url = `${API_BASE_URL}/api/products/${id}`;
   try {
     const response = await axios(url, {
@@ -96,7 +96,7 @@ export const updateProductAPI = async (id, productData) => {
 };
 
 // Xóa sản phẩm
-export const deleteProductAPI = async (id) => {
+export const deleteProductAPI = async(id) => {
   const url = `${API_BASE_URL}/api/products/${id}`;
   try {
     await axios.delete(url, { headers: getHeaders() });

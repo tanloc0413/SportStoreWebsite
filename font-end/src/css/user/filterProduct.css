@@ -133,6 +133,7 @@
     margin-top: 5px;
     padding-bottom: 5px;
     column-gap: 5px;
+    row-gap: 10px;
 }
 
 .sizeList_item {

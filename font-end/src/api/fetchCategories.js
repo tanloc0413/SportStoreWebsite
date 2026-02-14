@@ -13,7 +13,7 @@ export const fetchCategories = async() => {
     }
 }
 
-export const createCategoryAPI = async (data) => {
+export const createCategoryAPI = async(data) => {
   const url = API_BASE_URL + "/api/category";
 
   const response = await axios(url, {

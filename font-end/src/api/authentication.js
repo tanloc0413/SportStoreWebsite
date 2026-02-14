@@ -63,7 +63,7 @@ export const changePasswordAPI = async(body) => {
   }
 }
 
-export const forgotPasswordAPI = async (email) => {
+export const forgotPasswordAPI = async(email) => {
   const url = `${API_BASE_URL}/api/auth/forgot-password`;
   try {
     const response = await axios.post(url, { email });
@@ -73,7 +73,7 @@ export const forgotPasswordAPI = async (email) => {
   }
 };
 
-export const resetPasswordAPI = async (data) => {
+export const resetPasswordAPI = async(data) => {
   const url = `${API_BASE_URL}/api/auth/reset-password`;
   try {
     const response = await axios.post(url, data);

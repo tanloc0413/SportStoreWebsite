@@ -17,7 +17,7 @@ export const fetchUserDetails = async() => {
     }
 }
 
-export const fetchAllUsers = async () => {
+export const fetchAllUsers = async() => {
     const url = API_BASE_URL + "/api/user/all";
 
     const response = await axios(url, {

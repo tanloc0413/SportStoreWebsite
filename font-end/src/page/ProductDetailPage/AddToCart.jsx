@@ -88,11 +88,6 @@ const AddToCart = ({ product, selectedSize, selectedColor, onReset }) => {
     onReset && onReset();
   };
 
-  // image:
-  //         product?.productImage?.find(i => i.isPrimary)?.url ? API_BASE_URL + product.productImage.find(i => i.isPrimary).url
-  //           : product?.productImage?.[0]?.url ? API_BASE_URL + product.productImage[0].url
-  //             : null
-
   return (
     <>
       <div id="order_block">

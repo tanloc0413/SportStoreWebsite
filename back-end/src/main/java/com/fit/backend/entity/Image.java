@@ -19,7 +19,7 @@ public class Image {
 
     @ManyToOne
     @JoinColumn(name = "product_id")
-    @ToString.Exclude // THÊM DÒNG NÀY
-    @EqualsAndHashCode.Exclude // THÊM DÒNG NÀY
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private Product product;
 }

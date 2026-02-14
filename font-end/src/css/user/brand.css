@@ -1,0 +1,32 @@
+.brandPage {
+  width: 100%;
+  height: 100%;
+  padding: 15px 0;
+  background-color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: start;
+}
+
+.brandPage-list {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  column-gap: 10px;
+  row-gap: 10px;
+}
+
+.brandPage-blk {
+  width: 14rem;
+  height: 8rem;
+  background-size: cover;
+  overflow: hidden;
+  border-radius: 8px;
+  border: 2px solid #787575;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.brandPage-img {
+  width: 100%;
+}

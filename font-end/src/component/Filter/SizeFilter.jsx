@@ -1,30 +1,39 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import '../../css/user/filterProduct.css';
 
-const SizeFilter = ({ sizes, multi=true, onChange }) => {
+const SizeFilter = ({ sizes, multi=true, onChange, selectedSizes = [] }) => {
     const [appliedSize,setAppliedSize] = useState([]);
 
-    const onClickDiv = useCallback((item) => {
-        if(appliedSize.indexOf(item) > -1) {  
-            setAppliedSize(appliedSize?.filter(size => size !== item));
-        }
-        else {
-            if(multi) {
-                setAppliedSize([...appliedSize,item]);
-            }
-            else {
-                setAppliedSize([item]);
-            }
-            setAppliedSize([item]);
-        }
-    }, [appliedSize, multi]);
+    // const onClickDiv = useCallback((item) => {
+    //     if(appliedSize.indexOf(item) > -1) {  
+    //         setAppliedSize(appliedSize?.filter(size => size !== item));
+    //     }
+    //     else {
+    //         if(multi) {
+    //             setAppliedSize([...appliedSize,item]);
+    //         }
+    //         else {
+    //             setAppliedSize([item]);
+    //         }
+    //         setAppliedSize([item]);
+    //     }
+    // }, [appliedSize, multi]);
  
-    useEffect(() => {
-        onChange && onChange(appliedSize);
-    }, [appliedSize, onChange])
-    
+    // useEffect(() => {
+    //     onChange && onChange(appliedSize);
+    // }, [appliedSize, onChange])
 
+    const onClickDiv = useCallback((item) => {
+        let newSizes;
+        if(selectedSizes.includes(item)) {  
+            newSizes = selectedSizes.filter(size => size !== item);
+        } else {
+            newSizes = [...selectedSizes, item];
+        }
+        onChange && onChange(newSizes);
+    }, [selectedSizes, onChange]);
+    
     return (
         <div className='sizeList'>
             {

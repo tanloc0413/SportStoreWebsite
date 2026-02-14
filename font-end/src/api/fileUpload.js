@@ -1,7 +1,7 @@
 import axios from "axios";
 import { API_BASE_URL, getHeaders } from "./constant";
 
-export const fileUploadAPI = async (data)=>{
+export const fileUploadAPI = async(data)=>{
     const url = API_BASE_URL + `/api/file`;
     try{
         const response = await axios(url,{
@@ -19,7 +19,7 @@ export const fileUploadAPI = async (data)=>{
     }
 }
 
-export const multipleFileUploadAPI = async (formData) => {
+export const multipleFileUploadAPI = async(formData) => {
     const url = API_BASE_URL + '/api/file/multiple';
 
     const response = await axios.post(url, formData, {

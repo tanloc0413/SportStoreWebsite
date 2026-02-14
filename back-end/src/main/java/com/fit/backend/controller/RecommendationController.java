@@ -15,7 +15,7 @@ import java.util.List;
 @RequestMapping("/api/recommendations")
 @RequiredArgsConstructor
 @Slf4j
-@CrossOrigin(origins = {"http://localhost:3000", "http://localhost:3001"}, allowCredentials = "true")
+@CrossOrigin(allowCredentials = "true")
 public class RecommendationController {
 
     private final RecommendationService recommendationService;
