@@ -50,4 +50,16 @@ public interface UserInteractionRepository extends JpaRepository<UserInteraction
             "GROUP BY ui1.userId, ui2.userId " +
             "ORDER BY commonProducts DESC")
     List<Object[]> findSimilarUsers(@Param("userId") Integer userId);
+
+    // Tìm các tương tác SEARCH có chứa keyword tương tự
+    @Query("SELECT ui FROM UserInteraction ui WHERE ui.interactionType = 'SEARCH' " +
+            "AND LOWER(ui.searchKeyword) LIKE LOWER(CONCAT('%', :keyword, '%'))")
+    List<UserInteraction> findBySearchKeywordContaining(@Param("keyword") String keyword);
+
+    // Tìm các từ khóa tìm kiếm phổ biến
+    @Query("SELECT ui.searchKeyword, COUNT(ui) as searchCount FROM UserInteraction ui " +
+            "WHERE ui.interactionType = 'SEARCH' AND ui.searchKeyword IS NOT NULL " +
+            "GROUP BY ui.searchKeyword " +
+            "ORDER BY searchCount DESC")
+    List<Object[]> findPopularSearchKeywords();
 }

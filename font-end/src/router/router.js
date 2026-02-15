@@ -95,8 +95,8 @@ export const router = createBrowserRouter ([
                 element: <ProtectedRouter><ConfirmOrder/></ProtectedRouter>
             },
             {
-                path: '/thanh-toan/ket-qua',
-                element: <ProtectedRouter><PaymentPage/></ProtectedRouter>
+                path: '/return',
+                element: <PaymentPage/>
             },
             {
                 path: '/tai-khoan/',

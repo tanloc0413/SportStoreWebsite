@@ -13,7 +13,8 @@ import AddAddress from '../UserPage/AddAddress';
 const AddressPage = () =>  {
   const dispatch = useDispatch();
   const userInfo = useSelector(selectUserInfo);
-  const [addAddress, setAddAddress] = useState(false);
+  
+  const { setAddAddress } = useOutletContext();
 
   const onDeleteAddress = useCallback((id) => {
     dispatch(setLoading(true));
@@ -73,9 +74,7 @@ const AddressPage = () =>  {
         </div>
       </div>
       {/* <AddAddress/> */}
-      {addAddress && 
-        <AddAddress onCancel={() => setAddAddress(false)}/>
-      }
+      
     </>
   )
 }

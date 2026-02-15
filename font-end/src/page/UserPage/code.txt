@@ -1,0 +1,136 @@
+import React, { useEffect, useState } from 'react';
+import { MdEdit } from "react-icons/md";
+import { IoCameraOutline } from "react-icons/io5";
+import { useDispatch, useSelector } from 'react-redux';
+
+import '../../css/user/profile.css';
+import { loadUserInfo, selectIsUserAdmin, selectUserInfo } from '../../store/features/user';
+import { setLoading } from '../../store/features/common';
+import { fetchUserDetails, updateUserInfoAPI } from '../../api/userInfo';
+
+const MyProfilePage = () =>  {
+    const userInfo = useSelector(selectUserInfo);
+
+    const isUserAdmin = useSelector(selectIsUserAdmin);
+    
+    const dispatch = useDispatch();
+    
+    // State cho form chỉnh sửa
+    const [isEditing, setIsEditing] = useState(false);
+    const [formData, setFormData] = useState({
+        fullName: '',
+        phoneNumber: ''
+    });
+    const [message, setMessage] = useState({ type: '', content: '' });
+
+    // Khi load trang hoặc userInfo thay đổi, cập nhật dữ liệu vào form
+    useEffect(() => {
+        if (userInfo) {
+            setFormData({
+                fullName: userInfo.fullName || '',
+                phoneNumber: userInfo.phoneNumber || ''
+            });
+        }
+    }, [userInfo]);
+
+    const handleChange = (e) => {
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value
+        });
+    };
+
+    const handleUpdate = async () => {
+        // Validate cơ bản
+        if (!formData.fullName.trim()) {
+            setMessage({ type: 'error', content: 'Họ tên không được để trống' });
+            return;
+        }
+
+        try {
+            dispatch(setLoading(true));
+            // Gọi API cập nhật
+            await updateUserInfoAPI(formData);
+            
+            // Cập nhật thành công -> Load lại thông tin mới vào Redux
+            const updatedUser = await fetchUserDetails();
+            dispatch(loadUserInfo(updatedUser));
+
+            setMessage({ type: 'success', content: 'Cập nhật thành công!' });
+            setIsEditing(false); // Tắt chế độ sửa
+        } catch (error) {
+            console.error(error);
+            setMessage({ type: 'error', content: typeof error === 'string' ? error : 'Cập nhật thất bại' });
+        } finally {
+            dispatch(setLoading(false));
+            // Tự động ẩn thông báo sau 3s
+            setTimeout(() => setMessage({ type: '', content: '' }), 3000);
+        }
+    };
+
+
+    return (  
+        <>
+            <div id='profile-user'>
+                <div id='profile_avt'>
+                    <div id='profile_avt-blk'>
+                        <img 
+                            src="https://images4.alphacoders.com/127/thumb-1920-1272717.png"
+                            alt="avatar user"
+                            id='profile_avt-img'
+                        />
+                    </div>
+                    <button id='profile_avt-btn'>
+                        <IoCameraOutline className='profile-edit'/>
+                    </button>
+                </div>
+                <div id='profile_info'>
+                    <div className='profile_info-item'>
+                        <p className='info-text1'>
+                            Họ và tên:
+                        </p>
+                        <p className='info-text2'>
+                            {userInfo?.fullName}
+                        </p>
+                    </div>    
+                    <div className='profile_info-item'>
+                        <p className='info-text1'>
+                            Email:
+                        </p>
+                        <p className='info-text2'>
+                            {userInfo?.email}
+                        </p>
+                    </div>
+                    <div className={`profile_info-item ${isUserAdmin ? "" : 'info_noneBorder'}`}>
+                        <p className='info-text1'>
+                            Số điện thoại:
+                        </p>
+                        <p className='info-text2'>
+                            {userInfo?.phoneNumber || 'Chưa có SĐT'}
+                        </p>
+                    </div>
+                    {isUserAdmin && 
+                        <div className='profile_info-item info_noneBorder'>
+                            <p className='info-text1'>
+                                Quyền:
+                            </p>
+                            <p className='info-text2'>
+                                Quản trị viên (Admin)
+                            </p>
+                        </div>
+                    }
+                    <div className='profile_info-btn'>
+                        <button className='info_btn'>
+                            <MdEdit className='info_btn-icon'/>
+                            <p className='info_btn-text'>
+                                Chỉnh sửa hồ sơ
+                            </p>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </>
+    )
+}
+
+export default MyProfilePage;

@@ -16,15 +16,6 @@ import java.nio.file.StandardCopyOption;
 
 @Service
 public class FileUploadService {
-//    @Value("${FILE_ZONE}")
-//    private String storageZone;
-//
-//    @Value("${FILE_UPLOAD_API_KEY}")
-//    private String fileUploadKey;
-//
-//    @Value("${FILE_UPLOAD_HOST_URL}")
-//    private String fileHostName;
-
     private final String uploadDir = "uploads/products/";
 
     public FileUploadService() {

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, Outlet } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -6,6 +6,7 @@ import '../../css/user/profile.css';
 import { fetchUserDetails } from '../../api/userInfo';
 import { setLoading } from '../../store/features/common';
 import { loadUserInfo, selectIsUserAdmin } from '../../store/features/user';
+import AddAddress from './AddAddress';
 
 const ProfilePage = () => {
   const dispatch = useDispatch();
@@ -25,6 +26,9 @@ const ProfilePage = () => {
 
   const isUserAdmin = useSelector(selectIsUserAdmin);
   
+
+  const [addAddress, setAddAddress] = useState(false);
+
   return (
     <div id='profile'>
       <div id='profile-tabs'>
@@ -45,8 +49,12 @@ const ProfilePage = () => {
           Đổi mật khẩu
         </Link>
       </div>
+      {addAddress && 
+        <AddAddress onCancel={() => setAddAddress(false)}/>
+      }
       <div id='profile-content'>
-        <Outlet/>
+        {/* <Outlet/> */}
+        <Outlet context={{ setAddAddress }}/>
       </div>
     </div>
   )

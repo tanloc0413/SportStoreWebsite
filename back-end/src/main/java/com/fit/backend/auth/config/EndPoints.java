@@ -41,7 +41,8 @@ public final class EndPoints {
             "/api/auth/verify",
             "/api/auth/forgot-password",
             "/api/auth/reset-password",
-            "/api/orders/**"
+            "/api/orders/**",
+            "/api/order/vnpay/return"
     };
 
     // Public GOOLE LOGIN

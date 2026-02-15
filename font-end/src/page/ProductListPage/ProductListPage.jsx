@@ -12,10 +12,12 @@ import content from "../../data/content.json";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllProductByCategory } from "../../api/fetchProducts";
 import { setLoading } from "../../store/features/common";
+import { getCollaborativeRecommendations } from "../../api/recommendation";
 
 const ProductListPage = ({ categoryType }) => {
     const [allProducts, setAllProducts] = useState([]);
     const [filteredProducts, setFilteredProducts] = useState([]);
+    const [recommendedProducts, setRecommendedProducts] = useState([]);
 
     // Phân trang
     // const [products, setProducts] = useState([]);
@@ -81,6 +83,26 @@ const ProductListPage = ({ categoryType }) => {
             .finally(() => dispatch(setLoading(false)));
 
     }, [category?.id, dispatch]);
+
+    // Lấy gợi ý CF cho trang danh mục
+    useEffect(() => {
+        getCollaborativeRecommendations(6)
+            .then(res => {
+                if (res && res.length > 0) {
+                    const mapped = res.map(item => ({
+                        id: item.productId,
+                        name: item.productName,
+                        price: item.price,
+                        slug: item.slug,
+                        productImage: item.imageUrl ? [{ url: item.imageUrl, isPrimary: true }] : [],
+                        _reason: item.reason,
+                        _score: item.recommendationScore
+                    }));
+                    setRecommendedProducts(mapped);
+                }
+            })
+            .catch(err => console.error("Lỗi gợi ý:", err));
+    }, []);
 
     // Trích xuất danh sách Size và Color từ tất cả sản phẩm để truyền cho bộ lọc
     const metaData = useMemo(() => {

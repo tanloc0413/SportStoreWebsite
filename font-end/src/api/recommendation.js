@@ -1,99 +1,8 @@
-// import axios from "axios";
-// import { API_BASE_URL, getHeaders } from "./constant";
-// import { getToken } from "../util/jwt-helper";
-// import { jwtDecode } from "jwt-decode";
-// import { v4 as uuidv4 } from 'uuid';
-
-// // Lấy userId từ token (nếu đã đăng nhập)
-// const getUserId = () => {
-//   const token = getToken();
-//   if (!token) return null;
-//   try {
-//     const decoded = jwtDecode(token);
-//     return decoded.userId || decoded.sub || decoded.id || null;
-//   } catch {
-//     return null;
-//   }
-// };
-
-// // Lấy gợi ý sản phẩm Collaborative Filtering
-// export const getCollaborativeRecommendations = async(limit = 12) => {
-//   const userId = getUserId();
-//   let url = `${API_BASE_URL}/api/recommendations/collaborative?limit=${limit}`;
-//   if (userId) {
-//     url += `&userId=${userId}`;
-//   }
-
-//   try {
-//     const result = await axios.get(url, { withCredentials: true });
-//     return result?.data || [];
-//   } catch (err) {
-//     console.error("Lỗi khi lấy gợi ý collaborative:", err);
-//     return [];
-//   }
-// };
-
-// // Lấy sản phẩm phổ biến
-// export const getPopularProducts = async(limit = 12) => {
-//   try {
-//     const result = await axios.get(
-//       `${API_BASE_URL}/api/recommendations/popular?limit=${limit}`,
-//       { withCredentials: true }
-//     );
-//     return result?.data || [];
-//   } catch (err) {
-//     console.error("Lỗi khi lấy sản phẩm phổ biến:", err);
-//     return [];
-//   }
-// };
-
-// // Ghi nhận tương tác xem sản phẩm
-// export const trackProductView = async(productId) => {
-//   const userId = getUserId();
-
-//   try {
-//     let url = `${API_BASE_URL}/api/recommendations/interactions/view?productId=${productId}`;
-
-//     if (userId) url += `&userId=${userId}`;
-
-//     await axios.post(url, null, { 
-//       withCredentials: true 
-//     });
-//   } catch (err) {
-//     // Silent fail - không ảnh hưởng UX
-//     console.debug("Track view failed:", err);
-//   }
-// };
-
-// // Ghi nhận tương tác thêm vào giỏ hàng
-// export const trackAddToCart = async(productId) => {
-//   const userId = getUserId();
-//   try {
-//     let url = `${API_BASE_URL}/api/recommendations/interactions/add-to-cart?productId=${productId}`;
-//     if (userId) url += `&userId=${userId}`;
-//     await axios.post(url, null, { withCredentials: true });
-//   } catch (err) {
-//     console.debug("Track add-to-cart failed:", err);
-//   }
-// };
-
-// // Ghi nhận tương tác mua hàng
-// export const trackPurchase = async(productId) => {
-//   const userId = getUserId();
-//   try {
-//     let url = `${API_BASE_URL}/api/recommendations/interactions/purchase?productId=${productId}`;
-//     if (userId) url += `&userId=${userId}`;
-//     await axios.post(url, null, { withCredentials: true });
-//   } catch (err) {
-//     console.debug("Track purchase failed:", err);
-//   }
-// };
-
 import axios from "axios";
 import { API_BASE_URL } from "./constant";
 import { getToken } from "../util/jwt-helper";
 import { jwtDecode } from "jwt-decode";
-import { v4 as uuidv4 } from 'uuid'; // Cần cài: npm install uuid
+import { v4 as uuidv4 } from 'uuid';
 
 // 1. Hàm lấy UserId từ Token
 const getUserId = () => {
@@ -117,6 +26,21 @@ const getSessionId = () => {
   return sessionId;
 };
 
+const getAuthConfig = () => {
+  const token = getToken();
+
+  if (!token) {
+    return { withCredentials: true };
+  }
+
+  return {
+    withCredentials: true,
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  };
+};
+
 // 3. Hàm chung để gửi tracking
 const trackInteraction = async (endpoint, params) => {
   const userId = getUserId();
@@ -125,7 +49,7 @@ const trackInteraction = async (endpoint, params) => {
   // Gom params lại
   const queryParams = new URLSearchParams({
     ...params,
-    sessionId: sessionId // Luôn gửi sessionId
+    sessionId: sessionId
   });
 
   if (userId) {
@@ -133,24 +57,39 @@ const trackInteraction = async (endpoint, params) => {
   }
 
   try {
-    await axios.post(`${API_BASE_URL}/api/recommendations/interactions/${endpoint}?${queryParams.toString()}`);
-    // console.log(`Tracked ${endpoint} success`);
+    // await axios.post(`${API_BASE_URL}/api/recommendations/interactions/${endpoint}?${queryParams.toString()}`);
+    await axios.post(
+      `${API_BASE_URL}/api/recommendations/interactions/${endpoint}?${queryParams.toString()}`,
+      null,
+      getAuthConfig()
+    );
+    console.log(`Tracked ${endpoint} success`);
   } catch (err) {
+    const status = err?.response?.status;
+    if (status === 302 || status === 401 || status === 403) {
+      return;
+    }
     console.error(`Lỗi track ${endpoint}:`, err);
   }
 };
-
-// --- CÁC HÀM EXPORT ---
 
 export const getCollaborativeRecommendations = async (limit = 12) => {
   const userId = getUserId();
   const sessionId = getSessionId();
 
+  const token = getToken();
+
+  // Tránh bị redirect OAuth2 (302) khi chưa đăng nhập
+  if (!token) {
+    return [];
+  }
+
   let url = `${API_BASE_URL}/api/recommendations/collaborative?limit=${limit}&sessionId=${sessionId}`;
   if (userId) url += `&userId=${userId}`;
 
   try {
-    const result = await axios.get(url);
+    // const result = await axios.get(url);
+    const result = await axios.get(url, getAuthConfig());
     return result?.data || [];
   } catch (err) {
     console.error("Lỗi recommendation:", err);
@@ -173,7 +112,57 @@ export const trackPurchase = async (productId) => {
   await trackInteraction('purchase', { productId });
 };
 
-// Tracking: Tìm kiếm (Bổ sung thêm nếu cần)
+// Tracking: Tìm kiếm (debounced - chỉ track 1 lần cho mỗi từ khóa)
+let _lastTrackedKeyword = '';
 export const trackSearch = async (keyword) => {
-  await trackInteraction('search', { keyword });
+  if (!keyword || keyword.trim() === '' || keyword.trim() === _lastTrackedKeyword) return;
+  _lastTrackedKeyword = keyword.trim();
+  await trackInteraction('search', { keyword: keyword.trim() });
+};
+
+// Lấy gợi ý dựa trên từ khóa tìm kiếm (Search-Based CF)
+export const getSearchBasedRecommendations = async (keyword, limit = 12) => {
+  const userId = getUserId();
+  const sessionId = getSessionId();
+
+  let url = `${API_BASE_URL}/api/recommendations/search-based?keyword=${encodeURIComponent(keyword)}&limit=${limit}&sessionId=${sessionId}`;
+  if (userId) url += `&userId=${userId}`;
+
+  try {
+    const result = await axios.get(url);
+    return result?.data || [];
+  } catch (err) {
+    console.error("Lỗi search-based recommendation:", err);
+    return [];
+  }
+};
+
+// Lấy sản phẩm phổ biến
+export const getPopularProducts = async (limit = 12) => {
+  try {
+    const result = await axios.get(
+      `${API_BASE_URL}/api/recommendations/popular?limit=${limit}`
+    );
+    return result?.data || [];
+  } catch (err) {
+    console.error("Lỗi popular products:", err);
+    return [];
+  }
+};
+
+// Lấy gợi ý Hybrid (kết hợp)
+export const getHybridRecommendations = async (limit = 20) => {
+  const userId = getUserId();
+  const sessionId = getSessionId();
+
+  let url = `${API_BASE_URL}/api/recommendations/hybrid?limit=${limit}&sessionId=${sessionId}`;
+  if (userId) url += `&userId=${userId}`;
+
+  try {
+    const result = await axios.get(url);
+    return result?.data || [];
+  } catch (err) {
+    console.error("Lỗi hybrid recommendation:", err);
+    return [];
+  }
 };

@@ -89,3 +89,17 @@ export const cancelOrderAPI = async(id) => {
         throw new Error(err);
     }
 }
+
+
+export const updateUserInfoAPI = async (data) => {
+  const url = API_BASE_URL + '/api/user/profile';
+  try {
+    const response = await axios.put(url, data, {
+      headers: getHeaders()
+    });
+    return response?.data;
+  } catch (err) {
+    // Trả về lỗi chi tiết từ backend nếu có
+    throw err.response ? err.response.data : new Error("Lỗi kết nối");
+  }
+}

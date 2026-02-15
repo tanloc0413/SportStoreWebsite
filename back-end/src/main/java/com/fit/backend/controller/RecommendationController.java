@@ -6,9 +6,12 @@ import com.fit.backend.service.RecommendationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.servlet.http.HttpServletRequest;
+
+import java.nio.file.attribute.UserPrincipal;
 import java.util.List;
 
 @RestController
@@ -16,6 +19,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 @CrossOrigin(originPatterns = "*", allowCredentials = "true")
+//@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
 public class RecommendationController {
 
     private final RecommendationService recommendationService;
@@ -23,24 +27,10 @@ public class RecommendationController {
     /**
      * Lấy gợi ý sản phẩm dựa trên Collaborative Filtering
      */
-//    @GetMapping("/collaborative")
-//    public ResponseEntity<List<ProductRecommendationDto>> getCollaborativeRecommendations(
-//            @RequestParam(required = false) Integer userId,
-//            @RequestParam(defaultValue = "12") int limit,
-//            HttpServletRequest request) {
-//
-//        String sessionId = request.getSession().getId();
-//
-//        List<ProductRecommendationDto> recommendations =
-//                recommendationService.getCollaborativeRecommendations(userId, sessionId, limit);
-//
-//        return ResponseEntity.ok(recommendations);
-//    }
-    // Lấy gợi ý Collaborative
     @GetMapping("/collaborative")
     public ResponseEntity<List<ProductRecommendationDto>> getCollaborativeRecommendations(
             @RequestParam(required = false) Integer userId,
-            @RequestParam(required = false) String sessionId, // Nhận từ Client
+            @RequestParam(required = false) String sessionId,
             @RequestParam(defaultValue = "12") int limit) {
 
         List<ProductRecommendationDto> recommendations =
@@ -85,20 +75,6 @@ public class RecommendationController {
     /**
      * Lưu tương tác xem sản phẩm
      */
-//    @PostMapping("/interactions/view")
-//    public ResponseEntity<String> saveProductView(
-//            @RequestParam Integer productId,
-//            @RequestParam(required = false) Integer userId,
-//            HttpServletRequest request) {
-//
-//        String sessionId = request.getSession().getId();
-//
-//        recommendationService.saveUserInteraction(
-//                userId, sessionId, productId,
-//                UserInteraction.InteractionType.VIEW, null);
-//
-//        return ResponseEntity.ok("Product view recorded");
-//    }
     @PostMapping("/interactions/view")
     public ResponseEntity<String> saveProductView(
             @RequestParam Integer productId,
@@ -133,20 +109,6 @@ public class RecommendationController {
     /**
      * Lưu tương tác thêm vào giỏ hàng
      */
-//    @PostMapping("/interactions/add-to-cart")
-//    public ResponseEntity<String> saveAddToCartInteraction(
-//            @RequestParam Integer productId,
-//            @RequestParam(required = false) Integer userId,
-//            HttpServletRequest request) {
-//
-//        String sessionId = request.getSession().getId();
-//
-//        recommendationService.saveUserInteraction(
-//                userId, sessionId, productId,
-//                UserInteraction.InteractionType.ADD_TO_CART, null);
-//
-//        return ResponseEntity.ok("Add to cart interaction recorded");
-//    }
     @PostMapping("/interactions/add-to-cart")
     public ResponseEntity<String> saveAddToCartInteraction(
             @RequestParam Integer productId,
@@ -162,20 +124,6 @@ public class RecommendationController {
     /**
      * Lưu tương tác mua hàng
      */
-//    @PostMapping("/interactions/purchase")
-//    public ResponseEntity<String> savePurchaseInteraction(
-//            @RequestParam Integer productId,
-//            @RequestParam(required = false) Integer userId,
-//            HttpServletRequest request) {
-//
-//        String sessionId = request.getSession().getId();
-//
-//        recommendationService.saveUserInteraction(
-//                userId, sessionId, productId,
-//                UserInteraction.InteractionType.PURCHASE, null);
-//
-//        return ResponseEntity.ok("Purchase interaction recorded");
-//    }
     @PostMapping("/interactions/purchase")
     public ResponseEntity<String> savePurchaseInteraction(
             @RequestParam Integer productId,

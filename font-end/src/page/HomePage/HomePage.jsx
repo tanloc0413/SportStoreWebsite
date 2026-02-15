@@ -26,6 +26,8 @@ const HomePage = () => {
 
       setProductData(random30);
       // console.log("Product data", random30.);
+
+      // setProductData(res);
     })
     .catch(err => {
       console.error("Lỗi khi lấy sản phẩm: ", err);

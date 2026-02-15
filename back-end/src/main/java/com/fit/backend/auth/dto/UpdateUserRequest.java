@@ -1,4 +1,4 @@
-package com.fit.backend.entity;
+package com.fit.backend.auth.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -6,10 +6,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-public class Message {
-    private Integer code;
-    private String message;
+public class UpdateUserRequest {
+    private String fullName;
+    private String phoneNumber;
 }

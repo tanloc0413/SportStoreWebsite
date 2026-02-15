@@ -18,6 +18,7 @@ import { searchProductsAPI } from '../../api/fetchProducts';
 import { formatMoney } from '../../component/FormatMoney/formatMoney';
 import { API_BASE_URL } from '../../api/constant';
 import { fetchUserDetails } from '../../api/userInfo';
+import { trackSearch } from '../../api/recommendation';
 
 const Header = ({variant="default"}) => {
   const [showLogout,setShowLogout] = useState(false);
@@ -61,6 +62,9 @@ const Header = ({variant="default"}) => {
         const results = await searchProductsAPI(searchTerm);
         setSearchResults(results);
         setShowSearchResults(true);
+
+        // Track search interaction cho Collaborative Filtering
+        trackSearch(searchTerm.trim());
       } else {
         setSearchResults([]);
         setShowSearchResults(false);
@@ -113,13 +117,23 @@ const Header = ({variant="default"}) => {
                   : "https://supersports.com.vn/cdn/shop/files/FD6574-109-1.jpg?v=1769424848&width=1000";
                 
                   return(
-                    <li key={index} id='item_search-result'>
-                      <Link id='item_search' to={`/chi-tiet-san-pham/${item?.slug}`}>
+                    <li 
+                      key={index} 
+                      id='item_search-result'
+                      onClick={() => {
+                        setShowSearchResults(false); 
+                        setSearchTerm(''); 
+                      }}
+                    >
+                      <Link 
+                        id='item_search' 
+                        to={`/chi-tiet-san-pham/${item?.slug}`}
+                      >
                         <img
                           src={imgUrl}
                           alt={`Ảnh ${item?.name}`}
                           id='img_search'
-                          onClick={() => setShowSearchResults(false)}
+                          // onClick={() => setShowSearchResults(false)}
                         />
                         <div id="b_title-search">
                           <p id='title_search-product' className='text_search'>

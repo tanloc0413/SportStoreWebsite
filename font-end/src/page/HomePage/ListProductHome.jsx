@@ -12,19 +12,19 @@ const ListProductHome = () => {
 
   useEffect(() => {
     getAllProducts()
-    .then(res => {
-      // if (!res || res.length === 0) return;
+    .then((res) => {
+      if (!res || res.length === 0) return;
 
-      // // shuffle
-      // const shuffled = [...res].sort(() => Math.random() - 0.5);
+      // shuffle
+      const shuffled = [...res].sort(() => Math.random() - 0.5);
 
-      // // lấy đúng 30 sản phẩm
-      // const random30 = shuffled.slice(0, 30);
+      // lấy đúng 30 sản phẩm
+      const random30 = shuffled.slice(0, 30);
 
-      // setProductData(random30);
-      // console.log("Product data", random30.);
+      setProductData(random30);
+      console.log("Product data", random30);
 
-      setProductData(res);
+      // setProductData(res);
     })
     .catch(err => {
       console.error("Lỗi khi lấy sản phẩm: ", err);
@@ -35,23 +35,23 @@ const ListProductHome = () => {
   // Lấy gợi ý Collaborative Filtering
   useEffect(() => {
     getCollaborativeRecommendations(6)
-      .then(res => {
-        if (res && res.length > 0) {
-          // Chuyển đổi format từ recommendation DTO sang format card
-          const mapped = res.map(item => ({
-            id: item.productId,
-            name: item.productName,
-            price: item.price,
-            slug: item.slug,
-            productImage: item.imageUrl ? [{ url: item.imageUrl, isPrimary: true }] : [],
-            _reason: item.reason,
-            _score: item.recommendationScore
-          }));
-          setRecommendedProducts(mapped);
-        }
-      })
-      .catch(err => console.error("Lỗi khi lấy gợi ý:", err));
-    }, []);
+    .then(res => {
+      if (res && res.length > 0) {
+        // Chuyển đổi format từ recommendation DTO sang format card
+        const mapped = res.map(item => ({
+          id: item.productId,
+          name: item.productName,
+          price: item.price,
+          slug: item.slug,
+          productImage: item.imageUrl ? [{ url: item.imageUrl, isPrimary: true }] : [],
+          _reason: item.reason,
+          _score: item.recommendationScore
+        }));
+        setRecommendedProducts(mapped);
+      }
+    })
+    .catch(err => console.error("Lỗi khi lấy gợi ý:", err));
+  }, []);
 
   return (
     <>
@@ -66,6 +66,7 @@ const ListProductHome = () => {
               <CardProduct
                 key={products?.id}
                 products={products}
+                data={products}
               />
             ))
           }

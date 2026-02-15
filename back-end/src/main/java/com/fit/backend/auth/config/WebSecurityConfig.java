@@ -15,6 +15,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -39,22 +40,27 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
+                .cors(Customizer.withDefaults())
                 .authorizeHttpRequests((authorize)-> authorize
+                        .requestMatchers("/api/recommendations/**").permitAll()
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         // swagger
                         .requestMatchers(EndPoints.SWAGGER).permitAll()
                         // lấy sản phẩm và thể loại
                         .requestMatchers(HttpMethod.GET, EndPoints.GET_API).permitAll()
                         .requestMatchers(HttpMethod.POST, EndPoints.POST_API).permitAll()
-                        .requestMatchers("/oauth2/success").permitAll()
+//                        .requestMatchers("/oauth2/success").permitAll()
+                        .requestMatchers("/oauth2/success").authenticated()
                         .anyRequest().authenticated())
                 .oauth2Login(
                         (oauth2login) -> oauth2login
                                 .defaultSuccessUrl("/oauth2/success", true)
                                 .loginPage("/oauth2/authorization/google")
                 )
+//                .exceptionHandling(exception -> exception
+//                        .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
+//                )
                 .addFilterBefore(
                         new JWTAuthenticationFilter(jwtTokenHelper, userDetailsService),
                             UsernamePasswordAuthenticationFilter.class

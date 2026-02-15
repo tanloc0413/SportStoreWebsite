@@ -14,10 +14,11 @@ const GoogleLogin = () => {
 
     if(token) {
       saveToken(token);
-      navigate('/');
+      // navigate('/');
+      window.location.href='/';
     }
     else {
-      navigate('/dang-nhap');
+      window.location.href='/';
     }
   },[navigate])
 
